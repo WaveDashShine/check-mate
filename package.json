@@ -1,0 +1,16 @@
+{
+  "name": "check-mate",
+  "version": "1.0.0",
+  "description": "Generic Notification App for websites",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "GitHub: WaveDashShine",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/publisher-github": "^7.8.0",
+    "electron": "^35.2.2"
+  }
+}
