@@ -1,5 +1,7 @@
 # Check-Mate
 
+# in development
+
 ### Installing electron:
 
 `npm install`
