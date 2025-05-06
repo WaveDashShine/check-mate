@@ -5,12 +5,14 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron . --enable-logging"
   },
   "author": "GitHub: WaveDashShine",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/publisher-github": "^7.8.0",
-    "electron": "^35.2.2"
+    "chrome-paths": "^1.0.1",
+    "electron": "^35.2.2",
+    "puppeteer-core": "^24.8.0"
   }
 }
