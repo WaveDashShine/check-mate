@@ -1,6 +1,7 @@
 # Check-Mate
 
 # in development
+# boilerplate code from: https://github.com/electron-react-boilerplate/electron-react-boilerplate
 
 ### Installing electron:
 
