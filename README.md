@@ -15,6 +15,8 @@
 
 `npm start`
 
+- react page in the browser: http://localhost:1212 - or port can be set via environment variable
+
 ### Packaging
 
 Package app with:
