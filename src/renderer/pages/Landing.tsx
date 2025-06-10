@@ -1,11 +1,9 @@
 import icon from 'assets/icon.svg';
 import 'src/renderer/pages/Landing.css';
-import Sidebar from "../components/Sidebar";
 
 function Landing() {
   return (
-    <div style={{ display: 'flex' }}>
-      <Sidebar/>
+    <div>
       <div className="Landing">
         <img width="200" alt="icon" src={icon} />
       </div>
