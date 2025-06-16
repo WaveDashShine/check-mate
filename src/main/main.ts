@@ -14,6 +14,35 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+// TODO: IDE inline complains but this is working: TS1479
+import Store from 'electron-store';
+// TODO: chromePaths does not have type declaration file
+import chromePaths from 'chrome-paths';
+
+// instantiate store schema and store
+const storeSchema = {
+  testBool: {
+    type: 'boolean',
+    default: false,
+  },
+  defaultChromePath: {
+    type: 'string',
+    default: chromePaths.chrome,
+  },
+  userChromePath: {
+    type: 'string',
+  }
+};
+
+const store = new Store({storeSchema});
+
+// IPC listener for electron-store
+ipcMain.on('electron-store-get', async (event, val) => {
+  event.returnValue = store.get(val);
+});
+ipcMain.on('electron-store-set', async (event, key, val) => {
+  store.set(key, val);
+});
 
 class AppUpdater {
   constructor() {

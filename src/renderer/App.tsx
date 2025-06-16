@@ -1,6 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import 'src/renderer/App.css';
 import Landing from './pages/Landing'
+import Settings from './pages/Settings'
 import Sidebar from "./components/Sidebar";
 // TODO
 // import Alerts from './pages/Alerts';
@@ -17,7 +18,7 @@ export default function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/alerts" element={<Landing />} />
             <Route path="/tutorial" element={<Landing />} />
-            <Route path="/settings" element={<Landing />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/about" element={<Landing />} />
           </Routes>
         </div>
