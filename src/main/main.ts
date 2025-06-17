@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-// TODO: IDE inline complains but this is working: TS1479
+// @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
 
