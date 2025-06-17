@@ -19,22 +19,17 @@ import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
 
 // instantiate store schema and store
-const storeSchema = {
-  testBool: {
-    type: 'boolean',
-    default: false,
-  },
-  defaultChromePath: {
-    type: 'string',
-    default: chromePaths.chrome,
-  },
-  userChromePath: {
-    type: 'string',
-    default: '',
-  }
+type StoreType = {
+  testBool?: boolean,
+  defaultChromePath: string,
+  userChromePath?: string,
 };
 
-const store = new Store({storeSchema});
+const store = new Store<StoreType>({
+  defaults: {
+    defaultChromePath: chromePaths.chrome,
+  }
+});
 
 // IPC listener for electron-store
 ipcMain.on('electron-store-get', async (event, val) => {

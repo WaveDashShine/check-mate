@@ -3,16 +3,13 @@ import { useEffect, useState } from "react";
 
 
 function Settings() {
-  // TODO: this should use electron-store and handle saving a different chromePath
-  // TODO: this is just a draft / stub
   const [originalPath, setOriginalPath] = useState('');
   const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
     try {
-      const path = window.electron.store.get('defaultChromePath');
-      setOriginalPath(path);
-      setCurrentPath(path);
+      setOriginalPath(window.electron.store.get('defaultChromePath'));
+      setCurrentPath(window.electron.store.get('userChromePath'));
     } catch (error) {
       console.error('Could not retrieve Chrome path:', error);
       setOriginalPath('');
@@ -20,16 +17,17 @@ function Settings() {
     }
   }, []);
 
-  const handleSave = () => {
+  const handleSave = (path: string) => {
     // Simulate saving logic here (e.g. write to config file or localStorage)
-    console.log('Saved path:', currentPath);
-    alert('Path saved! -- this a stub');
+    console.log('Saved path:', path);
+    window.electron.store.set('userChromePath', path)
+    setCurrentPath(path);
   };
 
   const handleReset = () => {
     const chromePath = window.electron.store.get('defaultChromePath')
+    window.electron.store.set('userChromePath', chromePath)
     setCurrentPath(chromePath);
-    console.log(chromePath);
   };
 
   return (
@@ -41,13 +39,10 @@ function Settings() {
         id="chrome-path"
         type="text"
         value={currentPath}
-        readOnly
+        onChange={(e) => handleSave(e.target.value)}
         style={{ width: '100%', padding: '8px', fontSize: '14px', marginBottom: '12px' }}
       />
       <div>
-        <button onClick={handleSave} style={{ marginRight: '10px', padding: '8px 16px' }}>
-          Save
-        </button>
         <button onClick={handleReset} style={{ padding: '8px 16px' }}>
           Reset
         </button>
