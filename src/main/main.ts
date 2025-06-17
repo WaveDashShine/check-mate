@@ -16,7 +16,6 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 // TODO: IDE inline complains but this is working: TS1479
 import Store from 'electron-store';
-// TODO: chromePaths does not have type declaration file
 import chromePaths from 'chrome-paths';
 
 // instantiate store schema and store
@@ -31,6 +30,7 @@ const storeSchema = {
   },
   userChromePath: {
     type: 'string',
+    default: '',
   }
 };
 
