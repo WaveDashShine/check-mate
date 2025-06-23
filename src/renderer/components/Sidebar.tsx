@@ -14,8 +14,8 @@ function Sidebar() {
         <NavLink to="/" className={getLinkClass}>
           Home
         </NavLink>
-        <NavLink to="/alerts" className={getLinkClass}>
-          Alerts
+        <NavLink to="/checks" className={getLinkClass}>
+          Checks
         </NavLink>
         <NavLink to="/tutorial" className={getLinkClass}>
           Tutorial

@@ -1,12 +1,11 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import 'src/renderer/App.css';
-import Landing from './pages/Landing'
-import Settings from './pages/Settings'
 import Sidebar from "./components/Sidebar";
+import Landing from './pages/Landing'
+import Checks from './pages/Checks';
+import Settings from './pages/Settings'
 // TODO
-// import Alerts from './pages/Alerts';
 // import Tutorial from './pages/Tutorial';
-// import Settings from './pages/Settings';
 // import About from './pages/About';
 
 export default function App() {
@@ -16,7 +15,7 @@ export default function App() {
           <Sidebar/>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/alerts" element={<Landing />} />
+            <Route path="/checks" element={<Checks />} />
             <Route path="/tutorial" element={<Landing />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/about" element={<Landing />} />
