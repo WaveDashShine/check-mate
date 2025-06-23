@@ -30,6 +30,11 @@ const electronHandler = {
       ipcRenderer.send('electron-store-set', property, val);
     },
   },
+  puppet: {
+    get(url: string) {  // stub - need to send PuppetConfig object
+      return ipcRenderer.sendSync('puppet-get', url);
+    }  // stub: need to return PuppetResult object
+  }
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);

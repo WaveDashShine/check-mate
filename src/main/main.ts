@@ -17,6 +17,7 @@ import { resolveHtmlPath } from './util';
 // @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
+import puppeteer from 'puppeteer-core';
 
 // instantiate store schema and store
 type StoreType = {
@@ -37,6 +38,19 @@ ipcMain.on('electron-store-get', async (event, val) => {
 });
 ipcMain.on('electron-store-set', async (event, key, val) => {
   store.set(key, val);
+});
+
+ipcMain.on('puppet-get', async (event, val) => {
+  const browser = await puppeteer.launch({
+    executablePath: store.get('userChromePath'),
+    headless: false, // Set to true for headless mode
+  });
+  const page = await browser.newPage();
+  await page.goto(val);
+  const locator = await page.locator('.container').wait();
+  const containerText = locator.textContent || locator.className;  // TODO: why undefined
+  await browser.close();
+  event.returnValue = containerText;
 });
 
 class AppUpdater {
