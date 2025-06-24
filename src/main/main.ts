@@ -47,8 +47,8 @@ ipcMain.on('puppet-get', async (event, val) => {
   });
   const page = await browser.newPage();
   await page.goto(val);
-  const locator = await page.locator('.container').wait();
-  const containerText = locator.textContent || locator.className;  // TODO: why undefined
+  await page.locator('.container').wait();
+  const containerText = await page.$eval('.container', el => el.textContent);
   await browser.close();
   event.returnValue = containerText;
 });
