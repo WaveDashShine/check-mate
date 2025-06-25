@@ -2,7 +2,7 @@ import 'src/renderer/pages/Checks.css';
 import {useEffect, useState} from "react";
 
 function testPuppeteer() { // stub - need to pass a config object
-  const containerText = window.electron.puppet.get('https://electron-react-boilerplate.js.org/')
+  const containerText = window.electron.autoBrowser.check('https://electron-react-boilerplate.js.org/')
   console.log('containerText', containerText)
 }
 

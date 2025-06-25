@@ -9,26 +9,31 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import store from './store';
-import puppeteer from 'puppeteer-core';
+import BrowserCheck from "./browser";
+// @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
+import Store from 'electron-store';
+import chromePaths from 'chrome-paths';
 
-ipcMain.on('puppet-get', async (event, val) => {
-  const browser = await puppeteer.launch({
-    executablePath: store.get('userChromePath'),
-    headless: false, // Set to true for headless mode
-  });
-  const page = await browser.newPage();
-  await page.goto(val);
-  await page.locator('.container').wait();
-  const containerText = await page.$eval('.container', el => el.textContent);
-  await browser.close();
-  event.returnValue = containerText;
+// instantiate store schema and store
+type StoreType = {
+  testBool?: boolean,
+  defaultChromePath: string,
+  userChromePath?: string,
+};
+
+
+const store = new Store<StoreType>({
+  defaults: {
+    defaultChromePath: chromePaths.chrome,
+  }
 });
+
+export default store;
 
 class AppUpdater {
   constructor() {
@@ -40,10 +45,25 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+// IPC listener example
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
+});
+
+// IPC listener for electron-store
+ipcMain.on('electron-store-get', async (event, val) => {
+  event.returnValue = store.get(val);
+});
+
+ipcMain.on('electron-store-set', async (event, key, val) => {
+  store.set(key, val);
+});
+
+// IPC listener for browser
+ipcMain.on('browser-check', async (event, val) => {
+  event.returnValue = await BrowserCheck(val);
 });
 
 if (process.env.NODE_ENV === 'production') {

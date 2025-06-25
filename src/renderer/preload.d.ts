@@ -9,10 +9,10 @@ declare global {
         set: (key: string, val: any) => void;
         // any other methods you've defined...
       };
-      puppet: {
-        // just a stub, will need to pass a Puppet Object
-        get: (url: string) => any;
-      }
+      autoBrowser: {
+        // just a stub, will need to pass a check config object
+        check: (url: string) => any;
+      };
     };
   }
 }
