@@ -1,7 +1,7 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import {StoreKeyEnum} from "../storeConfig";
+import { StoreKeyEnum } from 'src/storeConfig';
 
 export type Channels = 'ipc-example';
 
@@ -32,10 +32,11 @@ const electronHandler = {
     },
   },
   autoBrowser: {
-    check(url: string) {  // stub - need to send CheckConfig object
+    check(url: string) {
+      // stub - need to send CheckConfig object
       return ipcRenderer.sendSync('browser-check', url);
-    }  // stub: need to return CheckResult object
-  }
+    }, // stub: need to return CheckResult object
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
