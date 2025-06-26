@@ -1,9 +1,9 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import 'src/renderer/App.css';
-import Sidebar from "./components/Sidebar";
-import Landing from './pages/Landing'
-import Checks from './pages/Checks';
-import Settings from './pages/Settings'
+import Sidebar from "src/renderer/components/Sidebar";
+import Landing from 'src/renderer/pages/Landing'
+import Checks from 'src/renderer/pages/Checks';
+import Settings from 'src/renderer/pages/Settings'
 // TODO
 // import Tutorial from './pages/Tutorial';
 // import About from './pages/About';
