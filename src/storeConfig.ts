@@ -7,7 +7,6 @@ const StoreKeys = {
 export default StoreKeys;
 export type StoreKeyEnum = keyof typeof StoreKeys;
 
-
 export type StoreType = {
   defaultChromePath: string;
   userChromePath?: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import 'src/renderer/components/Sidebar.css';
 
-function getLinkClass ({ isActive }: { isActive: boolean }) {
+function getLinkClass({ isActive }: { isActive: boolean }) {
   return `nav-link${isActive ? ' active' : ''}`;
 }
 

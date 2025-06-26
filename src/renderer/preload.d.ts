@@ -1,5 +1,5 @@
 import { ElectronHandler } from 'src/main/preload';
-import { StoreKeyEnum } from "src/storeConfig";
+import { StoreKeyEnum } from 'src/storeConfig';
 
 declare global {
   // eslint-disable-next-line no-unused-vars

@@ -24,7 +24,7 @@ import { StoreType } from 'src/storeConfig';
 const store = new Store<StoreType>({
   defaults: {
     defaultChromePath: chromePaths.chrome,
-  }
+  },
 });
 
 export default store;
