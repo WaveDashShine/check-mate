@@ -12,21 +12,15 @@ import path from 'path';
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
-import BrowserCheck from "./browser";
+import MenuBuilder from 'src/main/menu';
+import { resolveHtmlPath } from 'src/main/util';
+import BrowserCheck from 'src/main/browser';
 // @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
+import { StoreType } from 'src/storeConfig';
 
 // instantiate store schema and store
-type StoreType = {
-  testBool?: boolean,
-  defaultChromePath: string,
-  userChromePath?: string,
-};
-
-
 const store = new Store<StoreType>({
   defaults: {
     defaultChromePath: chromePaths.chrome,

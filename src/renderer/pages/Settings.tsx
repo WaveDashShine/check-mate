@@ -1,5 +1,6 @@
 import 'src/renderer/pages/Settings.css';
 import { useEffect, useState } from "react";
+import StoreKeys from 'src/storeConfig';
 
 
 function Settings() {
@@ -8,8 +9,8 @@ function Settings() {
 
   useEffect(() => {
     try {
-      setOriginalPath(window.electron.store.get('defaultChromePath'));
-      setCurrentPath(window.electron.store.get('userChromePath'));
+      setOriginalPath(window.electron.store.get(StoreKeys.defaultChromePath));
+      setCurrentPath(window.electron.store.get(StoreKeys.userChromePath));
     } catch (error) {
       console.error('Could not retrieve Chrome path:', error);
       setOriginalPath('');
@@ -20,13 +21,13 @@ function Settings() {
   const handleSave = (path: string) => {
     // Simulate saving logic here (e.g. write to config file or localStorage)
     console.log('Saved path:', path);
-    window.electron.store.set('userChromePath', path)
+    window.electron.store.set(StoreKeys.userChromePath, path)
     setCurrentPath(path);
   };
 
   const handleReset = () => {
-    const chromePath = window.electron.store.get('defaultChromePath')
-    window.electron.store.set('userChromePath', chromePath)
+    const chromePath = window.electron.store.get(StoreKeys.defaultChromePath)
+    window.electron.store.set(StoreKeys.userChromePath, chromePath)
     setCurrentPath(chromePath);
   };
 
