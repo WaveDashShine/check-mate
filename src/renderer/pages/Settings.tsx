@@ -41,7 +41,7 @@ function Settings() {
       <input
         id="chrome-path"
         type="text"
-        value={currentPath}
+        value={currentPath || originalPath}
         onChange={(e) => handleSave(e.target.value)}
         style={{
           width: '100%',

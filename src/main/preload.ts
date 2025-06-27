@@ -1,7 +1,7 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import { StoreKeyEnum } from 'src/storeConfig';
+import { StoreKeyEnum, StoreType } from 'src/storeConfig';
 
 export type Channels = 'ipc-example';
 
@@ -27,7 +27,7 @@ const electronHandler = {
     get(key: StoreKeyEnum) {
       return ipcRenderer.sendSync('electron-store-get', key);
     },
-    set(property: string, val: StoreKeyEnum) {
+    set(property: StoreKeyEnum, val: string) {
       ipcRenderer.send('electron-store-set', property, val);
     },
   },

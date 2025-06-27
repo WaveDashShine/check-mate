@@ -18,15 +18,15 @@ import BrowserCheck from 'src/main/browser';
 // @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
-import { StoreType } from 'src/storeConfig';
+import StoreKeys, { StoreType } from 'src/storeConfig';
 
 // instantiate store schema and store
-const store = new Store<StoreType>({
-  defaults: {
-    defaultChromePath: chromePaths.chrome,
-  },
-});
+const store = new Store<StoreType>();
 
+function setDefaults() {
+  store.set(StoreKeys.defaultChromePath, chromePaths.chrome);
+}
+setDefaults();
 export default store;
 
 class AppUpdater {
