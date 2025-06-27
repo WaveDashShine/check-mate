@@ -1,1 +1,3 @@
-declare module 'chrome-paths';
+declare module 'chrome-paths' {
+  const chrome: string;
+}
