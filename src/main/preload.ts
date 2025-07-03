@@ -36,6 +36,9 @@ const electronHandler = {
       // stub - need to send CheckConfig object
       return ipcRenderer.sendSync('browser-check', url);
     }, // stub: need to return CheckResult object
+    launch() {
+      ipcRenderer.send('browser-launch');
+    },
   },
 };
 

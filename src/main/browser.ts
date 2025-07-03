@@ -1,12 +1,21 @@
 import puppeteer from 'puppeteer-core';
 import store from 'src/main/main';
 import StoreKeys from 'src/storeConfig';
+import path from 'path';
+import os from 'os';
 
-async function BrowserCheck(val: string) {
-  const browser = await puppeteer.launch({
+const homedir = os.homedir();
+
+export async function launchBrowser(isHeadless: boolean = false) {
+  return await puppeteer.launch({
     executablePath: store.get(StoreKeys.userChromePath),
-    headless: false, // Set to true for headless mode
+    headless: isHeadless, // Set to true for headless mode
+    userDataDir: path.join(homedir, 'CheckMateData'),
   });
+}
+
+export async function BrowserCheck(val: string) {
+  const browser = await launchBrowser(false); // TODO: should be true
   const page = await browser.newPage();
   await page.goto(val);
   await page.locator('.container').wait();
@@ -14,5 +23,3 @@ async function BrowserCheck(val: string) {
   await browser.close();
   return containerText;
 }
-
-export default BrowserCheck;

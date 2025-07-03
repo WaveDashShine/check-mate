@@ -20,7 +20,6 @@ export type StoreType = {
       properties: {
         defaultChromePath: string;
         userChromePath?: string;
-        userDataChromePath?: string;
       };
     };
   };

@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from 'src/main/menu';
 import { resolveHtmlPath } from 'src/main/util';
-import BrowserCheck from 'src/main/browser';
+import { BrowserCheck, launchBrowser } from 'src/main/browser';
 // @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
@@ -58,6 +58,10 @@ ipcMain.on('electron-store-set', async (event, key, val) => {
 // IPC listener for browser
 ipcMain.on('browser-check', async (event, val) => {
   event.returnValue = await BrowserCheck(val);
+});
+
+ipcMain.on('browser-launch', async (event) => {
+  await launchBrowser();
 });
 
 if (process.env.NODE_ENV === 'production') {
