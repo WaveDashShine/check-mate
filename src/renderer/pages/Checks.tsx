@@ -1,5 +1,10 @@
 import 'src/renderer/pages/Checks.css';
 import { useEffect, useState } from 'react';
+import db from 'src/renderer/db';
+
+db.info().then(function (info) {
+  console.log(info);
+});
 
 function testPuppeteer() {
   // stub - need to pass a config object
