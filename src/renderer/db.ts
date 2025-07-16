@@ -1,6 +1,6 @@
 import PouchDB from 'pouchdb';
 
-const db = new PouchDB('kittens'); // stub
+const db = new PouchDB('CheckMate'); // stub
 // pouchdb is stored in indexDB
 // view via dev tools > application > storage
 
@@ -11,17 +11,6 @@ export default db;
 // ._rev concept
 // https://pouchdb.com/guides/documents.html#understanding-revisions-rev
 // need to grab the revision to update it
-
-// TODO: wrap this db in interface such that it's easy to swap out to a different db later if needed
-// CHECK CONFIG
-// id: int
-// name: str
-// description: str
-// enable: bool
-// frequency: time value int seconds
-// browser config obj
-// alert history: list<result>
-// tags: list<tag>
 
 export type CheckConfig = {
   type: 'object';
@@ -42,7 +31,7 @@ export type CheckConfig = {
       exclusiveMinimum: 1;
       default: 1;
     };
-    browserConfig: { #ref: '#BrowserConfig' };
+    browserConfig: { $ref: '#BrowserConfig' };
     alertHistory: {
       type: 'array';
       description: 'id list of history of alerts that have been checked';
@@ -95,8 +84,6 @@ export type BrowserConfig = {
   required: ['_id', 'url'];
 };
 
-// Alerts and comparison logic are handled separately
-
 export type AlertConfig = {
   $id: '#AlertConfig';
   type: 'object';
@@ -130,11 +117,6 @@ export type AlertConfig = {
   };
   required: ['_id', 'parent_id', 'timestamp'];
 };
-
-// tag
-// id:
-// name: str
-// color: str - hexcode
 
 export type TagConfig = {
   $id: '#TagConfig';
