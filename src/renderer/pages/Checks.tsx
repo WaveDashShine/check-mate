@@ -1,6 +1,6 @@
 import 'src/renderer/pages/Checks.css';
-import { useEffect, useState } from 'react';
 import db from 'src/renderer/db';
+import CheckTable from 'src/renderer/components/CheckTable';
 
 db.info().then(function (info) {
   console.log(info);
@@ -19,6 +19,7 @@ function Checks() {
     <div>
       Checks
       <button onClick={testPuppeteer}>Puppeteer Checks</button>
+      <CheckTable></CheckTable>
     </div>
   );
 }
