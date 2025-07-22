@@ -9,3 +9,18 @@ td {
   padding: 8px;
   border-bottom: 1px solid #eeeeee;
 }
+
+tr {
+  background-color: #f0f0f0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
