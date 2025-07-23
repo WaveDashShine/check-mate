@@ -37,7 +37,6 @@ function CheckHeader(props: CheckHeaderProps) {
           Check
         </button>
       </div>
-
       <input
         type="text"
         placeholder="Search by name..."

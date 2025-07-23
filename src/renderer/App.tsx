@@ -11,7 +11,7 @@ import Settings from 'src/renderer/pages/Settings';
 export default function App() {
   return (
     <Router>
-      <div style={{ display: 'flex', minHeight: '100vh' }}>
+      <div className="app">
         <Sidebar />
         <Routes>
           <Route path="/" element={<Landing />} />

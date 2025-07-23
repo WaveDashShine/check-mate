@@ -2,6 +2,11 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
 body {
   color: white;
   background: linear-gradient(
