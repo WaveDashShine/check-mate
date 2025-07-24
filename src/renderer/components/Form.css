@@ -1,19 +1,18 @@
-.h2 {
+h2 {
   margin-top: 0;
 }
 
-.button {
+button {
   padding: 8px 16px;
-  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.button.confirm {
+.confirm {
   background-color: #28a745;
 }
 
-.button.cancel {
+.cancel {
   background-color: #dc3545;
 }

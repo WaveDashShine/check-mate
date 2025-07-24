@@ -1,8 +1,9 @@
 import React from 'react';
+import 'src/renderer/components/Form.css';
 
 export interface BaseFormProps {
   isOpen: boolean;
-  handleConfirm: () => void;
+  handleConfirm: (formData: FormData) => void;
   handleCancel: () => void;
 }
 
@@ -13,30 +14,24 @@ interface FormProps extends BaseFormProps {
 
 function Form(props: FormProps) {
   return (
-    <div>
+    <form action={props.handleConfirm}>
       {props.isOpen && (
         <div>
           <div>
             <h2>{props.title}</h2>
             <div>{props.fields}</div>
             <div>
-              <button
-                onClick={() => props.handleConfirm()}
-                style={{ backgroundColor: '#28a745' }}
-              >
+              <button className="confirm" type="submit">
                 Confirm
               </button>
-              <button
-                onClick={() => props.handleCancel()}
-                style={{ backgroundColor: '#dc3545' }}
-              >
+              <button className="cancel" onClick={() => props.handleCancel()}>
                 Cancel
               </button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </form>
   );
 }
 

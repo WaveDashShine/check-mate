@@ -25,8 +25,9 @@ function Checks() {
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
-  const handleConfirm = () => {
+  const handleConfirm = (formData: FormData) => {
     // stub
+    console.log(formData.get('name'));
     setOpenCheckForm(false);
   };
 
