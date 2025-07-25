@@ -8,7 +8,7 @@ export interface Check {
   _id: string;
   name: string;
   note: string;
-  is_enabled: boolean;
+  isEnabled: boolean;
   frequency: number;
   browserConfig: any;
   alertHistory: string[];
@@ -24,7 +24,7 @@ const CheckSchema: JSONSchemaType<Check> = {
     _id: { type: 'string' },
     name: { type: 'string' },
     note: { type: 'string' },
-    is_enabled: {
+    isEnabled: {
       type: 'boolean',
       default: false,
       description: 'will the Check be done',
@@ -61,9 +61,9 @@ export const validateCheckObj = obj_validator.compile(CheckSchema);
 export interface BrowserConfig {
   _id: string;
   url: string;
-  check_text: boolean;
-  check_html: boolean;
-  check_screenshot: boolean;
+  checkText: boolean;
+  checkHtml: boolean;
+  checkScreenshot: boolean;
   locator: string;
 }
 
@@ -78,17 +78,17 @@ const BrowserConfigSchema: JSONSchemaType<BrowserConfig> = {
       format: 'uri',
       description: 'url to go to',
     },
-    check_text: {
+    checkText: {
       type: 'boolean',
       default: false,
       description: 'determines if we check text',
     },
-    check_html: {
+    checkHtml: {
       type: 'boolean',
       default: false,
       description: 'determines if we check html',
     },
-    check_screenshot: {
+    checkScreenshot: {
       // TODO: requires image comparison algorithm / library
       type: 'boolean',
       default: false,
@@ -107,7 +107,6 @@ export const validateBrowserConfigObj =
 
 export interface Alert {
   _id: string;
-  parent_id: number;
   html: string;
   screenshot: string;
   text: string;
@@ -120,10 +119,6 @@ const AlertSchema: JSONSchemaType<Alert> = {
   description: 'Alert belonging to a Check object',
   properties: {
     _id: { type: 'string' },
-    parent_id: {
-      type: 'integer',
-      description: 'parent id of the Alert - is a Check object',
-    },
     html: {
       type: 'string',
       contentMediaType: 'text/html',
@@ -145,7 +140,7 @@ const AlertSchema: JSONSchemaType<Alert> = {
       description: 'timestamp of the alert',
     },
   },
-  required: ['_id', 'parent_id', 'timestamp'],
+  required: ['_id', 'timestamp'],
 };
 
 export const validateAlertObj = obj_validator.compile(AlertSchema);
