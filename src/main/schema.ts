@@ -4,7 +4,7 @@ import Ajv, { JSONSchemaType } from 'ajv';
 // must compile in backend or break CSP
 const obj_validator = new Ajv();
 
-export interface Check {
+export interface ICheck {
   _id: string;
   name: string;
   note: string;
@@ -15,7 +15,7 @@ export interface Check {
   tags: string[];
 }
 
-const CheckSchema: JSONSchemaType<Check> = {
+const CheckSchema: JSONSchemaType<ICheck> = {
   type: 'object',
   $id: '#CheckSchema',
   description: 'Check config object that is created via Form GUI',
@@ -58,7 +58,7 @@ const CheckSchema: JSONSchemaType<Check> = {
 
 export const validateCheckObj = obj_validator.compile(CheckSchema);
 
-export interface BrowserConfig {
+export interface IBrowserConfig {
   _id: string;
   url: string;
   checkText: boolean;
@@ -67,7 +67,7 @@ export interface BrowserConfig {
   locator: string;
 }
 
-const BrowserConfigSchema: JSONSchemaType<BrowserConfig> = {
+const BrowserConfigSchema: JSONSchemaType<IBrowserConfig> = {
   $id: '#BrowserConfigSchema',
   type: 'object',
   description: 'Config passed to browser for what to check',
@@ -105,7 +105,7 @@ const BrowserConfigSchema: JSONSchemaType<BrowserConfig> = {
 export const validateBrowserConfigObj =
   obj_validator.compile(BrowserConfigSchema);
 
-export interface Alert {
+export interface IAlert {
   _id: string;
   html: string;
   screenshot: string;
@@ -113,7 +113,7 @@ export interface Alert {
   timestamp: string;
 }
 
-const AlertSchema: JSONSchemaType<Alert> = {
+const AlertSchema: JSONSchemaType<IAlert> = {
   $id: '#AlertSchema',
   type: 'object',
   description: 'Alert belonging to a Check object',
@@ -145,7 +145,7 @@ const AlertSchema: JSONSchemaType<Alert> = {
 
 export const validateAlertObj = obj_validator.compile(AlertSchema);
 
-export interface Tag {
+export interface ITag {
   _id: number;
   name: string;
   color: string;
@@ -159,7 +159,7 @@ export enum TagColor {
   // TODO: more colors or a color picker
 }
 
-const TagSchema: JSONSchemaType<Tag> = {
+const TagSchema: JSONSchemaType<ITag> = {
   $id: '#TagSchema',
   type: 'object',
   description: 'tags for categorizing config objects',

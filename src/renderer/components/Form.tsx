@@ -1,20 +1,24 @@
 import React from 'react';
 import 'src/renderer/components/Form.css';
 
-export interface BaseFormProps {
+export interface GenericFormProps {
   isOpen: boolean;
-  handleConfirm: (formData: FormData) => void;
-  handleCancel: () => void;
+  setIsOpen: (isOpen: boolean) => void;
+  isEdit?: boolean;
 }
 
-interface FormProps extends BaseFormProps {
+interface FormProps extends GenericFormProps {
   title: string;
   fields: any;
+  handleConfirm: (formData: any) => void;
 }
 
 function Form(props: FormProps) {
+  const handleCancel = () => {
+    props.setIsOpen(false);
+  };
   return (
-    <form action={props.handleConfirm}>
+    <form onSubmit={props.handleConfirm}>
       {props.isOpen && (
         <div>
           <div>
@@ -24,7 +28,7 @@ function Form(props: FormProps) {
               <button className="confirm" type="submit">
                 Confirm
               </button>
-              <button className="cancel" onClick={() => props.handleCancel()}>
+              <button className="cancel" onClick={() => handleCancel()}>
                 Cancel
               </button>
             </div>

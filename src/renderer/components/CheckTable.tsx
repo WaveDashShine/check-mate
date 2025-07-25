@@ -1,8 +1,8 @@
 import 'src/renderer/components/CheckTable.css';
-import { Check } from 'src/main/schema';
+import { ICheck } from 'src/main/schema';
 
 interface CheckTableProps {
-  rows: Check[];
+  rows: ICheck[];
 }
 
 function CheckTable(props: CheckTableProps) {
@@ -21,7 +21,7 @@ function CheckTable(props: CheckTableProps) {
         <tbody>
           {props.rows.map((row) => (
             <tr key={row._id}>
-              <td>{row.is_enabled ? '✅' : '❌'}</td>
+              <td>{row.isEnabled ? '✅' : '❌'}</td>
               <td>{row.name}</td>
               <td>{row.note}</td>
               <td>{'TODO grab last checked from history'}</td>

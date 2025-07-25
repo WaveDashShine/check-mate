@@ -4,7 +4,7 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
-import { Check } from '../../main/schema';
+import { ICheck } from 'src/main/schema';
 
 db.info().then(function (info) {
   console.log(info);
@@ -19,22 +19,12 @@ function testPuppeteer() {
 }
 
 function Checks() {
-  const [openCheckForm, setOpenCheckForm] = useState(false);
-  const [rows, setRows] = useState<Check[]>([]);
+  const [isOpenCheckForm, setIsOpenCheckForm] = useState(false);
+  const [rows, setRows] = useState<ICheck[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
-  const handleConfirm = (formData: FormData) => {
-    // stub
-    console.log(formData.get('name'));
-    setOpenCheckForm(false);
-  };
-
-  const handleCancel = () => {
-    //stub
-    setOpenCheckForm(false);
-  };
 
   return (
     <div>
@@ -44,12 +34,11 @@ function Checks() {
       <CheckHeader
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        setOpenCheckForm={setOpenCheckForm}
+        setOpenCheckForm={setIsOpenCheckForm}
       ></CheckHeader>
       <CheckForm
-        isOpen={openCheckForm}
-        handleConfirm={handleConfirm}
-        handleCancel={handleCancel}
+        isOpen={isOpenCheckForm}
+        setIsOpen={setIsOpenCheckForm}
       ></CheckForm>
       <CheckTable rows={searchValue ? filteredRows : rows}></CheckTable>
     </div>

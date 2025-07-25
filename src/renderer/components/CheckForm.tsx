@@ -1,11 +1,21 @@
-import Form, { BaseFormProps } from 'src/renderer/components/Form';
+import Form, { GenericFormProps } from 'src/renderer/components/Form';
 import 'src/renderer/components/CheckForm.css';
+import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
+import { ICheck } from 'src/main/schema';
 
-function CheckFormFields() {
+function CheckFormFields(
+  register: UseFormRegister<ICheck>,
+  isEdit: boolean = false,
+) {
   return (
     <div>
       <label>Name</label>
-      <input type="text" name="name" />
+      <input type="text" {...register('name', { required: true })} />
+      {/*
+      TODO: register the rest of the fields
+      TODO: have a string enum of the names, based off the interface
+      TODO: separate the edit and create fields
+      */}
       <label>Note</label>
       <textarea name="note" />
       <label>Enabled</label>
@@ -37,14 +47,24 @@ function CheckFormFields() {
   );
 }
 
-function CheckForm(props: BaseFormProps) {
+function CheckForm(props: GenericFormProps) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ICheck>();
+  const onSubmit: SubmitHandler<ICheck> = (data) => {
+    console.log(data);
+    props.setIsOpen(false);
+  };
   return (
     <Form
       title={'Check'}
       isOpen={props.isOpen}
-      handleConfirm={props.handleConfirm}
-      handleCancel={props.handleCancel}
-      fields={CheckFormFields()}
+      setIsOpen={props.setIsOpen}
+      handleConfirm={handleSubmit(onSubmit)}
+      fields={CheckFormFields(register)}
     ></Form>
   );
 }
