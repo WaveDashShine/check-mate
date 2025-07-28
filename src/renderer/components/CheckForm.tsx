@@ -2,7 +2,6 @@ import Form, { GenericFormProps } from 'src/renderer/components/Form';
 import 'src/renderer/components/CheckForm.css';
 import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
 import { ICheck, CheckKeys } from 'src/schema';
-import Checks from '../pages/Checks';
 
 function CheckFormFields(
   register: UseFormRegister<ICheck>,
