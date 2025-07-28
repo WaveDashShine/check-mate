@@ -1,19 +1,9 @@
 import Ajv, { JSONSchemaType } from 'ajv';
+import { ICheck, IAlert, ITag, TagColor } from 'src/schema';
 
 // schema validator, uses eval(...) under the hood
 // must compile in backend or break CSP
-const obj_validator = new Ajv();
-
-export interface ICheck {
-  _id: string;
-  name: string;
-  note: string;
-  isEnabled: boolean;
-  frequency: number;
-  browserConfig: any;
-  alertHistory: string[];
-  tags: string[];
-}
+const validator = new Ajv();
 
 const CheckSchema: JSONSchemaType<ICheck> = {
   type: 'object',
@@ -35,7 +25,38 @@ const CheckSchema: JSONSchemaType<ICheck> = {
       exclusiveMinimum: 1,
       default: 1,
     },
-    browserConfig: { $ref: '#BrowserConfigSchema' },
+    browserConfig: {
+      type: 'object',
+      description: 'Config passed to browser for what to check',
+      properties: {
+        url: {
+          type: 'string',
+          format: 'uri',
+          description: 'url to go to',
+        },
+        checkText: {
+          type: 'boolean',
+          default: false,
+          description: 'determines if we check text',
+        },
+        checkHtml: {
+          type: 'boolean',
+          default: false,
+          description: 'determines if we check html',
+        },
+        checkScreenshot: {
+          // TODO: requires image comparison algorithm / library
+          type: 'boolean',
+          default: false,
+          description: 'determines if we take a screenshot',
+        },
+        locator: {
+          type: 'string',
+          description: 'element locator to check for',
+        },
+      },
+      required: ['url'],
+    },
     alertHistory: {
       type: 'array',
       description: 'id list of history of alerts that have been checked',
@@ -56,62 +77,7 @@ const CheckSchema: JSONSchemaType<ICheck> = {
   required: ['_id', 'name'],
 };
 
-export const validateCheckObj = obj_validator.compile(CheckSchema);
-
-export interface IBrowserConfig {
-  _id: string;
-  url: string;
-  checkText: boolean;
-  checkHtml: boolean;
-  checkScreenshot: boolean;
-  locator: string;
-}
-
-const BrowserConfigSchema: JSONSchemaType<IBrowserConfig> = {
-  $id: '#BrowserConfigSchema',
-  type: 'object',
-  description: 'Config passed to browser for what to check',
-  properties: {
-    _id: { type: 'string' },
-    url: {
-      type: 'string',
-      format: 'uri',
-      description: 'url to go to',
-    },
-    checkText: {
-      type: 'boolean',
-      default: false,
-      description: 'determines if we check text',
-    },
-    checkHtml: {
-      type: 'boolean',
-      default: false,
-      description: 'determines if we check html',
-    },
-    checkScreenshot: {
-      // TODO: requires image comparison algorithm / library
-      type: 'boolean',
-      default: false,
-      description: 'determines if we take a screenshot',
-    },
-    locator: {
-      type: 'string',
-      description: 'element locator to check for',
-    },
-  },
-  required: ['_id', 'url'],
-};
-
-export const validateBrowserConfigObj =
-  obj_validator.compile(BrowserConfigSchema);
-
-export interface IAlert {
-  _id: string;
-  html: string;
-  screenshot: string;
-  text: string;
-  timestamp: string;
-}
+export const validateCheckObj = validator.compile(CheckSchema);
 
 const AlertSchema: JSONSchemaType<IAlert> = {
   $id: '#AlertSchema',
@@ -143,21 +109,7 @@ const AlertSchema: JSONSchemaType<IAlert> = {
   required: ['_id', 'timestamp'],
 };
 
-export const validateAlertObj = obj_validator.compile(AlertSchema);
-
-export interface ITag {
-  _id: number;
-  name: string;
-  color: string;
-  note: string;
-}
-
-export enum TagColor {
-  Red = '#FF0000',
-  Green = '#00FF00',
-  Blue = '#0000FF',
-  // TODO: more colors or a color picker
-}
+export const validateAlertObj = validator.compile(AlertSchema);
 
 const TagSchema: JSONSchemaType<ITag> = {
   $id: '#TagSchema',
@@ -182,4 +134,4 @@ const TagSchema: JSONSchemaType<ITag> = {
   required: ['_id', 'name', 'color'],
 };
 
-export const validateTagObj = obj_validator.compile(TagSchema);
+export const validateTagObj = validator.compile(TagSchema);
