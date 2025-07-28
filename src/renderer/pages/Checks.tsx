@@ -4,7 +4,7 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
-import { ICheck } from 'src/main/schemaValidator';
+import { ICheck } from 'src/schema';
 
 db.info().then(function (info) {
   console.log(info);

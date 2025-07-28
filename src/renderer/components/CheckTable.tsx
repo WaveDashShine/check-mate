@@ -1,5 +1,5 @@
 import 'src/renderer/components/CheckTable.css';
-import { ICheck } from 'src/main/schemaValidator';
+import { ICheck } from 'src/schema';
 
 interface CheckTableProps {
   rows: ICheck[];
