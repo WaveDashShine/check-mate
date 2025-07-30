@@ -1,22 +1,63 @@
-export interface ICheck {
-  _id: string;
-  name: string;
-  note: string;
-  isEnabled: boolean;
-  frequency: number;
-  browserConfig: {
-    url: string;
-    checkText: boolean;
-    checkHtml: boolean;
-    checkScreenshot: boolean;
-    locator: string;
-  };
-  alertHistory: string[];
-  tags: string[];
-}
+import { Static, Type } from '@sinclair/typebox';
+import { Value } from '@sinclair/typebox/value';
+
+const DbSchema = Type.Object({
+  _id: Type.String(),
+  _rev: Type.Optional(Type.String()),
+});
+
+export const CheckSchema = Type.Object({
+  name: Type.String({
+    minLength: 1,
+  }),
+  note: Type.Optional(Type.String()),
+  isEnabled: Type.Boolean({
+    default: false,
+    description: 'will the Check be done',
+  }),
+  frequency: Type.Integer({
+    exclusiveMinimum: 1,
+    default: 60,
+    description: 'units seconds for polling the check',
+  }),
+  browserConfig: Type.Object({
+    url: Type.String({
+      minLength: 1,
+    }),
+    checkText: Type.Boolean({
+      default: false,
+    }),
+    checkHtml: Type.Boolean({
+      default: false,
+    }),
+    checkScreenshot: Type.Boolean({
+      default: false,
+    }),
+    locator: Type.Optional(
+      Type.String({
+        description: 'element locator',
+      }),
+    ),
+  }),
+  alertHistory: Type.Array(Type.String(), {
+    default: [],
+    description: 'ID list of alerts that have been checked',
+  }),
+  tags: Type.Array(Type.String(), {
+    default: [],
+    description: 'ID list of tags',
+  }),
+});
+
+// TypeBox will instantiate the object with values that MEET the minimum requirements
+export const defaultCheck: Check = Value.Default(CheckSchema, {
+  name: '',
+  browserConfig: { url: '' },
+}) as Check;
+
+export type Check = Static<typeof CheckSchema>;
 
 export const CheckKeys = {
-  _id: 'id',
   name: 'name',
   note: 'note',
   isEnabled: 'isEnabled',
@@ -30,8 +71,12 @@ export const CheckKeys = {
   },
   alertHistory: 'alertHistory',
   tags: 'tags',
-} as const satisfies Record<keyof ICheck, string | object>;
+} as const satisfies Record<keyof Check, string | object>;
 
+const CheckDbSchema = Type.Composite([CheckSchema, DbSchema]);
+export type CheckDb = Static<typeof CheckDbSchema>;
+
+// TODO: convert the following to follow TypeBox conventions
 export interface IAlert {
   _id: string;
   html: string;
@@ -53,3 +98,56 @@ export const TagColor = {
   Blue: '#0000FF',
   // TODO: more colors or a color picker
 } as const;
+
+// const AlertSchema: JSONSchemaType<IAlert> = {
+//   $id: '#AlertSchema',
+//   type: 'object',
+//   description: 'Alert belonging to a Check object',
+//   properties: {
+//     _id: { type: 'string' },
+//     html: {
+//       type: 'string',
+//       contentMediaType: 'text/html',
+//       description: 'result of the html comparison',
+//     },
+//     screenshot: {
+//       type: 'string',
+//       contentEncoding: 'base64',
+//       contentMediaType: 'image/png',
+//       description: 'screenshot of the page',
+//     },
+//     text: {
+//       type: 'string',
+//       description: 'change in text of the locator',
+//     },
+//     timestamp: {
+//       type: 'string',
+//       format: 'date-time',
+//       description: 'timestamp of the alert',
+//     },
+//   },
+//   required: ['_id', 'timestamp'],
+// };
+//
+// const TagSchema: JSONSchemaType<ITag> = {
+//   $id: '#TagSchema',
+//   type: 'object',
+//   description: 'tags for categorizing config objects',
+//   properties: {
+//     _id: { type: 'integer' },
+//     name: {
+//       type: 'string',
+//       description: 'name of the tag',
+//     },
+//     color: {
+//       type: 'string',
+//       enum: [TagColor.Red, TagColor.Green, TagColor.Blue],
+//       description: 'tag color',
+//     },
+//     note: {
+//       type: 'string',
+//       description: 'any notes of the tag',
+//     },
+//   },
+//   required: ['_id', 'name', 'color'],
+// };

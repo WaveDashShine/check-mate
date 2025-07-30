@@ -1,8 +1,8 @@
 import 'src/renderer/components/CheckTable.css';
-import { ICheck } from 'src/schema';
+import { Check } from 'src/schema';
 
 interface CheckTableProps {
-  rows: ICheck[];
+  rows: Check[];
 }
 
 function CheckTable(props: CheckTableProps) {

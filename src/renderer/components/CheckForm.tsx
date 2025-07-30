@@ -1,16 +1,25 @@
 import Form, { GenericFormProps } from 'src/renderer/components/Form';
 import 'src/renderer/components/CheckForm.css';
-import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
-import { ICheck, CheckKeys } from 'src/schema';
+import {
+  useForm,
+  SubmitHandler,
+  UseFormRegister,
+  FieldErrors,
+} from 'react-hook-form';
+import { Check, CheckKeys, CheckSchema, defaultCheck } from 'src/schema';
+import { typeboxResolver } from '@hookform/resolvers/typebox';
+import { ErrorMessage } from '@hookform/error-message';
 
 function CheckFormFields(
-  register: UseFormRegister<ICheck>,
+  register: UseFormRegister<Check>,
+  errors: FieldErrors<Check>,
   isEdit: boolean = false,
 ) {
   return (
     <div>
       <label>Name</label>
       <input type="text" {...register(CheckKeys.name)} />
+      <ErrorMessage errors={errors} name={CheckKeys.name} />
       {/*
       TODO: separate the edit and create fields
       */}
@@ -33,6 +42,7 @@ function CheckFormFields(
         <label>Browser Config</label>
         <label>Link</label>
         <input type="text" {...register(CheckKeys.browserConfig.url)} />
+        <ErrorMessage errors={errors} name={CheckKeys.browserConfig.url} />
         <label>Check Text</label>
         <button
           role="switch"
@@ -54,10 +64,12 @@ function CheckFormFields(
         <label>Locator</label>
         <input type="text" {...register(CheckKeys.browserConfig.locator)} />
       </div>
-      <label>Alert History</label>
-      <table></table>
-      <label>Tags</label>
-      <table></table>
+      <div style={{ display: isEdit ? 'block' : 'none' }}>
+        <label>Alert History</label>
+        <table></table>
+        <label>Tags</label>
+        <table></table>
+      </div>
     </div>
   );
 }
@@ -66,20 +78,35 @@ function CheckForm(props: GenericFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
-  } = useForm<ICheck>();
-  const onSubmit: SubmitHandler<ICheck> = (data) => {
+  } = useForm<Check>({
+    resolver: typeboxResolver(CheckSchema),
+    defaultValues: defaultCheck,
+  });
+
+  const onSubmit: SubmitHandler<Check> = (data) => {
     console.log(data);
     props.setIsOpen(false);
+    onReset();
   };
+
+  const onError = (error: any) => {
+    console.log(error);
+  };
+
+  const onReset = () => {
+    reset(defaultCheck);
+  };
+
   return (
     <Form
       title={'Check'}
       isOpen={props.isOpen}
       setIsOpen={props.setIsOpen}
-      handleConfirm={handleSubmit(onSubmit)}
-      fields={CheckFormFields(register)}
+      handleConfirm={handleSubmit(onSubmit, onError)}
+      fields={CheckFormFields(register, errors)}
+      reset={onReset}
     ></Form>
   );
 }

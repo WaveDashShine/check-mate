@@ -4,7 +4,7 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
-import { ICheck } from 'src/schema';
+import { Check } from 'src/schema';
 
 db.info().then(function (info) {
   console.log(info);
@@ -20,7 +20,7 @@ function testPuppeteer() {
 
 function Checks() {
   const [isOpenCheckForm, setIsOpenCheckForm] = useState(false);
-  const [rows, setRows] = useState<ICheck[]>([]);
+  const [rows, setRows] = useState<Check[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchValue.toLowerCase()),

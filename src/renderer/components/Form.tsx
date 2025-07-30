@@ -11,11 +11,13 @@ interface FormProps extends GenericFormProps {
   title: string;
   fields: any;
   handleConfirm: (formData: any) => void;
+  reset: any;
 }
 
 function Form(props: FormProps) {
   const handleCancel = () => {
     props.setIsOpen(false);
+    props.reset();
   };
   return (
     <form onSubmit={props.handleConfirm}>
