@@ -1,7 +1,7 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import { StoreKeyEnum, StoreType } from 'src/storeConfig';
+import { StoreKeyEnum } from 'src/storeConfig';
 
 export type Channels = 'ipc-example';
 
