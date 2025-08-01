@@ -1,14 +1,9 @@
 import 'src/renderer/pages/Checks.css';
-import db from 'src/renderer/db';
 import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
 import { Check } from 'src/schema';
-
-db.info().then(function (info) {
-  console.log(info);
-});
 
 function testPuppeteer() {
   // stub - need to pass a config object

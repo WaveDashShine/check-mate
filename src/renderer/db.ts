@@ -1,12 +1,32 @@
 import PouchDB from 'pouchdb';
+import { DbDocument } from 'src/schema';
+import { v4 as uuidv4 } from 'uuid';
 
-const db = new PouchDB('CheckMate'); // stub
+const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
 // view via dev tools > application > storage
 
-export default db;
+interface IStatus {
+  status: number;
+  message: string;
+}
 
-// put a document: https://pouchdb.com/guides/documents.html
+export const status = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+} as const;
+
+export function insert(obj: DbDocument): IStatus {
+  if (obj._id == undefined || obj._id == '') {
+    obj._id = uuidv4();
+  }
+  //db.put(obj);
+  console.log('inserted', obj); // stub
+  return {
+    status: 200,
+    message: 'Successfully inserted!',
+  };
+}
 
 // ._rev concept
 // https://pouchdb.com/guides/documents.html#understanding-revisions-rev

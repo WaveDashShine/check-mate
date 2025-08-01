@@ -6,7 +6,9 @@ const DbSchema = Type.Object({
   _rev: Type.Optional(Type.String()),
 });
 
-export const CheckSchema = Type.Object({
+export type DbDocument = Static<typeof DbSchema>;
+
+export const CheckUiSchema = Type.Object({
   name: Type.String({
     minLength: 1,
   }),
@@ -50,14 +52,14 @@ export const CheckSchema = Type.Object({
 });
 
 // TypeBox will instantiate the object with values that MEET the minimum requirements
-export const defaultCheck: Check = Value.Default(CheckSchema, {
+export const defaultCheckObj: Check = Value.Default(CheckUiSchema, {
   name: '',
   browserConfig: { url: '' },
 }) as Check;
 
-export type Check = Static<typeof CheckSchema>;
+export type Check = Static<typeof CheckUiSchema>;
 
-export const CheckKeys = {
+export const CheckUiAttr = {
   name: 'name',
   note: 'note',
   isEnabled: 'isEnabled',
@@ -73,7 +75,7 @@ export const CheckKeys = {
   tags: 'tags',
 } as const satisfies Record<keyof Check, string | object>;
 
-const CheckDbSchema = Type.Composite([CheckSchema, DbSchema]);
+const CheckDbSchema = Type.Composite([CheckUiSchema, DbSchema]);
 export type CheckDb = Static<typeof CheckDbSchema>;
 
 // TODO: convert the following to follow TypeBox conventions
