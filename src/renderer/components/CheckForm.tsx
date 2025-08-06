@@ -24,52 +24,67 @@ function CheckFormFields(
 ) {
   return (
     <div>
-      <label>Name</label>
-      <input type="text" {...register(CheckUiAttr.name)} />
-      <ErrorMessage errors={errors} name={CheckUiAttr.name} />
       {/*
       TODO: separate the edit and create fields
       */}
-      <label>Note</label>
-      <textarea {...register(CheckUiAttr.note)} />
-      <label>Enabled</label>
-      <button
-        role="switch"
-        aria-checked="true"
-        {...register(CheckUiAttr.isEnabled)}
-      ></button>
-      <label>Frequency (seconds)</label>
-      <input
-        role="spinbutton"
-        step="1"
-        type="number"
-        {...register(CheckUiAttr.frequency)}
-      />
+      <label>
+        Name
+        <input type="text" {...register(CheckUiAttr.name)} />
+        <ErrorMessage errors={errors} name={CheckUiAttr.name} />
+      </label>
+      <label>
+        Note
+        <textarea {...register(CheckUiAttr.note)} />
+      </label>
+      <label>
+        Enabled
+        <input type="checkbox" {...register(CheckUiAttr.isEnabled)} />
+      </label>
+      <label>
+        Frequency (seconds)
+        <input
+          role="spinbutton"
+          step="1"
+          type="number"
+          {...register(CheckUiAttr.frequency)}
+        />
+      </label>
+
       <div>
         <label>Browser Config</label>
-        <label>Link</label>
-        <input type="text" {...register(CheckUiAttr.browserConfig.url)} />
-        <ErrorMessage errors={errors} name={CheckUiAttr.browserConfig.url} />
-        <label>Check Text</label>
-        <button
-          role="switch"
-          aria-checked="false"
-          {...register(CheckUiAttr.browserConfig.checkText)}
-        ></button>
-        <label>Check HTML</label>
-        <button
-          role="switch"
-          aria-checked="false"
-          {...register(CheckUiAttr.browserConfig.checkHtml)}
-        ></button>
-        <label>Check Screenshot</label>
-        <button
-          role="switch"
-          aria-checked="false"
-          {...register(CheckUiAttr.browserConfig.checkScreenshot)}
-        ></button>
-        <label>Locator</label>
-        <input type="text" {...register(CheckUiAttr.browserConfig.locator)} />
+        <label>
+          Link
+          <input type="text" {...register(CheckUiAttr.browserConfig.url)} />
+          <ErrorMessage errors={errors} name={CheckUiAttr.browserConfig.url} />
+        </label>
+        <label>
+          Check Text
+          <input
+            type="checkbox"
+            {...register(CheckUiAttr.browserConfig.checkText)}
+          ></input>
+        </label>
+
+        <label>
+          Check HTML
+          <input
+            type="checkbox"
+            {...register(CheckUiAttr.browserConfig.checkHtml)}
+          ></input>
+        </label>
+
+        <label>
+          Check Screenshot
+          <input
+            type="checkbox"
+            {...register(CheckUiAttr.browserConfig.checkScreenshot)}
+          ></input>
+        </label>
+
+        <label>
+          Locator
+          <textarea {...register(CheckUiAttr.browserConfig.locator)} />
+        </label>
       </div>
       <div style={{ display: isEdit ? 'block' : 'none' }}>
         <label>Alert History</label>
