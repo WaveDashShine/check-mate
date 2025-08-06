@@ -20,8 +20,8 @@ export function insert(obj: DbDocument): IStatus {
   if (obj._id == undefined || obj._id == '') {
     obj._id = uuidv4();
   }
-  //db.put(obj);
-  console.log('inserted', obj); // stub
+  db.put(obj);
+  console.log('inserted', obj);
   return {
     status: 200,
     message: 'Successfully inserted!',
