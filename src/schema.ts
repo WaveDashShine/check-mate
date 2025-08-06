@@ -1,6 +1,18 @@
 import { Static, Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 
+/*
+- UiSchema is the ground truth for GUI validation
+- static<typeof > is the actual Type that is exported (defined via TypeBox)
+- DbSchema defines attributes that all DB objects should have
+  - composite the UiSchema with DbSchema to create your DB object Type
+- UiAttr contains the attribute keys that are registered to the form component
+ via react form hook - avoids string literals
+- defaultObj is the instantiated default Form object used by the GUI form
+  - TypeBox will instantiate the object with values that MEET the min. requirements
+  - override with default values that do not meet the min. requirements
+ */
+
 const DbSchema = Type.Object({
   _id: Type.String(),
   _rev: Type.Optional(Type.String()),
@@ -51,13 +63,12 @@ export const CheckUiSchema = Type.Object({
   }),
 });
 
-// TypeBox will instantiate the object with values that MEET the minimum requirements
+export type Check = Static<typeof CheckUiSchema>;
+
 export const defaultCheckObj: Check = Value.Default(CheckUiSchema, {
   name: '',
   browserConfig: { url: '' },
 }) as Check;
-
-export type Check = Static<typeof CheckUiSchema>;
 
 export const CheckUiAttr = {
   name: 'name',
@@ -78,21 +89,33 @@ export const CheckUiAttr = {
 const CheckDbSchema = Type.Composite([CheckUiSchema, DbSchema]);
 export type CheckDb = Static<typeof CheckDbSchema>;
 
-// TODO: convert the following to follow TypeBox conventions
-export interface IAlert {
-  _id: string;
-  html: string;
-  screenshot: string;
-  text: string;
-  timestamp: string;
-}
+export const AlertUiSchema = Type.Object({
+  html: Type.Optional(
+    Type.String({
+      contentMediaType: 'text/html',
+      description: 'html snapshot',
+    }),
+  ),
+  screenshot: Type.Optional(
+    Type.String({
+      contentEncoding: 'base64',
+      contentMode: 'image/png',
+      description: 'screenshot of element',
+    }),
+  ),
+  text: Type.Optional(
+    Type.String({
+      contentMediaType: 'text/plain',
+      description: 'text of the located element',
+    }),
+  ),
+  timestamp: Type.Date(),
+});
 
-export interface ITag {
-  _id: number;
-  name: string;
-  color: string;
-  note: string;
-}
+export type Alert = Static<typeof AlertUiSchema>;
+
+const AlertDbSchema = Type.Composite([AlertUiSchema, DbSchema]);
+export type AlertDb = Static<typeof AlertDbSchema>;
 
 export const TagColor = {
   Red: '#FF0000',
@@ -101,55 +124,25 @@ export const TagColor = {
   // TODO: more colors or a color picker
 } as const;
 
-// const AlertSchema: JSONSchemaType<IAlert> = {
-//   $id: '#AlertSchema',
-//   type: 'object',
-//   description: 'Alert belonging to a Check object',
-//   properties: {
-//     _id: { type: 'string' },
-//     html: {
-//       type: 'string',
-//       contentMediaType: 'text/html',
-//       description: 'result of the html comparison',
-//     },
-//     screenshot: {
-//       type: 'string',
-//       contentEncoding: 'base64',
-//       contentMediaType: 'image/png',
-//       description: 'screenshot of the page',
-//     },
-//     text: {
-//       type: 'string',
-//       description: 'change in text of the locator',
-//     },
-//     timestamp: {
-//       type: 'string',
-//       format: 'date-time',
-//       description: 'timestamp of the alert',
-//     },
-//   },
-//   required: ['_id', 'timestamp'],
-// };
-//
-// const TagSchema: JSONSchemaType<ITag> = {
-//   $id: '#TagSchema',
-//   type: 'object',
-//   description: 'tags for categorizing config objects',
-//   properties: {
-//     _id: { type: 'integer' },
-//     name: {
-//       type: 'string',
-//       description: 'name of the tag',
-//     },
-//     color: {
-//       type: 'string',
-//       enum: [TagColor.Red, TagColor.Green, TagColor.Blue],
-//       description: 'tag color',
-//     },
-//     note: {
-//       type: 'string',
-//       description: 'any notes of the tag',
-//     },
-//   },
-//   required: ['_id', 'name', 'color'],
-// };
+export const TagUiSchema = Type.Object({
+  name: Type.String({
+    minLength: 1,
+  }),
+  color: Type.Const(TagColor),
+  note: Type.Optional(Type.String()),
+});
+
+export type Tag = Static<typeof TagUiSchema>;
+
+export const defaultTagObj: Tag = Value.Default(TagUiSchema, {
+  name: '',
+}) as Tag;
+
+export const TagUiAttr = {
+  name: 'name',
+  color: 'color',
+  note: 'note',
+} as const satisfies Record<keyof Tag, string>;
+
+const TagDbSchema = Type.Composite([TagUiSchema, DbSchema]);
+export type TagDb = Static<typeof TagDbSchema>;
