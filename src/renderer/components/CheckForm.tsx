@@ -12,6 +12,7 @@ import {
   CheckUiSchema,
   defaultCheckObj,
   CheckDb,
+  DbSchemaTypes,
 } from 'src/schema';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
@@ -112,7 +113,7 @@ function CheckForm(props: GenericFormProps) {
     props.setIsOpen(false);
     onReset();
     const dbData = data as CheckDb;
-    insert(dbData);
+    insert(dbData, DbSchemaTypes.check);
   };
 
   const onError = (error: any) => {

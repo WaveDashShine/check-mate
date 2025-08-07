@@ -1,8 +1,6 @@
 // contains the typing for store
 // tracking keys for Store to make refactoring easier later
-
-// ValueOf similar to KeyOf implementation
-type ValueOf<T> = T[keyof T];
+import { ValueOf } from 'src/schema';
 
 const StoreKeys = {
   defaultChromePath: 'settings.defaultChromePath',

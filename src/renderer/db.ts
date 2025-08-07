@@ -1,6 +1,7 @@
 import PouchDB from 'pouchdb';
 import { DbDocument } from 'src/schema';
 import { v4 as uuidv4 } from 'uuid';
+import { DbSchemaType } from 'src/schema';
 
 const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
@@ -16,10 +17,11 @@ export const status = {
   ERROR: 'error',
 } as const;
 
-export function insert(obj: DbDocument): IStatus {
+export function insert(obj: DbDocument, objType: DbSchemaType): IStatus {
   if (obj._id == undefined || obj._id == '') {
     obj._id = uuidv4();
   }
+  obj.type = objType;
   db.put(obj);
   console.log('inserted', obj);
   return {
