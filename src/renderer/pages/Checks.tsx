@@ -24,12 +24,11 @@ function Checks() {
   return (
     <div>
       Checks
-      {/* Checks button is a stub */}
-      <button onClick={testPuppeteer}>Puppeteer Checks</button>
       <CheckHeader
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         setOpenCheckForm={setIsOpenCheckForm}
+        checkFunction={testPuppeteer}
       ></CheckHeader>
       <CheckForm
         isOpen={isOpenCheckForm}

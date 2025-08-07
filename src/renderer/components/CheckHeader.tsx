@@ -4,6 +4,7 @@ interface CheckHeaderProps {
   searchValue: string;
   setSearchValue: (searchValue: string) => void;
   setOpenCheckForm: (open: boolean) => void;
+  checkFunction: () => void;
 }
 
 function CheckHeader(props: CheckHeaderProps) {
@@ -28,6 +29,9 @@ function CheckHeader(props: CheckHeaderProps) {
         <button>Copy</button>
         <button>Delete</button>
         <button
+          onClick={() => {
+            props.checkFunction();
+          }}
           style={{
             backgroundColor: '#007bff',
             color: 'white',
