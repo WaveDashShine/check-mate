@@ -1,5 +1,7 @@
 import PouchDB from 'pouchdb';
-import { DbDocument } from 'src/schema';
+import PouchFind from 'pouchdb-find';
+PouchDB.plugin(PouchFind);
+import { CheckDb, DbDocument, DbSchemaTypes } from 'src/schema';
 import { v4 as uuidv4 } from 'uuid';
 import { DbSchemaType } from 'src/schema';
 
@@ -7,29 +9,36 @@ const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
 // view via dev tools > application > storage
 
-interface IStatus {
-  status: number;
-  message: string;
-}
-
-export const status = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-} as const;
-
-export function insert(obj: DbDocument, objType: DbSchemaType): IStatus {
+export function insert(obj: DbDocument, docType: DbSchemaType) {
   if (obj._id == undefined || obj._id == '') {
     obj._id = uuidv4();
   }
-  obj.type = objType;
+  obj.type = docType;
   db.put(obj);
   console.log('inserted', obj);
-  return {
-    status: 200,
-    message: 'Successfully inserted!',
-  };
 }
 
 // ._rev concept
 // https://pouchdb.com/guides/documents.html#understanding-revisions-rev
 // need to grab the revision to update it
+export function update(doc: DbDocument) {
+  // stub
+}
+
+async function findAllDocWithType(docType: DbSchemaType): Promise<Array<any>> {
+  await db
+    .find({ selector: { type: docType } })
+    .then(function (result) {
+      const docs = result;
+      console.log(result);
+      return docs;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return []; // TODO: how to handle error?
+}
+
+export async function getAllChecks(): Promise<CheckDb[]> {
+  return await findAllDocWithType(DbSchemaTypes.check);
+}

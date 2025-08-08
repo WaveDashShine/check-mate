@@ -3,7 +3,6 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
-import { Check } from 'src/schema';
 
 function testPuppeteer() {
   // stub - need to pass a config object
@@ -15,11 +14,7 @@ function testPuppeteer() {
 
 function Checks() {
   const [isOpenCheckForm, setIsOpenCheckForm] = useState(false);
-  const [rows, setRows] = useState<Check[]>([]);
   const [searchValue, setSearchValue] = useState('');
-  const filteredRows = rows.filter((row) =>
-    row.name.toLowerCase().includes(searchValue.toLowerCase()),
-  );
 
   return (
     <div>
@@ -34,7 +29,7 @@ function Checks() {
         isOpen={isOpenCheckForm}
         setIsOpen={setIsOpenCheckForm}
       ></CheckForm>
-      <CheckTable rows={searchValue ? filteredRows : rows}></CheckTable>
+      <CheckTable searchValue={searchValue}></CheckTable>
     </div>
   );
 }
