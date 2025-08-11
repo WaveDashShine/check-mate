@@ -4,6 +4,7 @@ PouchDB.plugin(PouchFind);
 import { CheckDb, DbDocument, DbSchemaTypes } from 'src/schema';
 import { v4 as uuidv4 } from 'uuid';
 import { DbSchemaType } from 'src/schema';
+import FindResponse = PouchDB.Find.FindResponse;
 
 const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
@@ -25,18 +26,17 @@ export function update(doc: DbDocument) {
   // stub
 }
 
-async function findAllDocWithType(docType: DbSchemaType): Promise<Array<any>> {
-  await db
-    .find({ selector: { type: docType } })
-    .then(function (result) {
-      const docs = result;
-      console.log(result);
-      return docs;
-    })
-    .catch(function (error) {
-      console.log(error);
+async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
+  try {
+    const result: FindResponse<any> = await db.find({
+      selector: { type: docType },
     });
-  return []; // TODO: how to handle error?
+    console.log('findAll', result);
+    return result.docs;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 export async function getAllChecks(): Promise<CheckDb[]> {

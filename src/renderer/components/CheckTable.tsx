@@ -1,5 +1,5 @@
 import 'src/renderer/components/CheckTable.css';
-import { Check, CheckDb } from 'src/schema';
+import { Check, CheckDb, DbSchemaTypes } from 'src/schema';
 import { getAllChecks } from 'src/renderer/db';
 import { Suspense, use } from 'react';
 
@@ -54,8 +54,10 @@ function CheckRows(props: CheckRowProps) {
     row.name.toLowerCase().includes(props.searchValue.toLowerCase()),
   );
   const displayedRows: CheckDb[] =
-    props.searchValue == '' || props.rowsPromise == null ? rows : filteredRows;
-  // TODO: find out why rows are not displaying in table
+    props.searchValue == '' || props.searchValue == null ? rows : filteredRows;
+  console.log('rows', rows);
+  console.log('filteredRows', filteredRows);
+  console.log('displayedRows', displayedRows);
   return (
     <tbody>
       {displayedRows.map((row) => (
