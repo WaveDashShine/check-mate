@@ -27,16 +27,11 @@ export function update(doc: DbDocument) {
 }
 
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
-  try {
-    const result: FindResponse<any> = await db.find({
-      selector: { type: docType },
-    });
-    console.log('findAll', result);
-    return result.docs;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
+  const result: FindResponse<any> = await db.find({
+    selector: { type: docType },
+  });
+  console.log('findAll', result);
+  return result.docs;
 }
 
 export async function getAllChecks(): Promise<CheckDb[]> {
