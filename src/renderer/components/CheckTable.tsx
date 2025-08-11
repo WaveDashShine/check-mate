@@ -7,7 +7,7 @@ interface CheckTableProps {
   searchValue: string;
 }
 
-interface RowProps extends CheckTableProps {
+interface CheckRowProps extends CheckTableProps {
   rowsPromise: Promise<CheckDb[]>;
 }
 
@@ -34,7 +34,10 @@ function CheckTable(props: CheckTableProps) {
             </tbody>
           }
         >
-          <Rows rowsPromise={rows} searchValue={props.searchValue}></Rows>
+          <CheckRows
+            rowsPromise={rows}
+            searchValue={props.searchValue}
+          ></CheckRows>
         </Suspense>
       </table>
     </div>
@@ -44,7 +47,7 @@ function CheckTable(props: CheckTableProps) {
 export default CheckTable;
 
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
-function Rows(props: RowProps) {
+function CheckRows(props: CheckRowProps) {
   const rows: CheckDb[] = use(props.rowsPromise);
   // TODO: rewrite this component so it doesn't query db every time search value is updated
   const filteredRows: CheckDb[] = rows.filter((row) =>
