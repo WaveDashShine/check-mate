@@ -10,20 +10,21 @@ const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
 // view via dev tools > application > storage
 
-export function insert(obj: DbDocument, docType: DbSchemaType) {
-  if (obj._id == undefined || obj._id == '') {
-    obj._id = uuidv4();
-  }
-  obj.type = docType;
-  db.put(obj);
-  console.log('inserted', obj);
-}
-
 // ._rev concept
 // https://pouchdb.com/guides/documents.html#understanding-revisions-rev
-// need to grab the revision to update it
-export function update(doc: DbDocument) {
-  // stub
+// need to have revision in order to update doc
+export function insert(doc: DbDocument, docType: DbSchemaType) {
+  if (doc._id === undefined || doc._id === '') {
+    doc._id = uuidv4();
+  } else {
+    if (doc._rev === undefined || doc._rev === '') {
+      console.log('ABORTING: missing _rev even though _id exists', doc);
+      return;
+    }
+  }
+  doc.type = docType;
+  db.put(doc);
+  console.log('inserted', doc);
 }
 
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
