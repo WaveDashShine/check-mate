@@ -3,6 +3,7 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
+import { CheckDb, defaultCheckObj } from 'src/schema';
 
 function testPuppeteer() {
   // stub - need to pass a config object
@@ -13,9 +14,10 @@ function testPuppeteer() {
 }
 
 function Checks() {
-  const [isOpenCheckForm, setIsOpenCheckForm] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [isEdit, setIsEdit] = useState(false);
+  const [isOpenCheckForm, setIsOpenCheckForm] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [dbFormValues, setDbFormValues] = useState<CheckDb>({} as CheckDb);
 
   return (
     <div>
@@ -30,10 +32,14 @@ function Checks() {
       <CheckForm
         isOpen={isOpenCheckForm}
         setIsOpen={setIsOpenCheckForm}
-        dbFormValues={undefined}
+        dbFormValues={dbFormValues}
         isEdit={isEdit}
       ></CheckForm>
-      <CheckTable searchValue={searchValue}></CheckTable>
+      <CheckTable
+        searchValue={searchValue}
+        setDbFormValues={setDbFormValues}
+        setIsOpenCheckForm={setIsOpenCheckForm}
+      ></CheckTable>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { Suspense, use } from 'react';
 
 interface CheckTableProps {
   searchValue: string;
+  setDbFormValues: (dbFormValues: CheckDb) => void;
+  setIsOpenCheckForm: (isOpen: boolean) => void;
 }
 
 interface CheckRowProps extends CheckTableProps {
@@ -12,7 +14,7 @@ interface CheckRowProps extends CheckTableProps {
 }
 
 function CheckTable(props: CheckTableProps) {
-  const rows: Promise<CheckDb[]> = getAllChecks();
+  const rowsPromise: Promise<CheckDb[]> = getAllChecks();
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
       <table>
@@ -36,8 +38,10 @@ function CheckTable(props: CheckTableProps) {
           }
         >
           <CheckRows
-            rowsPromise={rows}
+            rowsPromise={rowsPromise}
             searchValue={props.searchValue}
+            setDbFormValues={props.setDbFormValues}
+            setIsOpenCheckForm={props.setIsOpenCheckForm}
           ></CheckRows>
         </Suspense>
       </table>
@@ -62,7 +66,13 @@ function CheckRows(props: CheckRowProps) {
   return (
     <tbody>
       {displayedRows.map((row) => (
-        <tr key={row._id}>
+        <tr
+          key={row._id}
+          onDoubleClick={() => {
+            props.setDbFormValues(row);
+            props.setIsOpenCheckForm(true);
+          }}
+        >
           <td>
             <input type="checkbox" />
           </td>
