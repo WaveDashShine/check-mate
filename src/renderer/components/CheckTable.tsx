@@ -18,6 +18,7 @@ function CheckTable(props: CheckTableProps) {
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>Enabled</th>
             <th>Name</th>
             <th>Note</th>
@@ -62,6 +63,9 @@ function CheckRows(props: CheckRowProps) {
     <tbody>
       {displayedRows.map((row) => (
         <tr key={row._id}>
+          <td>
+            <input type="checkbox" />
+          </td>
           <td>{row.isEnabled ? '✅' : '❌'}</td>
           <td>{row.name}</td>
           <td>{row.note}</td>
