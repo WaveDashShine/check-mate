@@ -65,7 +65,7 @@ function CheckRows(props: CheckRowProps) {
   console.log('displayedRows', displayedRows);
   return (
     <tbody>
-      {displayedRows.map((row) => (
+      {displayedRows.map((row: CheckDb) => (
         <tr
           key={row._id}
           onDoubleClick={() => {
