@@ -15,19 +15,23 @@ function testPuppeteer() {
 function Checks() {
   const [isOpenCheckForm, setIsOpenCheckForm] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
 
   return (
     <div>
       Checks
       <CheckHeader
-        searchValue={searchValue}
         setSearchValue={setSearchValue}
         setOpenCheckForm={setIsOpenCheckForm}
+        setIsEdit={setIsEdit}
+        isDisabled={isOpenCheckForm}
         checkFunction={testPuppeteer}
       ></CheckHeader>
       <CheckForm
         isOpen={isOpenCheckForm}
         setIsOpen={setIsOpenCheckForm}
+        dbFormValues={undefined}
+        isEdit={isEdit}
       ></CheckForm>
       <CheckTable searchValue={searchValue}></CheckTable>
     </div>

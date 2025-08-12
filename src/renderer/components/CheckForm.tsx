@@ -18,6 +18,10 @@ import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
 import { insert } from 'src/renderer/db';
 
+interface CheckFormProps extends GenericFormProps {
+  dbFormValues?: CheckDb;
+}
+
 function CheckFormFields(
   register: UseFormRegister<Check>,
   errors: FieldErrors<Check>,
@@ -97,7 +101,7 @@ function CheckFormFields(
   );
 }
 
-function CheckForm(props: GenericFormProps) {
+function CheckForm(props: CheckFormProps) {
   const {
     register,
     handleSubmit,
@@ -106,6 +110,7 @@ function CheckForm(props: GenericFormProps) {
   } = useForm<Check>({
     resolver: typeboxResolver(CheckUiSchema),
     defaultValues: defaultCheckObj,
+    values: props.dbFormValues,
   });
 
   const onSubmit: SubmitHandler<Check> = (data: Check) => {

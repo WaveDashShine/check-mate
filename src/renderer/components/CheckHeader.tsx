@@ -1,10 +1,16 @@
 import 'src/renderer/components/CheckHeader.css';
 
 interface CheckHeaderProps {
-  searchValue: string;
+  // setters
   setSearchValue: (searchValue: string) => void;
   setOpenCheckForm: (open: boolean) => void;
-  checkFunction: () => void;
+  setIsEdit: (isEdit: boolean) => void;
+
+  // header config
+  isDisabled: boolean;
+
+  // functions
+  checkFunction: () => void; // stub
 }
 
 function CheckHeader(props: CheckHeaderProps) {
@@ -21,13 +27,15 @@ function CheckHeader(props: CheckHeaderProps) {
         <button
           onClick={() => {
             props.setOpenCheckForm(true);
+            props.setIsEdit(false);
           }}
+          disabled={props.isDisabled}
         >
           New
         </button>
-        <button>Enable/Disable</button>
-        <button>Copy</button>
-        <button>Delete</button>
+        <button disabled={props.isDisabled}>Enable/Disable</button>
+        <button disabled={props.isDisabled}>Copy</button>
+        <button disabled={props.isDisabled}>Delete</button>
         <button
           onClick={() => {
             props.checkFunction();
@@ -37,6 +45,7 @@ function CheckHeader(props: CheckHeaderProps) {
             color: 'white',
             fontWeight: 'bold',
           }}
+          disabled={props.isDisabled}
         >
           Check
         </button>
@@ -44,7 +53,6 @@ function CheckHeader(props: CheckHeaderProps) {
       <input
         type="text"
         placeholder="Search by name..."
-        value={props.searchValue}
         onChange={(e) => props.setSearchValue(e.target.value)}
       />
     </div>
