@@ -40,9 +40,9 @@ export const CheckUiSchema = Type.Object({
     default: false,
     description: 'will the Check be done',
   }),
-  frequency: Type.Integer({
-    exclusiveMinimum: 1,
-    default: 60,
+  frequency: Type.String({
+    minLength: 1,
+    default: '60',
     description: 'units seconds for polling the check',
   }),
   browserConfig: Type.Object({
