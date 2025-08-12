@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'src/renderer/components/Form.css';
 
 export interface GenericFormProps {
@@ -17,8 +17,12 @@ interface FormProps extends GenericFormProps {
 function Form(props: FormProps) {
   const handleCancel = () => {
     props.setIsOpen(false);
-    props.reset();
   };
+  useEffect(() => {
+    if (!props.isEdit) {
+      props.reset();
+    }
+  }, [props.isEdit]);
   return (
     <form onSubmit={props.handleConfirm}>
       {props.isOpen && (
