@@ -4,14 +4,14 @@ import 'src/renderer/components/Form.css';
 export interface GenericFormProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  isEdit?: boolean;
+  isEdit: boolean;
 }
 
 interface FormProps extends GenericFormProps {
   title: string;
   fields: any;
   handleConfirm: (formData: any) => void;
-  reset: any;
+  reset: () => void;
 }
 
 function Form(props: FormProps) {

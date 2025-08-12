@@ -39,6 +39,7 @@ function Checks() {
         searchValue={searchValue}
         setDbFormValues={setDbFormValues}
         setIsOpenCheckForm={setIsOpenCheckForm}
+        setIsEdit={setIsEdit}
       ></CheckTable>
     </div>
   );

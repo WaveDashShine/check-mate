@@ -7,6 +7,7 @@ interface CheckTableProps {
   searchValue: string;
   setDbFormValues: (dbFormValues: CheckDb) => void;
   setIsOpenCheckForm: (isOpen: boolean) => void;
+  setIsEdit: (isEdit: boolean) => void;
 }
 
 interface CheckRowProps extends CheckTableProps {
@@ -42,6 +43,7 @@ function CheckTable(props: CheckTableProps) {
             searchValue={props.searchValue}
             setDbFormValues={props.setDbFormValues}
             setIsOpenCheckForm={props.setIsOpenCheckForm}
+            setIsEdit={props.setIsEdit}
           ></CheckRows>
         </Suspense>
       </table>
@@ -60,8 +62,8 @@ function CheckRows(props: CheckRowProps) {
   );
   const displayedRows: CheckDb[] =
     props.searchValue == '' || props.searchValue == null ? rows : filteredRows;
-  console.log('rows', rows);
-  console.log('filteredRows', filteredRows);
+  // console.log('rows', rows);
+  // console.log('filteredRows', filteredRows);
   console.log('displayedRows', displayedRows);
   return (
     <tbody>
@@ -71,6 +73,7 @@ function CheckRows(props: CheckRowProps) {
           onDoubleClick={() => {
             props.setDbFormValues(row);
             props.setIsOpenCheckForm(true);
+            props.setIsEdit(true);
           }}
         >
           <td>

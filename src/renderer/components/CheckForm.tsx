@@ -19,13 +19,13 @@ import { ErrorMessage } from '@hookform/error-message';
 import { insert } from 'src/renderer/db';
 
 interface CheckFormProps extends GenericFormProps {
-  dbFormValues?: CheckDb;
+  dbFormValues: CheckDb;
 }
 
 function CheckFormFields(
   register: UseFormRegister<Check>,
   errors: FieldErrors<Check>,
-  isEdit: boolean = false,
+  isEdit: boolean,
 ) {
   return (
     <div>
@@ -51,8 +51,10 @@ function CheckFormFields(
           role="spinbutton"
           step="1"
           type="number"
+          min="60"
           {...register(CheckUiAttr.frequency)}
         />
+        <ErrorMessage errors={errors} name={CheckUiAttr.frequency} />
       </label>
 
       <div>
@@ -115,10 +117,10 @@ function CheckForm(props: CheckFormProps) {
 
   const onSubmit: SubmitHandler<Check> = (data: Check) => {
     console.log('submitted', data);
-    props.setIsOpen(false);
-    onReset();
     const dbData = data as CheckDb;
     insert(dbData, DbSchemaTypes.check);
+    props.setIsOpen(false);
+    onReset();
   };
 
   const onError = (error: any) => {
@@ -135,8 +137,9 @@ function CheckForm(props: CheckFormProps) {
       isOpen={props.isOpen}
       setIsOpen={props.setIsOpen}
       handleConfirm={handleSubmit(onSubmit, onError)}
-      fields={CheckFormFields(register, errors)}
+      fields={CheckFormFields(register, errors, props.isEdit)}
       reset={onReset}
+      isEdit={props.isEdit}
     ></Form>
   );
 }
