@@ -8,6 +8,8 @@ interface CheckTableProps {
   setDbFormValues: (dbFormValues: CheckDb) => void;
   setIsOpenCheckForm: (isOpen: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
+  selectedRows: CheckDb[];
+  setSelectedRows: (selectedRows: CheckDb[]) => void;
 }
 
 interface CheckRowProps extends CheckTableProps {
@@ -44,6 +46,8 @@ function CheckTable(props: CheckTableProps) {
             setDbFormValues={props.setDbFormValues}
             setIsOpenCheckForm={props.setIsOpenCheckForm}
             setIsEdit={props.setIsEdit}
+            selectedRows={props.selectedRows}
+            setSelectedRows={props.setSelectedRows}
           ></CheckRows>
         </Suspense>
       </table>
@@ -65,19 +69,38 @@ function CheckRows(props: CheckRowProps) {
   // console.log('rows', rows);
   // console.log('filteredRows', filteredRows);
   console.log('displayedRows', displayedRows);
+
+  const handleEditRow = (row: CheckDb) => {
+    props.setDbFormValues(row);
+    props.setIsOpenCheckForm(true);
+    props.setIsEdit(true);
+  };
+
   return (
     <tbody>
       {displayedRows.map((row: CheckDb) => (
         <tr
           key={row._id}
           onDoubleClick={() => {
-            props.setDbFormValues(row);
-            props.setIsOpenCheckForm(true);
-            props.setIsEdit(true);
+            handleEditRow(row);
           }}
         >
           <td>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                const isChecked: boolean = e.target.checked;
+                if (isChecked) {
+                  props.setSelectedRows([...props.selectedRows, row]);
+                } else {
+                  props.setSelectedRows(
+                    props.selectedRows.filter((r: CheckDb) => {
+                      return r._id !== row._id;
+                    }),
+                  );
+                }
+              }}
+            />
           </td>
           <td>{row.isEnabled ? '✅' : '❌'}</td>
           <td>{row.name}</td>
