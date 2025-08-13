@@ -20,6 +20,7 @@ import { insert } from 'src/renderer/db';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
+  invalidateCache: () => void;
 }
 
 function CheckFormFields(
@@ -121,6 +122,7 @@ function CheckForm(props: CheckFormProps) {
     insert(dbData, DbSchemaTypes.check);
     props.setIsOpen(false);
     onReset();
+    props.invalidateCache();
   };
 
   const onError = (error: any) => {

@@ -1,6 +1,5 @@
 import 'src/renderer/components/CheckTable.css';
-import { Check, CheckDb, DbSchemaTypes } from 'src/schema';
-import { getAllChecks } from 'src/renderer/db';
+import { CheckDb } from 'src/schema';
 import { Suspense, use } from 'react';
 
 interface CheckTableProps {
@@ -10,14 +9,12 @@ interface CheckTableProps {
   setIsEdit: (isEdit: boolean) => void;
   selectedRows: CheckDb[];
   setSelectedRows: (selectedRows: CheckDb[]) => void;
-}
-
-interface CheckRowProps extends CheckTableProps {
   rowsPromise: Promise<CheckDb[]>;
 }
 
+interface CheckRowProps extends CheckTableProps {}
+
 function CheckTable(props: CheckTableProps) {
-  const rowsPromise: Promise<CheckDb[]> = getAllChecks();
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
       <table>
@@ -41,13 +38,13 @@ function CheckTable(props: CheckTableProps) {
           }
         >
           <CheckRows
-            rowsPromise={rowsPromise}
             searchValue={props.searchValue}
             setDbFormValues={props.setDbFormValues}
             setIsOpenCheckForm={props.setIsOpenCheckForm}
             setIsEdit={props.setIsEdit}
             selectedRows={props.selectedRows}
             setSelectedRows={props.setSelectedRows}
+            rowsPromise={props.rowsPromise}
           ></CheckRows>
         </Suspense>
       </table>
@@ -60,7 +57,6 @@ export default CheckTable;
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
 function CheckRows(props: CheckRowProps) {
   const rows: CheckDb[] = use(props.rowsPromise);
-  // TODO: rewrite this component so it doesn't query db every time search value is updated
   const filteredRows: CheckDb[] = rows.filter((row) =>
     row.name.toLowerCase().includes(props.searchValue.toLowerCase()),
   );
