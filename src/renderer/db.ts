@@ -38,3 +38,9 @@ async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
 export async function getAllChecks(): Promise<CheckDb[]> {
   return await findAllDocWithType(DbSchemaTypes.check);
 }
+
+export let getAllChecksCachePromise: Promise<CheckDb[]> = getAllChecks();
+
+export function invalidateChecksCache() {
+  getAllChecksCachePromise = getAllChecks();
+}

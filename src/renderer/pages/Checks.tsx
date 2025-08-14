@@ -4,9 +4,10 @@ import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
 import { CheckDb } from 'src/schema';
-import { getAllChecks } from 'src/renderer/db';
-
-let getAllChecksPromise: Promise<CheckDb[]> = getAllChecks();
+import {
+  getAllChecksCachePromise,
+  invalidateChecksCache,
+} from 'src/renderer/db';
 
 function testPuppeteer() {
   // stub - need to pass a config object
@@ -25,10 +26,6 @@ function Checks() {
 
   console.log('selected', selectedRows);
 
-  const invalidateCache = () => {
-    getAllChecksPromise = getAllChecks();
-  };
-
   return (
     <div>
       Checks
@@ -44,7 +41,7 @@ function Checks() {
         setIsOpen={setIsOpenCheckForm}
         dbFormValues={dbFormValues}
         isEdit={isEdit}
-        invalidateCache={invalidateCache}
+        invalidateCache={invalidateChecksCache}
       ></CheckForm>
       <CheckTable
         searchValue={searchValue}
@@ -53,7 +50,7 @@ function Checks() {
         setIsEdit={setIsEdit}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
-        rowsPromise={getAllChecksPromise}
+        rowsPromise={getAllChecksCachePromise}
       ></CheckTable>
     </div>
   );
