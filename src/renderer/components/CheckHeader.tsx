@@ -1,16 +1,17 @@
 import 'src/renderer/components/CheckHeader.css';
 
+import { CheckDb } from 'src/schema/check';
+
 interface CheckHeaderProps {
   // setters
   setSearchValue: (searchValue: string) => void;
   setOpenCheckForm: (open: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
 
-  // header config
   isDisabled: boolean;
+  selectedRows: CheckDb[];
 
-  // functions
-  checkFunction: () => void; // stub
+  checkFunction: (rows: CheckDb[]) => void; // stub
 }
 
 function CheckHeader(props: CheckHeaderProps) {
@@ -38,7 +39,7 @@ function CheckHeader(props: CheckHeaderProps) {
         <button disabled={props.isDisabled}>Delete</button>
         <button
           onClick={() => {
-            props.checkFunction();
+            props.checkFunction(props.selectedRows);
           }}
           style={{
             backgroundColor: '#007bff',

@@ -3,6 +3,8 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { StoreKeyEnum } from 'src/storeConfig';
 
+import { CheckDb } from 'src/schema/check';
+
 export type Channels = 'ipc-example';
 
 const electronHandler = {
@@ -32,9 +34,9 @@ const electronHandler = {
     },
   },
   autoBrowser: {
-    check(url: string) {
+    check(checkConfig: CheckDb) {
       // stub - need to send CheckConfig object
-      return ipcRenderer.sendSync('browser-check', url);
+      return ipcRenderer.sendSync('browser-check', checkConfig);
     }, // stub: need to return CheckResult object
     launch() {
       ipcRenderer.send('browser-launch');

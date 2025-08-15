@@ -1,6 +1,6 @@
 import 'src/renderer/components/CheckTable.css';
-import { CheckDb } from 'src/schema';
 import { Suspense, use } from 'react';
+import { CheckDb } from 'src/schema/check';
 
 interface CheckTableProps {
   searchValue: string;

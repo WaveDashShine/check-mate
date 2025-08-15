@@ -6,17 +6,17 @@ import {
   UseFormRegister,
   FieldErrors,
 } from 'react-hook-form';
-import {
-  Check,
-  CheckUiAttr,
-  CheckUiSchema,
-  defaultCheckObj,
-  CheckDb,
-  DbSchemaTypes,
-} from 'src/schema';
+import { DbSchemaTypes } from 'src/schema/schema';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
 import { insert } from 'src/renderer/db';
+import {
+  Check,
+  CheckDb,
+  CheckUiAttr,
+  CheckUiSchema,
+  defaultCheckObj,
+} from 'src/schema/check';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
@@ -92,6 +92,10 @@ function CheckFormFields(
         <label>
           Locator
           <textarea {...register(CheckUiAttr.browserConfig.locator)} />
+          <ErrorMessage
+            errors={errors}
+            name={CheckUiAttr.browserConfig.locator}
+          />
         </label>
       </div>
       <div style={{ display: isEdit ? 'block' : 'none' }}>

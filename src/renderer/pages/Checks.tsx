@@ -3,18 +3,22 @@ import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
-import { CheckDb } from 'src/schema';
 import {
   getAllChecksCachePromise,
   invalidateChecksCache,
 } from 'src/renderer/db';
+import { CheckDb } from 'src/schema/check';
 
-function testPuppeteer() {
+function browserCheck(rows: CheckDb[]) {
   // stub - need to pass a config object
-  const containerText = window.electron.autoBrowser.check(
-    'https://electron-react-boilerplate.js.org/',
-  );
-  console.log('containerText', containerText);
+  for (const row of rows) {
+    if (!row.isEnabled) {
+      continue;
+    }
+    const containerText = window.electron.autoBrowser.check(row);
+    // TODO: this needs to return an alert and save to DB
+    console.log('containerText', containerText);
+  }
 }
 
 function Checks() {
@@ -34,7 +38,8 @@ function Checks() {
         setOpenCheckForm={setIsOpenCheckForm}
         setIsEdit={setIsEdit}
         isDisabled={isOpenCheckForm}
-        checkFunction={testPuppeteer}
+        checkFunction={browserCheck}
+        selectedRows={selectedRows}
       ></CheckHeader>
       <CheckForm
         isOpen={isOpenCheckForm}

@@ -1,8 +1,10 @@
-import puppeteer from 'puppeteer-core';
+import puppeteer, { Page, Browser } from 'puppeteer-core';
 import store from 'src/main/main';
 import StoreKeys from 'src/storeConfig';
 import path from 'path';
 import os from 'os';
+import { Discovery } from 'src/schema/discovery';
+import { CheckDb } from 'src/schema/check';
 
 const homedir = os.homedir();
 
@@ -14,12 +16,26 @@ export async function launchBrowser(isHeadless: boolean = false) {
   });
 }
 
-export async function BrowserCheck(val: string) {
-  const browser = await launchBrowser(false); // TODO: should be true
-  const page = await browser.newPage();
-  await page.goto(val);
-  await page.locator('.container').wait();
-  const containerText = await page.$eval('.container', (el) => el.textContent);
+async function checkText(page: Page, locator: string): Promise<string> {
+  await page.locator(locator).wait();
+  const elementText = await page.$eval(locator, (el) => el.textContent);
+  return elementText || '';
+}
+
+async function checkHtml(page: Page, locator: string): Promise<string> {
+  return ''; // stub
+}
+
+export async function BrowserCheck(checkConfig: CheckDb): Promise<Discovery> {
+  const browser: Browser = await launchBrowser(false); // TODO: should be true
+  const page: Page = await browser.newPage();
+  await page.goto(checkConfig.browserConfig.url);
   await browser.close();
-  return containerText;
+  const locator = checkConfig.browserConfig.locator;
+  const locatorText = await checkText(page, locator);
+  // TODO: return discovery object?
+  // TODO: discovery id will need to be handled in the frontend
+  let discovery: Discovery = {} as Discovery;
+  discovery.timestamp = new Date();
+  return discovery;
 }

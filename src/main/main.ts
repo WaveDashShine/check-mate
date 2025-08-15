@@ -19,6 +19,7 @@ import { BrowserCheck, launchBrowser } from 'src/main/browser';
 import Store from 'electron-store';
 import chromePaths from 'chrome-paths';
 import StoreKeys, { StoreType } from 'src/storeConfig';
+import { CheckDb } from 'src/schema/check';
 
 // instantiate store schema and store
 const store = new Store<StoreType>();
@@ -56,8 +57,8 @@ ipcMain.on('electron-store-set', async (event, key, val) => {
 });
 
 // IPC listener for browser
-ipcMain.on('browser-check', async (event, val) => {
-  event.returnValue = await BrowserCheck(val);
+ipcMain.on('browser-check', async (event, checkConfig: CheckDb) => {
+  event.returnValue = await BrowserCheck(checkConfig);
 });
 
 ipcMain.on('browser-launch', async (event) => {

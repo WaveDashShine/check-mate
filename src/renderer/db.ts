@@ -1,10 +1,11 @@
 import PouchDB from 'pouchdb';
 import PouchFind from 'pouchdb-find';
 PouchDB.plugin(PouchFind);
-import { CheckDb, DbDocument, DbSchemaTypes } from 'src/schema';
+import { DbDocument, DbSchemaTypes } from 'src/schema/schema';
 import { v4 as uuidv4 } from 'uuid';
-import { DbSchemaType } from 'src/schema';
+import { DbSchemaType } from 'src/schema/schema';
 import FindResponse = PouchDB.Find.FindResponse;
+import { CheckDb } from 'src/schema/check';
 
 const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
