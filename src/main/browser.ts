@@ -17,6 +17,9 @@ export async function launchBrowser(isHeadless: boolean = false) {
 }
 
 async function checkText(page: Page, locator: string): Promise<string> {
+  if (locator === '') {
+    locator = 'div';
+  }
   await page.locator(locator).wait();
   const elementText = await page.$eval(locator, (el) => el.textContent);
   return elementText || '';
