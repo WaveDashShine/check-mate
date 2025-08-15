@@ -37,15 +37,7 @@ function CheckTable(props: CheckTableProps) {
             </tbody>
           }
         >
-          <CheckRows
-            searchValue={props.searchValue}
-            setDbFormValues={props.setDbFormValues}
-            setIsOpenCheckForm={props.setIsOpenCheckForm}
-            setIsEdit={props.setIsEdit}
-            selectedRows={props.selectedRows}
-            setSelectedRows={props.setSelectedRows}
-            rowsPromise={props.rowsPromise}
-          ></CheckRows>
+          <CheckRows {...props}></CheckRows>
         </Suspense>
       </table>
     </div>
