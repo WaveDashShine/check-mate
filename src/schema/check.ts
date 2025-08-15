@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
-import { DbSchema } from './dbSchema';
+import { DbSchema } from 'src/schema/dbSchema';
 
 export const CheckUiSchema = Type.Object({
   name: Type.String({
