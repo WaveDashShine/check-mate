@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import 'src/renderer/components/Form.css';
+import 'src/renderer/components/generic/Form.css';
 
 export interface GenericFormProps {
   isOpen: boolean;

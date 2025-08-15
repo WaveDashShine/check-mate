@@ -1,4 +1,4 @@
-import Form, { GenericFormProps } from 'src/renderer/components/Form';
+import Form, { GenericFormProps } from 'src/renderer/components/generic/Form';
 import 'src/renderer/components/CheckForm.css';
 import {
   useForm,
