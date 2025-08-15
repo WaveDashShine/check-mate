@@ -1,5 +1,5 @@
 import { Static, Type } from '@sinclair/typebox';
-import { DbSchema } from 'src/schema/schema';
+import { DbSchema } from 'src/schema/dbSchema';
 
 export const DiscoveryUiSchema = Type.Object({
   html: Type.Optional(

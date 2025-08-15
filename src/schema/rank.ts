@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
-import { DbSchema } from 'src/schema/schema';
+import { DbSchema } from 'src/schema/dbSchema';
 
 export const RankColor = {
   // TODO: make this chess themed instead

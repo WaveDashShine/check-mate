@@ -1,6 +1,6 @@
 // contains the typing for store
 // tracking keys for Store to make refactoring easier later
-import { ValueOf } from 'src/schema/schema';
+import { ValueOf } from 'src/schema/dbSchema';
 
 const StoreKeys = {
   defaultChromePath: 'settings.defaultChromePath',

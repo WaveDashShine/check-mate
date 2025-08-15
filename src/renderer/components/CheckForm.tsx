@@ -6,7 +6,7 @@ import {
   UseFormRegister,
   FieldErrors,
 } from 'react-hook-form';
-import { DbSchemaTypes } from 'src/schema/schema';
+import { DbSchemaTypes } from 'src/schema/dbSchema';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
 import { insert } from 'src/renderer/db';
