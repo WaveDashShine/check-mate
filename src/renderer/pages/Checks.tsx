@@ -1,6 +1,7 @@
 import 'src/renderer/pages/Checks.css';
 import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
+import { newButton, Button } from 'src/renderer/components/generic/Header';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
 import {
@@ -29,17 +30,20 @@ function Checks() {
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
 
   console.log('selected', selectedRows);
-
+  const customTableHeaderButtons: Button[] = [
+    newButton('Enable/Disable', () => {}, isOpenCheckForm),
+  ];
   return (
     <div>
       Checks
       <CheckHeader
         setSearchValue={setSearchValue}
-        setOpenCheckForm={setIsOpenCheckForm}
+        setOpenForm={setIsOpenCheckForm}
         setIsEdit={setIsEdit}
-        isDisabled={isOpenCheckForm}
+        isOpenForm={isOpenCheckForm}
         checkFunction={browserCheck}
         selectedRows={selectedRows}
+        customButtons={customTableHeaderButtons}
       ></CheckHeader>
       <CheckForm
         isOpen={isOpenCheckForm}
