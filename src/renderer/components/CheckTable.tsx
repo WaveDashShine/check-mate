@@ -4,7 +4,7 @@ import { CheckDb } from 'src/schema/check';
 
 interface CheckTableProps {
   searchValue: string;
-  setDbFormValues: (dbFormValues: CheckDb) => void;
+  setEditFormValues: (editFormValues: CheckDb) => void;
   setIsOpenCheckForm: (isOpen: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
   selectedRows: CheckDb[];
@@ -59,7 +59,7 @@ function CheckRows(props: CheckRowProps) {
   console.log('displayedRows', displayedRows);
 
   const handleEditRow = (row: CheckDb) => {
-    props.setDbFormValues(row);
+    props.setEditFormValues(row);
     props.setIsOpenCheckForm(true);
     props.setIsEdit(true);
   };

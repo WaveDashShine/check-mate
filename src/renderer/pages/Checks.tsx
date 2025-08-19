@@ -26,7 +26,7 @@ function Checks() {
   const [isOpenCheckForm, setIsOpenCheckForm] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [dbFormValues, setDbFormValues] = useState<CheckDb>({} as CheckDb);
+  const [editFormValues, setEditFormValues] = useState<CheckDb>({} as CheckDb);
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
 
   console.log('selected', selectedRows);
@@ -48,13 +48,13 @@ function Checks() {
       <CheckForm
         isOpen={isOpenCheckForm}
         setIsOpen={setIsOpenCheckForm}
-        dbFormValues={dbFormValues}
+        dbFormValues={editFormValues}
         isEdit={isEdit}
         invalidateCache={invalidateChecksCache}
       ></CheckForm>
       <CheckTable
         searchValue={searchValue}
-        setDbFormValues={setDbFormValues}
+        setEditFormValues={setEditFormValues}
         setIsOpenCheckForm={setIsOpenCheckForm}
         setIsEdit={setIsEdit}
         selectedRows={selectedRows}
