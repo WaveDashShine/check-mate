@@ -55,7 +55,7 @@ function Checks() {
       <CheckTable
         searchValue={searchValue}
         setEditFormValues={setEditFormValues}
-        setIsOpenCheckForm={setIsOpenCheckForm}
+        setIsOpenForm={setIsOpenCheckForm}
         setIsEdit={setIsEdit}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}

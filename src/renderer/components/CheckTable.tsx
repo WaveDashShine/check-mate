@@ -1,102 +1,48 @@
 import 'src/renderer/components/CheckTable.css';
-import { Suspense, use } from 'react';
-import { CheckDb } from 'src/schema/check';
+import Table, {
+  GenericTableProps,
+  ColumnMap,
+} from 'src/renderer/components/generic/Table';
+import { CheckDb, CheckUiAttr } from 'src/schema/check';
 
-interface CheckTableProps {
-  searchValue: string;
-  setEditFormValues: (editFormValues: CheckDb) => void;
-  setIsOpenCheckForm: (isOpen: boolean) => void;
-  setIsEdit: (isEdit: boolean) => void;
-  selectedRows: CheckDb[];
-  setSelectedRows: (selectedRows: CheckDb[]) => void;
-  rowsPromise: Promise<CheckDb[]>;
-}
-
-interface CheckRowProps extends CheckTableProps {}
+interface CheckTableProps extends GenericTableProps {}
 
 function CheckTable(props: CheckTableProps) {
+  const columnMapping: ColumnMap<CheckDb>[] = [
+    {
+      key: CheckUiAttr.isEnabled,
+      header: 'Enabled',
+      displayData: (row: CheckDb) => {
+        return row.isEnabled ? '✅' : '❌';
+      },
+    },
+    {
+      key: CheckUiAttr.name,
+      header: 'Name',
+      displayData: (row: CheckDb) => {
+        return row.name;
+      },
+    },
+    {
+      key: CheckUiAttr.note,
+      header: 'Note',
+      displayData: (row: CheckDb) => {
+        return row.note;
+      },
+    },
+    {
+      key: CheckUiAttr.ranks,
+      header: 'Rank',
+      displayData: (row: CheckDb) => {
+        return 'TODO';
+      },
+    },
+  ];
   return (
-    <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Enabled</th>
-            <th>Name</th>
-            <th>Note</th>
-            <th>Last Checked</th>
-            <th>Tags</th>
-          </tr>
-        </thead>
-        <Suspense
-          fallback={
-            <tbody>
-              <tr>
-                <td>Loading Rows...</td>
-              </tr>
-            </tbody>
-          }
-        >
-          <CheckRows {...props}></CheckRows>
-        </Suspense>
-      </table>
+    <div>
+      <Table {...props} columnMapping={columnMapping}></Table>
     </div>
   );
 }
 
 export default CheckTable;
-
-// https://react.dev/reference/rsc/server-components#async-components-with-server-components
-function CheckRows(props: CheckRowProps) {
-  const rows: CheckDb[] = use(props.rowsPromise);
-  const filteredRows: CheckDb[] = rows.filter((row) =>
-    row.name.toLowerCase().includes(props.searchValue.toLowerCase()),
-  );
-  const displayedRows: CheckDb[] =
-    props.searchValue == '' || props.searchValue == null ? rows : filteredRows;
-  // console.log('rows', rows);
-  // console.log('filteredRows', filteredRows);
-  console.log('displayedRows', displayedRows);
-
-  const handleEditRow = (row: CheckDb) => {
-    props.setEditFormValues(row);
-    props.setIsOpenCheckForm(true);
-    props.setIsEdit(true);
-  };
-
-  return (
-    <tbody>
-      {displayedRows.map((row: CheckDb) => (
-        <tr
-          key={row._id}
-          onDoubleClick={() => {
-            handleEditRow(row);
-          }}
-        >
-          <td>
-            <input
-              type="checkbox"
-              onChange={(e) => {
-                const isChecked: boolean = e.target.checked;
-                if (isChecked) {
-                  props.setSelectedRows([...props.selectedRows, row]);
-                } else {
-                  props.setSelectedRows(
-                    props.selectedRows.filter((r: CheckDb) => {
-                      return r._id !== row._id;
-                    }),
-                  );
-                }
-              }}
-            />
-          </td>
-          <td>{row.isEnabled ? '✅' : '❌'}</td>
-          <td>{row.name}</td>
-          <td>{row.note}</td>
-          <td>{'TODO grab last checked from history'}</td>
-          <td>{'TODO: grab tags'}</td>
-        </tr>
-      ))}
-    </tbody>
-  );
-}
