@@ -24,5 +24,11 @@ export const DiscoveryUiSchema = Type.Object({
   timestamp: Type.Date(),
 });
 export type Discovery = Static<typeof DiscoveryUiSchema>;
+export const DiscoveryUiAttr = {
+  html: 'html',
+  screenshot: 'screenshot',
+  text: 'text',
+  timestamp: 'timestamp',
+} as const satisfies Record<keyof Discovery, string | object>;
 const DiscoveryDbSchema = Type.Composite([DiscoveryUiSchema, DbSchema]);
 export type DiscoveryDb = Static<typeof DiscoveryDbSchema>;
