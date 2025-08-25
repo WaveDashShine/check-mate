@@ -46,7 +46,7 @@ function Table(props: TableProps) {
       <table>
         <thead>
           <tr>
-            <th className="Checkbox Header"></th>
+            <th className="Table Header"></th>
             {props.columnMapping.map((column: ColumnMap<any>) => (
               <th>{column.header}</th>
             ))}
