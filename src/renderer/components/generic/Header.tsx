@@ -5,7 +5,7 @@ export interface HeaderProps {
 
   isOpenForm: boolean;
   selectedRows: any[];
-
+  isCreateable: boolean;
   customButtons: Button[];
 }
 
@@ -50,17 +50,21 @@ function Header(props: HeaderProps) {
         gap: '8px',
       }}
     >
-      <button
-        onClick={() => {
-          props.setOpenForm(true);
-          props.setIsEdit(false);
-        }}
-        disabled={props.isOpenForm}
-      >
-        New
-      </button>
+      {props.isCreateable ? (
+        <button
+          onClick={() => {
+            props.setOpenForm(true);
+            props.setIsEdit(false);
+          }}
+          disabled={props.isOpenForm}
+        >
+          New
+        </button>
+      ) : null}
       {generateButtons(props.customButtons)}
-      <button disabled={props.isOpenForm}>Copy</button>
+      {props.isCreateable ? (
+        <button disabled={props.isOpenForm}>Copy</button>
+      ) : null}
       <button disabled={props.isOpenForm}>Delete</button>
       <input
         type="text"

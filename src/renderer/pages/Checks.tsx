@@ -44,6 +44,7 @@ function Checks() {
         checkFunction={browserCheck}
         selectedRows={selectedRows}
         customButtons={customTableHeaderButtons}
+        isCreateable={true}
       ></CheckHeader>
       <CheckForm
         isOpen={isOpenCheckForm}

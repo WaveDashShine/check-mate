@@ -17,95 +17,11 @@ import {
   CheckUiSchema,
   defaultCheckObj,
 } from 'src/schema/check';
+import Discovery from 'src/renderer/components/Discovery';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
   invalidateCache: () => void;
-}
-
-function CheckFormFields(
-  register: UseFormRegister<Check>,
-  errors: FieldErrors<Check>,
-  isEdit: boolean,
-) {
-  return (
-    <div>
-      {/*
-      TODO: separate the edit and create fields
-      */}
-      <label>
-        Name
-        <input type="text" {...register(CheckUiAttr.name)} />
-        <ErrorMessage errors={errors} name={CheckUiAttr.name} />
-      </label>
-      <label>
-        Note
-        <textarea {...register(CheckUiAttr.note)} />
-      </label>
-      <label>
-        Enabled
-        <input type="checkbox" {...register(CheckUiAttr.isEnabled)} />
-      </label>
-      <label>
-        Frequency (seconds)
-        <input
-          role="spinbutton"
-          step="1"
-          type="number"
-          min="60"
-          {...register(CheckUiAttr.frequency)}
-        />
-        <ErrorMessage errors={errors} name={CheckUiAttr.frequency} />
-      </label>
-
-      <div>
-        <label>Browser Config</label>
-        <label>
-          Link
-          <input type="text" {...register(CheckUiAttr.browserConfig.url)} />
-          <ErrorMessage errors={errors} name={CheckUiAttr.browserConfig.url} />
-        </label>
-        <label>
-          Check Text
-          <input
-            type="checkbox"
-            {...register(CheckUiAttr.browserConfig.checkText)}
-          ></input>
-        </label>
-
-        <label>
-          Check HTML
-          <input
-            type="checkbox"
-            {...register(CheckUiAttr.browserConfig.checkHtml)}
-          ></input>
-        </label>
-
-        <label>
-          Check Screenshot
-          <input
-            type="checkbox"
-            {...register(CheckUiAttr.browserConfig.checkScreenshot)}
-          ></input>
-        </label>
-
-        <label>
-          Locator
-          <textarea {...register(CheckUiAttr.browserConfig.locator)} />
-          <ErrorMessage
-            errors={errors}
-            name={CheckUiAttr.browserConfig.locator}
-          />
-        </label>
-      </div>
-      <div style={{ display: isEdit ? 'block' : 'none' }}>
-        <label>Alert History</label>
-        <table></table>
-        <label>Tags</label>
-        <table></table>
-      </div>
-    </div>
-  );
 }
 
 function CheckForm(props: CheckFormProps) {
@@ -119,6 +35,90 @@ function CheckForm(props: CheckFormProps) {
     defaultValues: defaultCheckObj,
     values: props.dbFormValues,
   });
+
+  const CheckFormFields = () => {
+    return (
+      <div>
+        {/*
+      TODO: separate the edit and create fields
+      */}
+        <label>
+          Name
+          <input type="text" {...register(CheckUiAttr.name)} />
+          <ErrorMessage errors={errors} name={CheckUiAttr.name} />
+        </label>
+        <label>
+          Note
+          <textarea {...register(CheckUiAttr.note)} />
+        </label>
+        <label>
+          Enabled
+          <input type="checkbox" {...register(CheckUiAttr.isEnabled)} />
+        </label>
+        <label>
+          Frequency (seconds)
+          <input
+            role="spinbutton"
+            step="1"
+            type="number"
+            min="60"
+            {...register(CheckUiAttr.frequency)}
+          />
+          <ErrorMessage errors={errors} name={CheckUiAttr.frequency} />
+        </label>
+
+        <div>
+          <label>Browser Config</label>
+          <label>
+            Link
+            <input type="text" {...register(CheckUiAttr.browserConfig.url)} />
+            <ErrorMessage
+              errors={errors}
+              name={CheckUiAttr.browserConfig.url}
+            />
+          </label>
+          <label>
+            Check Text
+            <input
+              type="checkbox"
+              {...register(CheckUiAttr.browserConfig.checkText)}
+            ></input>
+          </label>
+
+          <label>
+            Check HTML
+            <input
+              type="checkbox"
+              {...register(CheckUiAttr.browserConfig.checkHtml)}
+            ></input>
+          </label>
+
+          <label>
+            Check Screenshot
+            <input
+              type="checkbox"
+              {...register(CheckUiAttr.browserConfig.checkScreenshot)}
+            ></input>
+          </label>
+
+          <label>
+            Locator
+            <textarea {...register(CheckUiAttr.browserConfig.locator)} />
+            <ErrorMessage
+              errors={errors}
+              name={CheckUiAttr.browserConfig.locator}
+            />
+          </label>
+        </div>
+        <div style={{ display: props.isEdit ? 'block' : 'none' }}>
+          <label>Discovery History</label>
+          <Discovery></Discovery>
+          <label>Tags</label>
+          <table></table>
+        </div>
+      </div>
+    );
+  };
 
   const onSubmit: SubmitHandler<Check> = (data: Check) => {
     console.log('submitted', data);
@@ -143,7 +143,7 @@ function CheckForm(props: CheckFormProps) {
       isOpen={props.isOpen}
       setIsOpen={props.setIsOpen}
       handleConfirm={handleSubmit(onSubmit, onError)}
-      fields={CheckFormFields(register, errors, props.isEdit)}
+      fields={CheckFormFields()}
       reset={onReset}
       isEdit={props.isEdit}
     ></Form>

@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DbSchemaType } from 'src/schema/dbSchema';
 import FindResponse = PouchDB.Find.FindResponse;
 import { CheckDb } from 'src/schema/check';
+import { DiscoveryDb } from 'src/schema/discovery';
 
 const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
@@ -39,9 +40,19 @@ async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
 export async function getAllChecks(): Promise<CheckDb[]> {
   return await findAllDocWithType(DbSchemaTypes.check);
 }
-
 export let getAllChecksCachePromise: Promise<CheckDb[]> = getAllChecks();
 
 export function invalidateChecksCache() {
   getAllChecksCachePromise = getAllChecks();
+}
+
+export async function getAllDiscoveries(): Promise<DiscoveryDb[]> {
+  return await findAllDocWithType(DbSchemaTypes.discovery);
+}
+
+export let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> =
+  getAllDiscoveries();
+
+export function invalidateDiscoveryCache() {
+  getAllDiscoveriesCachePromise = getAllDiscoveries();
 }

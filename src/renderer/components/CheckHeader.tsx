@@ -7,7 +7,6 @@ interface CheckHeaderProps extends HeaderProps {
   checkFunction: (rows: CheckDb[]) => void; // stub
 }
 
-// TODO: move a bunch of these buttons to the generic Header
 function CheckHeader(props: CheckHeaderProps) {
   return (
     <div
