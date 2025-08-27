@@ -12,7 +12,12 @@ function DiscoveryTable(props: DiscoveryTableProps) {
       key: DiscoveryUiAttr.timestamp,
       header: 'Timestamp',
       displayData: (row: DiscoveryDb) => {
-        return row.timestamp.toDateString();
+        const date = new Date(row.timestamp);
+        return String().concat(
+          date.toLocaleDateString(),
+          ' - ',
+          date.toLocaleTimeString(),
+        );
       },
     },
     {
