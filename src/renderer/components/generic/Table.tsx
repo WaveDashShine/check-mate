@@ -22,13 +22,29 @@ interface TableProps extends GenericTableProps {
   columnMapping: ColumnMap<any>[];
 }
 
+function filterRows(rows: any, searchValue: string): DbDocument[] {
+  return rows.filter((row: any) => {
+    return Object.values(row).some((value) => {
+      if (!value) return false;
+      if (typeof value === 'string') {
+        return value.toLowerCase().includes(searchValue.toLowerCase());
+      }
+      if (Array.isArray(value)) {
+        return value.some(
+          (item) =>
+            typeof item === 'string' &&
+            item.toLowerCase().includes(searchValue.toLowerCase()),
+        );
+      }
+      return false;
+    });
+  });
+}
+
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
 function Table(props: TableProps) {
   const rows: DbDocument[] = use(props.rowsPromise);
-  const filteredRows: DbDocument[] = rows.filter((row: any) =>
-    // TODO: this needs to generically search
-    row.name.toLowerCase().includes(props.searchValue.toLowerCase()),
-  );
+  const filteredRows: DbDocument[] = filterRows(rows, props.searchValue);
   const displayedRows: DbDocument[] =
     props.searchValue == '' || props.searchValue == null ? rows : filteredRows;
   // console.log('rows', rows);
