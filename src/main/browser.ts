@@ -33,11 +33,15 @@ export async function BrowserCheck(checkConfig: CheckDb): Promise<Discovery> {
   const browser: Browser = await launchBrowser(false); // TODO: should be true
   const page: Page = await browser.newPage();
   await page.goto(checkConfig.browserConfig.url);
-  await browser.close();
   const locator = checkConfig.browserConfig.locator;
-  const locatorText = await checkText(page, locator);
+  if (locator !== '' || locator !== undefined) {
+    if (checkConfig.browserConfig.checkText) {
+      const locatorText = await checkText(page, locator);
+    }
+  }
   // TODO: return discovery object?
   // TODO: discovery id will need to be handled in the frontend
+  await browser.close();
   let discovery: Discovery = {} as Discovery;
   discovery.timestamp = new Date();
   return discovery;

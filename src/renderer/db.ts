@@ -15,18 +15,19 @@ const db = new PouchDB('CheckMate');
 // ._rev concept
 // https://pouchdb.com/guides/documents.html#understanding-revisions-rev
 // need to have revision in order to update doc
-export function insert(doc: DbDocument, docType: DbSchemaType) {
+export function insert(doc: DbDocument, docType: DbSchemaType): string {
   if (doc._id === undefined || doc._id === '') {
     doc._id = uuidv4();
   } else {
     if (doc._rev === undefined || doc._rev === '') {
       console.log('ABORTING: missing _rev even though _id exists', doc);
-      return;
+      return doc._id;
     }
   }
   doc.type = docType;
   db.put(doc);
   console.log('inserted', doc);
+  return doc._id;
 }
 
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {

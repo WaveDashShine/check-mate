@@ -6,20 +6,28 @@ import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
 import {
   getAllChecksCachePromise,
+  insert,
   invalidateChecksCache,
+  invalidateDiscoveryCache,
 } from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
+import { Discovery, DiscoveryDb } from 'src/schema/discovery';
+import { DbSchemaTypes } from 'src/schema/dbSchema';
 
 function browserCheck(rows: CheckDb[]) {
-  // stub - need to pass a config object
   for (const row of rows) {
     if (!row.isEnabled) {
       continue;
     }
-    const containerText = window.electron.autoBrowser.check(row);
-    // TODO: this needs to return an alert and save to DB
-    console.log('containerText', containerText);
+    const data: Discovery = window.electron.autoBrowser.check(row);
+    const dbData = data as DiscoveryDb;
+    const discoveryId: string = insert(dbData, DbSchemaTypes.discovery);
+    row.discoveryHistory = row.discoveryHistory || [];
+    row.discoveryHistory.push(discoveryId);
+    insert(row, DbSchemaTypes.check);
   }
+  invalidateChecksCache();
+  invalidateDiscoveryCache();
 }
 
 function Checks() {
@@ -29,7 +37,7 @@ function Checks() {
   const [editFormValues, setEditFormValues] = useState<CheckDb>({} as CheckDb);
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
 
-  console.log('selected', selectedRows);
+  // console.log('selected', selectedRows);
   const customTableHeaderButtons: Button[] = [
     newButton('Enable/Disable', () => {}, isOpenCheckForm),
   ];
