@@ -17,7 +17,7 @@ import {
   CheckUiSchema,
   defaultCheckObj,
 } from 'src/schema/check';
-import Discovery from 'src/renderer/components/Discovery';
+import Discoveries from 'src/renderer/components/Discoveries';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
@@ -112,7 +112,7 @@ function CheckForm(props: CheckFormProps) {
         </div>
         <div style={{ display: props.isEdit ? 'block' : 'none' }}>
           <label>Discovery History</label>
-          <Discovery></Discovery>
+          <Discoveries></Discoveries>
           <label>Tags</label>
           <table></table>
         </div>

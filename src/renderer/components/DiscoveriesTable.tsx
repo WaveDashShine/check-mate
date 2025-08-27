@@ -6,7 +6,7 @@ import { DiscoveryDb, DiscoveryUiAttr } from 'src/schema/discovery';
 
 interface DiscoveryTableProps extends GenericTableProps {}
 
-function DiscoveryTable(props: DiscoveryTableProps) {
+function DiscoveriesTable(props: DiscoveryTableProps) {
   const columnMapping: ColumnMap<DiscoveryDb>[] = [
     {
       key: DiscoveryUiAttr.timestamp,
@@ -49,4 +49,4 @@ function DiscoveryTable(props: DiscoveryTableProps) {
   );
 }
 
-export default DiscoveryTable;
+export default DiscoveriesTable;

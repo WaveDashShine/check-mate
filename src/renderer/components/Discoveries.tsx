@@ -1,10 +1,10 @@
-import DiscoveryTable from 'src/renderer/components/DiscoveryTable';
-import DiscoveryHeader from 'src/renderer/components/DiscoveryHeader';
+import DiscoveriesTable from 'src/renderer/components/DiscoveriesTable';
+import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
 import { useState } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
 import { getAllDiscoveriesCachePromise } from 'src/renderer/db';
 
-function Discovery() {
+function Discoveries() {
   const [isOpenDiscoveryForm, setIsOpenDiscoveryForm] =
     useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
@@ -16,7 +16,7 @@ function Discovery() {
 
   return (
     <div>
-      <DiscoveryHeader
+      <DiscoveriesHeader
         selectedRows={selectedRows}
         setSearchValue={setSearchValue}
         setOpenForm={setIsOpenDiscoveryForm}
@@ -24,8 +24,8 @@ function Discovery() {
         isOpenForm={isOpenDiscoveryForm}
         customButtons={[]}
         isCreateable={false}
-      ></DiscoveryHeader>
-      <DiscoveryTable
+      ></DiscoveriesHeader>
+      <DiscoveriesTable
         searchValue={searchValue}
         setIsOpenForm={setIsOpenDiscoveryForm}
         setIsEdit={setIsEdit}
@@ -33,9 +33,9 @@ function Discovery() {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         rowsPromise={getAllDiscoveriesCachePromise}
-      ></DiscoveryTable>
+      ></DiscoveriesTable>
     </div>
   );
 }
 
-export default Discovery;
+export default Discoveries;

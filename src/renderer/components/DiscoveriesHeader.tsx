@@ -5,7 +5,7 @@ interface DiscoveryHeaderProps extends HeaderProps {
   selectedRows: DiscoveryDb[];
 }
 
-function DiscoveryHeader(props: DiscoveryHeaderProps) {
+function DiscoveriesHeader(props: DiscoveryHeaderProps) {
   return (
     <div>
       <Header {...props} />
@@ -13,4 +13,4 @@ function DiscoveryHeader(props: DiscoveryHeaderProps) {
   );
 }
 
-export default DiscoveryHeader;
+export default DiscoveriesHeader;
