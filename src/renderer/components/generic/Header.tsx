@@ -65,7 +65,9 @@ function Header(props: HeaderProps) {
       {props.isCreateable ? (
         <button disabled={props.isOpenForm}>Copy</button>
       ) : null}
-      <button disabled={props.isOpenForm}>Delete</button>
+      <button disabled={props.isOpenForm || props.selectedRows.length === 0}>
+        Delete
+      </button>
       <input
         type="text"
         placeholder="Search by name..."
