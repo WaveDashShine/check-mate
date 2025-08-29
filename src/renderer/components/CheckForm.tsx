@@ -112,7 +112,7 @@ function CheckForm(props: CheckFormProps) {
         </div>
         <div style={{ display: props.isEdit ? 'block' : 'none' }}>
           <label>Discovery History</label>
-          <Discoveries></Discoveries>
+          <Discoveries ids={props.dbFormValues.discoveryHistory}></Discoveries>
           <label>Tags</label>
           <table></table>
         </div>

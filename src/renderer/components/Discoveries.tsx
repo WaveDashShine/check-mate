@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
 import { getAllDiscoveriesCachePromise } from 'src/renderer/db';
 
-function Discoveries() {
+interface DiscoveriesProps {
+  ids: string[];
+}
+
+function Discoveries(props: DiscoveriesProps) {
   const [isOpenDiscoveryForm, setIsOpenDiscoveryForm] =
     useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
@@ -33,6 +37,7 @@ function Discoveries() {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         rowsPromise={getAllDiscoveriesCachePromise}
+        idsFilter={props.ids}
       ></DiscoveriesTable>
     </div>
   );

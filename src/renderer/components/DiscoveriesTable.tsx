@@ -44,7 +44,11 @@ function DiscoveriesTable(props: DiscoveryTableProps) {
   ];
   return (
     <div>
-      <Table {...props} columnMapping={columnMapping}></Table>
+      <Table
+        {...props}
+        columnMapping={columnMapping}
+        idsFilter={props.idsFilter}
+      ></Table>
     </div>
   );
 }

@@ -8,6 +8,7 @@ export type ColumnMap<T> = {
 };
 
 export interface GenericTableProps {
+  idsFilter: string[];
   searchValue: string;
   setIsOpenForm: (isOpen: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
@@ -22,7 +23,21 @@ interface TableProps extends GenericTableProps {
   columnMapping: ColumnMap<any>[];
 }
 
-function filterRows(rows: any, searchValue: string): DbDocument[] {
+function filterRows(rows: any, idsFilter: string[]) {
+  console.log('idsFilter', idsFilter);
+  if (!idsFilter || idsFilter.length === 0) {
+    return rows;
+  }
+  return rows.filter((row: any) => {
+    return idsFilter.includes(row._id);
+  });
+}
+
+function searchRows(rows: any, searchValue: string): DbDocument[] {
+  if (searchValue == '' || searchValue == null) {
+    return rows;
+  }
+
   return rows.filter((row: any) => {
     return Object.values(row).some((value) => {
       if (!value) return false;
@@ -44,11 +59,12 @@ function filterRows(rows: any, searchValue: string): DbDocument[] {
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
 function Table(props: TableProps) {
   const rows: DbDocument[] = use(props.rowsPromise);
-  const filteredRows: DbDocument[] = filterRows(rows, props.searchValue);
-  const displayedRows: DbDocument[] =
-    props.searchValue == '' || props.searchValue == null ? rows : filteredRows;
+  const filteredRows: DbDocument[] = filterRows(rows, props.idsFilter);
+  const displayedRows: DbDocument[] = searchRows(
+    filteredRows,
+    props.searchValue,
+  );
   // console.log('rows', rows);
-  // console.log('filteredRows', filteredRows);
   console.log('displayedRows', displayedRows);
 
   const handleEditRow = (row: any) => {
