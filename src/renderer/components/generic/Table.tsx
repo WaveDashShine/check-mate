@@ -80,7 +80,7 @@ function Table(props: TableProps) {
           <tr>
             <th className="Table Header"></th>
             {props.columnMapping.map((column: ColumnMap<any>) => (
-              <th>{column.header}</th>
+              <th key={column.header}>{column.header}</th>
             ))}
           </tr>
         </thead>
@@ -94,7 +94,7 @@ function Table(props: TableProps) {
           }
         >
           <tbody>
-            {displayedRows.map((row: DbDocument) => (
+            {displayedRows.map((row: DbDocument, index) => (
               <tr
                 key={row._id}
                 onDoubleClick={() => {
@@ -119,7 +119,9 @@ function Table(props: TableProps) {
                   />
                 </td>
                 {props.columnMapping.map((column: ColumnMap<any>) => (
-                  <td>{column.displayData(row)}</td>
+                  <td key={column.header + index.toString()}>
+                    {column.displayData(row)}
+                  </td>
                 ))}
               </tr>
             ))}

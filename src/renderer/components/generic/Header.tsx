@@ -31,7 +31,11 @@ function generateButtons(buttons: Button[]) {
   return (
     <div>
       {buttons.map((button) => (
-        <button onClick={button.onClick()} disabled={button.disabledCond}>
+        <button
+          onClick={button.onClick()}
+          disabled={button.disabledCond}
+          key={button.text}
+        >
           {button.text}
         </button>
       ))}
