@@ -1,4 +1,3 @@
-import 'src/renderer/components/CheckHeader.css';
 import Header, { HeaderProps } from 'src/renderer/components/generic/Header';
 import { CheckDb } from 'src/schema/check';
 
