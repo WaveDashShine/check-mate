@@ -1,6 +1,7 @@
 import 'src/renderer/pages/Checks.css';
 import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
+import Drawer from 'src/renderer/components/generic/Drawer';
 import { newButton, Button } from 'src/renderer/components/generic/Header';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
@@ -54,13 +55,19 @@ function Checks() {
         customButtons={customTableHeaderButtons}
         isCreateable={true}
       ></CheckHeader>
-      <CheckForm
+      <Drawer
         isOpen={isOpenCheckForm}
-        setIsOpen={setIsOpenCheckForm}
-        dbFormValues={editFormValues}
-        isEdit={isEdit}
-        invalidateCache={invalidateChecksCache}
-      ></CheckForm>
+        onClose={() => setIsOpenCheckForm(false)}
+        children={
+          <CheckForm
+            isOpen={isOpenCheckForm}
+            setIsOpen={setIsOpenCheckForm}
+            dbFormValues={editFormValues}
+            isEdit={isEdit}
+            invalidateCache={invalidateChecksCache}
+          ></CheckForm>
+        }
+      ></Drawer>
       <CheckTable
         searchValue={searchValue}
         setEditFormValues={setEditFormValues}
