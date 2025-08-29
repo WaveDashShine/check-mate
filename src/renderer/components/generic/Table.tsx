@@ -78,7 +78,8 @@ function Table(props: TableProps) {
       <table>
         <thead>
           <tr>
-            <th className="Table Header"></th>
+            <th className="checkbox-column"></th>
+            <th className="id-column">#</th>
             {props.columnMapping.map((column: ColumnMap<any>) => (
               <th key={column.header}>{column.header}</th>
             ))}
@@ -118,6 +119,7 @@ function Table(props: TableProps) {
                     }}
                   />
                 </td>
+                <td>{index}</td>
                 {props.columnMapping.map((column: ColumnMap<any>) => (
                   <td key={column.header + index.toString()}>
                     {column.displayData(row)}
