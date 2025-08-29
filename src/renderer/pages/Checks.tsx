@@ -69,6 +69,7 @@ function Checks() {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         rowsPromise={getAllChecksCachePromise}
+        idsFilter={[]}
       ></CheckTable>
     </div>
   );
