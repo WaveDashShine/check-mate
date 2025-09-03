@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-
 import 'src/renderer/components/generic/Drawer.css';
+import { ReactNode } from 'react';
+import useResize from 'src/renderer/hooks/useResize';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -9,15 +9,20 @@ interface DrawerProps {
 }
 
 function Drawer(props: DrawerProps) {
+  const { width, enableResize } = useResize({ minWidth: 250 });
   return (
     <>
       {/* Backdrop */}
       {props.isOpen && (
-        <div className="drawer-backdrop" onClick={props.onClose} />
+        <div className="drawer-backdrop" onDoubleClick={props.onClose} />
       )}
 
       {/* Drawer panel */}
-      <div className={`drawer ${props.isOpen ? 'open' : ''}`}>
+      <div
+        className={`drawer ${props.isOpen ? 'open' : ''}`}
+        onMouseDown={enableResize}
+        style={props.isOpen ? { width } : {}}
+      >
         <button className="drawer-close" onClick={props.onClose}>
           ×
         </button>
