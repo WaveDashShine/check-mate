@@ -24,14 +24,18 @@ function Form(props: FormProps) {
     }
   }, [props.isEdit]);
   return (
-    <form onSubmit={props.handleConfirm}>
+    <div className="form-container">
       {props.isOpen && (
         <div>
           <div>
             <h2>{props.title}</h2>
             <div>{props.fields}</div>
             <div>
-              <button className="confirm" type="submit">
+              <button
+                className="confirm"
+                type="submit"
+                onClick={props.handleConfirm}
+              >
                 Confirm
               </button>
               <button className="cancel" onClick={() => handleCancel()}>
@@ -41,7 +45,7 @@ function Form(props: FormProps) {
           </div>
         </div>
       )}
-    </form>
+    </div>
   );
 }
 
