@@ -8,7 +8,7 @@ export type ColumnMap<T> = {
 };
 
 export interface GenericTableProps {
-  idsFilter: string[];
+  idsFilter?: string[];
   searchValue: string;
   setIsOpenForm: (isOpen: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
@@ -26,7 +26,7 @@ interface TableProps extends GenericTableProps {
 function filterRows(rows: any, idsFilter: string[]) {
   console.log('idsFilter', idsFilter);
   if (!idsFilter || idsFilter.length === 0) {
-    return rows;
+    return [];
   }
   return rows.filter((row: any) => {
     return idsFilter.includes(row._id);
@@ -59,7 +59,9 @@ function searchRows(rows: any, searchValue: string): DbDocument[] {
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
 function Table(props: TableProps) {
   const rows: DbDocument[] = use(props.rowsPromise);
-  const filteredRows: DbDocument[] = filterRows(rows, props.idsFilter);
+  const filteredRows: DbDocument[] = props.idsFilter
+    ? filterRows(rows, props.idsFilter)
+    : rows;
   const displayedRows: DbDocument[] = searchRows(
     filteredRows,
     props.searchValue,
