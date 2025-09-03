@@ -3,6 +3,8 @@ import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
 import { useState } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
 import { getAllDiscoveriesCachePromise } from 'src/renderer/db';
+import Drawer from 'src/renderer/components/generic/Drawer';
+import DiscoveriesForm from 'src/renderer/components/DiscoveriesForm';
 
 interface DiscoveriesProps {
   ids: string[];
@@ -29,6 +31,20 @@ function Discoveries(props: DiscoveriesProps) {
         customButtons={[]}
         isCreateable={false}
       ></DiscoveriesHeader>
+      <Drawer
+        isOpen={isOpenDiscoveryForm}
+        onClose={() => {
+          setIsOpenDiscoveryForm(false);
+        }}
+        children={
+          <DiscoveriesForm
+            isOpen={isOpenDiscoveryForm}
+            isEdit={isEdit}
+            setIsOpen={setIsOpenDiscoveryForm}
+            dbFormValues={editFormValues}
+          />
+        }
+      ></Drawer>
       <DiscoveriesTable
         searchValue={searchValue}
         setIsOpenForm={setIsOpenDiscoveryForm}
