@@ -9,9 +9,7 @@ export const DiscoveryUiSchema = Type.Object({
     }),
   ),
   screenshot: Type.Optional(
-    Type.String({
-      contentEncoding: 'base64',
-      contentMode: 'image/png',
+    Type.Uint8Array({
       description: 'screenshot of element',
     }),
   ),

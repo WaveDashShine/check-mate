@@ -13,6 +13,7 @@ import {
   DiscoveryUiSchema,
   DiscoveryUiAttr,
 } from 'src/schema/discovery';
+import Screenshot from 'src/renderer/components/fields/Screenshot';
 
 interface DiscoveriesFormProps extends GenericFormProps {
   dbFormValues: DiscoveryDb;
@@ -48,7 +49,10 @@ function DiscoveriesForm(props: DiscoveriesFormProps) {
           <textarea {...register(DiscoveryUiAttr.text)} disabled={true} />
         </label>
         <label>Screenshot</label>
-        <div {...register(DiscoveryUiAttr.screenshot)}></div>
+        <Screenshot
+          data={props.dbFormValues.screenshot}
+          {...register(DiscoveryUiAttr.screenshot)}
+        ></Screenshot>
       </div>
     );
   };
