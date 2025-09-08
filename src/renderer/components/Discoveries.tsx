@@ -2,7 +2,11 @@ import DiscoveriesTable from 'src/renderer/components/DiscoveriesTable';
 import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
 import { useState } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
-import { getAllDiscoveriesCachePromise } from 'src/renderer/db';
+import {
+  getAllDiscoveriesCachePromise,
+  invalidateDiscoveryCache,
+  deleteDocs,
+} from 'src/renderer/db';
 import Drawer from 'src/renderer/components/generic/Drawer';
 import DiscoveriesForm from 'src/renderer/components/DiscoveriesForm';
 
@@ -19,7 +23,12 @@ function Discoveries(props: DiscoveriesProps) {
     {} as DiscoveryDb,
   );
   const [selectedRows, setSelectedRows] = useState<DiscoveryDb[]>([]);
-
+  const deleteSelectedRows = async () => {
+    await deleteDocs(selectedRows).then(() => {
+      setSelectedRows([]);
+      invalidateDiscoveryCache();
+    });
+  };
   return (
     <div>
       <DiscoveriesHeader
@@ -30,6 +39,7 @@ function Discoveries(props: DiscoveriesProps) {
         isOpenForm={isOpenDiscoveryForm}
         customButtons={[]}
         isCreateable={false}
+        delete={deleteSelectedRows}
       ></DiscoveriesHeader>
       <Drawer
         isOpen={isOpenDiscoveryForm}

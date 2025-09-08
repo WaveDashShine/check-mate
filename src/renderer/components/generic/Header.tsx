@@ -1,3 +1,5 @@
+import { remove } from 'src/renderer/db';
+
 export interface HeaderProps {
   setSearchValue: (searchValue: string) => void;
   setOpenForm: (open: boolean) => void;
@@ -7,6 +9,8 @@ export interface HeaderProps {
   selectedRows: any[];
   isCreateable: boolean;
   customButtons: Button[];
+
+  delete: () => Promise<void>;
 }
 
 export interface Button {
@@ -69,7 +73,12 @@ function Header(props: HeaderProps) {
       {props.isCreateable ? (
         <button disabled={props.isOpenForm}>Copy</button>
       ) : null}
-      <button disabled={props.isOpenForm || props.selectedRows.length === 0}>
+      <button
+        disabled={props.isOpenForm || props.selectedRows.length === 0}
+        onClick={async () => {
+          await props.delete();
+        }}
+      >
         Delete
       </button>
       <input

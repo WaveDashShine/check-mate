@@ -10,6 +10,7 @@ import {
   insert,
   invalidateChecksCache,
   invalidateDiscoveryCache,
+  deleteDocs,
 } from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
 import { Discovery, DiscoveryDb } from 'src/schema/discovery';
@@ -42,6 +43,12 @@ function Checks() {
   const customTableHeaderButtons: Button[] = [
     newButton('Enable/Disable', () => {}, isOpenCheckForm),
   ];
+  const deleteSelectedRows = async () => {
+    await deleteDocs(selectedRows).then(() => {
+      setSelectedRows([]);
+      invalidateChecksCache();
+    });
+  };
   return (
     <div>
       Checks
@@ -54,6 +61,7 @@ function Checks() {
         selectedRows={selectedRows}
         customButtons={customTableHeaderButtons}
         isCreateable={true}
+        delete={() => deleteSelectedRows()}
       ></CheckHeader>
       <Drawer
         isOpen={isOpenCheckForm}

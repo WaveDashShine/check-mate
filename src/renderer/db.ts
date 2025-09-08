@@ -30,6 +30,30 @@ export function insert(doc: DbDocument, docType: DbSchemaType): string {
   return doc._id;
 }
 
+export async function deleteDocs(docs: DbDocument[]) {
+  if (docs.length > 0) {
+    console.log('deleting', docs);
+    for (const row of docs) {
+      await remove(row._id, row._rev as string);
+    }
+  } else {
+    throw new Error('No docs selected for deletion.');
+  }
+}
+
+async function remove(docId: string, revId: string) {
+  if (
+    docId === undefined ||
+    docId === '' ||
+    revId === undefined ||
+    revId === ''
+  ) {
+    console.log('handle missing docId or revId');
+    return;
+  }
+  return await db.remove(docId, revId).catch((e) => console.error(e));
+}
+
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
   const result: FindResponse<any> = await db.find({
     selector: { type: docType },
