@@ -39,8 +39,8 @@ async function checkHtml(page: Page, locator: string): Promise<string> {
 async function checkScreenshot(
   page: Page,
   locator: string,
-): Promise<Uint8Array> {
-  const options: ScreenshotOptions = { fullPage: true, encoding: 'base64' };
+): Promise<Uint8Array | undefined> {
+  const options: ScreenshotOptions = { encoding: 'base64' };
   if (isValidLocator(locator)) {
     const boundingBox: DOMRect = await page
       .$eval(locator, (el) => el.getBoundingClientRect())
@@ -54,14 +54,14 @@ async function checkScreenshot(
       boundingBox.height &&
       boundingBox.width
     ) {
-      // defaults to full page if bounding box fails
-      options.fullPage = false;
       options.clip = {
         x: boundingBox.x,
         y: boundingBox.y,
         height: boundingBox.height,
         width: boundingBox.width,
       };
+    } else {
+      options.fullPage = true;
     }
   }
   return await page
@@ -73,7 +73,7 @@ async function checkScreenshot(
     .catch((error) => {
       console.log('screenshot failed');
       console.log(error);
-      return error;
+      return undefined;
     });
 }
 
