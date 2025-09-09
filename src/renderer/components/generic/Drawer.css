@@ -41,6 +41,14 @@
   cursor: pointer;
 }
 
+.drawer-resizer {
+  left: 0;
+  height: 100%;
+  width: 8px;
+  background-color: #1e1e2f;
+  position: absolute;
+}
+
 .drawer-content {
   padding: 16px;
   overflow-y: auto;
