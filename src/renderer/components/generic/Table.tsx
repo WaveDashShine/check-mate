@@ -78,7 +78,7 @@ function Table(props: TableProps) {
 
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
-      <table className={'border-collapse'}>
+      <table className={'border-collapse text-black'}>
         <thead>
           <tr>
             <th className="checkbox-column"></th>

@@ -2,7 +2,6 @@ th {
   text-align: left;
   padding: 8px;
   border-bottom: 2px solid #cccccc;
-  color: black;
 }
 
 td {
@@ -12,10 +11,4 @@ td {
 
 tr {
   background-color: #f0f0f0;
-}
-
-input {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }

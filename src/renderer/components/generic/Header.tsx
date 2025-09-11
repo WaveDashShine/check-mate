@@ -87,8 +87,9 @@ function Header(props: HeaderProps) {
         Delete
       </button>
       <input
+        className={'min-w-[150px] rounded-xl'}
         type="text"
-        placeholder="Search by name..."
+        placeholder="Search..."
         onChange={(e) => props.setSearchValue(e.target.value)}
       />
     </div>

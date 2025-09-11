@@ -10,7 +10,7 @@ import Settings from 'src/renderer/pages/Settings';
 export default function App() {
   return (
     <Router>
-      <div className="app flex min-h-screen font-sans">
+      <div className="app flex min-h-screen font-sans bg-zinc-300 text-black">
         <Sidebar />
         <Routes>
           <Route path="/" element={<Landing />} />

@@ -10,6 +10,7 @@ interface DrawerProps {
 
 function Drawer(props: DrawerProps) {
   const minWidth = 250;
+  const highZIndex = 1000;
   const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState(minWidth);
 
@@ -43,14 +44,14 @@ function Drawer(props: DrawerProps) {
       {/* Backdrop */}
       {props.isOpen && (
         <div
-          className="drawer-backdrop fixed top-0 left-0 w-screen h-screen bg-black/40 z-[1000]"
+          className={`drawer-backdrop fixed top-0 left-0 w-screen h-screen bg-black/40 z-[${highZIndex - 1}]`}
           onDoubleClick={props.onClose}
         />
       )}
 
       {/* Drawer panel */}
       <div
-        className={`drawer ${props.isOpen ? 'open' : ''}`}
+        className={`drawer bg-zinc-300 top-0 text-black h-full flex flex-col fixed z-[${highZIndex + 1}] ${props.isOpen ? 'open' : ''}`}
         style={props.isOpen ? { width } : {}}
       >
         <span
