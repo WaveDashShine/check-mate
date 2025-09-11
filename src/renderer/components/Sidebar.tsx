@@ -1,16 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import 'src/renderer/components/Sidebar.css';
 
 function getLinkClass({ isActive }: { isActive: boolean }) {
-  return `nav-link${isActive ? ' active' : ''}`;
+  return `${isActive ? ' bg-[#2e2e4d] font-bold' : ''} text-white no-underline px-4 py-2.5 mb-2.5 rounded transition-colors duration-300`;
 }
 
 function Sidebar() {
   return (
-    <aside className="sidebar">
-      <h2 className="sidebar-title">Menu</h2>
-      <nav className="nav-links">
+    <aside className="sidebar w-[150px] min-w-[150px] h-screen bg-[#1e1e2f] text-white p-5 box-border sticky">
+      <h2 className="text-[1.5em] font-bold mb-7.5">Menu</h2>
+      <nav className="nav-links flex flex-col absolute">
         <NavLink to="/" className={getLinkClass}>
           Home
         </NavLink>

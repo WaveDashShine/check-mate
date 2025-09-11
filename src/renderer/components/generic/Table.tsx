@@ -1,5 +1,6 @@
 import { Suspense, use, ReactNode } from 'react';
 import { DbDocument } from 'src/schema/dbSchema';
+import 'src/renderer/components/generic/Table.css';
 
 export type ColumnMap<T> = {
   key: keyof T;
@@ -77,7 +78,7 @@ function Table(props: TableProps) {
 
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
-      <table>
+      <table className={'border-collapse'}>
         <thead>
           <tr>
             <th className="checkbox-column"></th>

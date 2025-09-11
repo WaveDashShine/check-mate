@@ -14,10 +14,6 @@ tr {
   background-color: #f0f0f0;
 }
 
-table {
-  border-collapse: collapse;
-}
-
 input {
   padding: 6px 10px;
   border: 1px solid #ccc;

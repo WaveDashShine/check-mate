@@ -42,7 +42,10 @@ function Drawer(props: DrawerProps) {
     >
       {/* Backdrop */}
       {props.isOpen && (
-        <div className="drawer-backdrop" onDoubleClick={props.onClose} />
+        <div
+          className="drawer-backdrop fixed top-0 left-0 w-screen h-screen bg-black/40 z-[1000]"
+          onDoubleClick={props.onClose}
+        />
       )}
 
       {/* Drawer panel */}
@@ -51,7 +54,9 @@ function Drawer(props: DrawerProps) {
         style={props.isOpen ? { width } : {}}
       >
         <span
-          className={'drawer-resizer'}
+          className={
+            'drawer-resizer absolute left-0 h-full w-[8px] bg-stone-700'
+          }
           onMouseOver={() => {
             document.body.style.cursor = 'col-resize';
           }}
@@ -63,10 +68,15 @@ function Drawer(props: DrawerProps) {
             e.preventDefault();
           }}
         ></span>
-        <button className="drawer-close" onClick={props.onClose}>
+        <button
+          className="drawer-close self-end m-2 border-0 cursor-pointer"
+          onClick={props.onClose}
+        >
           ×
         </button>
-        <div className="drawer-content">{props.children}</div>
+        <div className="drawer-content p-4 overflow-y-auto flex-grow">
+          {props.children}
+        </div>
       </div>
     </div>
   );

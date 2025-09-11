@@ -1,4 +1,3 @@
-import 'src/renderer/pages/Checks.css';
 import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import Drawer from 'src/renderer/components/generic/Drawer';

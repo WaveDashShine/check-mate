@@ -19,38 +19,5 @@
 }
 
 .drawer.open {
-  right: 0; /* slide in */
-}
-
-.drawer-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-}
-
-.drawer-close {
-  align-self: flex-end;
-  margin: 8px;
-  font-size: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.drawer-resizer {
-  left: 0;
-  height: 100%;
-  width: 8px;
-  background-color: #1e1e2f;
-  position: absolute;
-}
-
-.drawer-content {
-  padding: 16px;
-  overflow-y: auto;
-  flex-grow: 1;
+  right: 0; /* slide in, overrides negative in above drawer class */
 }

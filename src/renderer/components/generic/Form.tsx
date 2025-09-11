@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import 'src/renderer/components/generic/Form.css';
 
 export interface GenericFormProps {
   isOpen: boolean;
@@ -32,13 +31,16 @@ function Form(props: FormProps) {
             <div>{props.fields}</div>
             <div>
               <button
-                className="confirm"
+                className="confirm bg-green-500 cursor-pointer rounded-xl"
                 type="submit"
                 onClick={props.handleConfirm}
               >
                 Confirm
               </button>
-              <button className="cancel" onClick={() => handleCancel()}>
+              <button
+                className="cancel bg-red-500 cursor-pointer rounded-xl"
+                onClick={() => handleCancel()}
+              >
                 Cancel
               </button>
             </div>

@@ -1,9 +1,8 @@
 import icon from 'assets/icon.svg';
-import 'src/renderer/pages/Landing.css';
 
 function Landing() {
   return (
-    <div>
+    <div className="flex justify-center items-center flex-col my-5">
       <div className="Landing">
         <img width="200" alt="icon" src={icon} />
       </div>
@@ -14,7 +13,7 @@ function Landing() {
           target="_blank"
           rel="noreferrer"
         >
-          <button type="button">
+          <button className="bg-white" type="button">
             <span role="img" aria-label="books">
               📚
             </span>
@@ -26,7 +25,7 @@ function Landing() {
           target="_blank"
           rel="noreferrer"
         >
-          <button type="button">
+          <button className="bg-white" type="button">
             <span role="img" aria-label="folded hands">
               🙏
             </span>

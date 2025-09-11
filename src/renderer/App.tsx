@@ -1,5 +1,4 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import 'src/renderer/App.css';
 import Sidebar from 'src/renderer/components/Sidebar';
 import Landing from 'src/renderer/pages/Landing';
 import Checks from 'src/renderer/pages/Checks';
@@ -11,7 +10,7 @@ import Settings from 'src/renderer/pages/Settings';
 export default function App() {
   return (
     <Router>
-      <div className="app">
+      <div className="app flex min-h-screen font-sans">
         <Sidebar />
         <Routes>
           <Route path="/" element={<Landing />} />

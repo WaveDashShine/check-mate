@@ -1,5 +1,3 @@
-import { remove } from 'src/renderer/db';
-
 export interface HeaderProps {
   setSearchValue: (searchValue: string) => void;
   setOpenForm: (open: boolean) => void;
@@ -31,11 +29,14 @@ export function newButton(
   };
 }
 
+export const buttonStyling: string = 'bg-white';
+
 function generateButtons(buttons: Button[]) {
   return (
     <div>
       {buttons.map((button) => (
         <button
+          className={buttonStyling}
           onClick={button.onClick()}
           disabled={button.disabledCond}
           key={button.text}
@@ -60,6 +61,7 @@ function Header(props: HeaderProps) {
     >
       {props.isCreateable ? (
         <button
+          className={buttonStyling}
           onClick={() => {
             props.setOpenForm(true);
             props.setIsEdit(false);
@@ -71,9 +73,12 @@ function Header(props: HeaderProps) {
       ) : null}
       {generateButtons(props.customButtons)}
       {props.isCreateable ? (
-        <button disabled={props.isOpenForm}>Copy</button>
+        <button className={buttonStyling} disabled={props.isOpenForm}>
+          Copy
+        </button>
       ) : null}
       <button
+        className={buttonStyling}
         disabled={props.isOpenForm || props.selectedRows.length === 0}
         onClick={async () => {
           await props.delete();

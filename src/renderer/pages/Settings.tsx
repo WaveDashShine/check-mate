@@ -1,4 +1,3 @@
-import 'src/renderer/pages/Settings.css';
 import { useEffect, useState } from 'react';
 import StoreKeys, { StoreKeyEnum } from 'src/storeConfig';
 
@@ -38,9 +37,10 @@ function Settings() {
     window.electron.autoBrowser.launch();
   };
 
+  const fieldStyling = 'p-5 max-w-[600px]';
   return (
     <div>
-      <div className="field">
+      <div className={fieldStyling}>
         <label htmlFor="chrome-path">Chrome Path:</label>
         <input
           id="chrome-path"
@@ -50,11 +50,15 @@ function Settings() {
             handleSave(StoreKeys.userChromePath, e.target.value, setCurrentPath)
           }
         />
-        <button onClick={handleResetChromePath}>Reset</button>
+        <button className={'bg-red-500'} onClick={handleResetChromePath}>
+          Reset
+        </button>
       </div>
-      <div className="field">
+      <div className={fieldStyling}>
         <label htmlFor="user-data-chrome-path">Modify Chrome Browser:</label>
-        <button onClick={launchChromeBrowser}>Launch</button>
+        <button className={'bg-blue-500'} onClick={launchChromeBrowser}>
+          Launch
+        </button>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import 'src/renderer/components/CheckTable.css';
 import Table, {
   GenericTableProps,
   ColumnMap,
