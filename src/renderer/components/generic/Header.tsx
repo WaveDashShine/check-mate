@@ -37,7 +37,9 @@ function generateButtons(buttons: Button[]) {
       {buttons.map((button) => (
         <button
           className={buttonStyling}
-          onClick={button.onClick()}
+          onClick={() => {
+            button.onClick();
+          }}
           disabled={button.disabledCond}
           key={button.text}
         >
@@ -51,14 +53,7 @@ function generateButtons(buttons: Button[]) {
 
 function Header(props: HeaderProps) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '8px',
-      }}
-    >
+    <div className={'flex items-center justify-between gap-2'}>
       {props.isCreateable ? (
         <button
           className={buttonStyling}
@@ -73,7 +68,10 @@ function Header(props: HeaderProps) {
       ) : null}
       {generateButtons(props.customButtons)}
       {props.isCreateable ? (
-        <button className={buttonStyling} disabled={props.isOpenForm}>
+        <button
+          className={buttonStyling}
+          disabled={props.selectedRows.length !== 1}
+        >
           Copy
         </button>
       ) : null}

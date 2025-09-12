@@ -8,25 +8,13 @@ interface CheckHeaderProps extends HeaderProps {
 
 function CheckHeader(props: CheckHeaderProps) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '12px',
-        alignItems: 'center',
-      }}
-    >
+    <div className={'flex items-center justify-between mb-3'}>
       <button
+        className={'text-white font-bold mx-2 bg-blue-500'}
         onClick={() => {
           props.checkFunction(props.selectedRows);
         }}
-        style={{
-          backgroundColor: '#007bff',
-          color: 'white',
-          fontWeight: 'bold',
-          marginRight: '8px',
-        }}
-        disabled={props.isOpenForm}
+        disabled={props.selectedRows.length < 1}
       >
         Check
       </button>

@@ -99,12 +99,7 @@ function Table(props: TableProps) {
         >
           <tbody>
             {displayedRows.map((row: DbDocument, index) => (
-              <tr
-                key={row._id}
-                onDoubleClick={() => {
-                  handleEditRow(row);
-                }}
-              >
+              <tr key={row._id}>
                 <td>
                   <input
                     type="checkbox"
@@ -124,7 +119,12 @@ function Table(props: TableProps) {
                 </td>
                 <td>{index}</td>
                 {props.columnMapping.map((column: ColumnMap<any>) => (
-                  <td key={column.header + index.toString()}>
+                  <td
+                    key={column.header + index.toString()}
+                    onDoubleClick={() => {
+                      handleEditRow(row);
+                    }}
+                  >
                     {column.displayData(row)}
                   </td>
                 ))}

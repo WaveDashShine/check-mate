@@ -38,9 +38,16 @@ function Checks() {
   const [editFormValues, setEditFormValues] = useState<CheckDb>({} as CheckDb);
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
 
-  // console.log('selected', selectedRows);
+  const flipStatus = () => {
+    for (const row of selectedRows) {
+      row.isEnabled = !row.isEnabled;
+      insert(row, DbSchemaTypes.check);
+    }
+    invalidateChecksCache();
+    setSelectedRows([...selectedRows]);
+  };
   const customTableHeaderButtons: Button[] = [
-    newButton('Enable/Disable', () => {}, isOpenCheckForm),
+    newButton('Enable/Disable', flipStatus, selectedRows.length < 1),
   ];
   const deleteSelectedRows = async () => {
     await deleteDocs(selectedRows).then(() => {
@@ -50,7 +57,7 @@ function Checks() {
   };
   return (
     <div>
-      Checks
+      <span className={'m-2'}></span>
       <CheckHeader
         setSearchValue={setSearchValue}
         setOpenForm={setIsOpenCheckForm}
