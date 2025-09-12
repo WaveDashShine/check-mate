@@ -46,8 +46,23 @@ function Checks() {
     invalidateChecksCache();
     setSelectedRows([...selectedRows]);
   };
+  const copyRow = () => {
+    if (selectedRows.length !== 1) {
+      return;
+    }
+    const row: CheckDb = selectedRows[0];
+    setEditFormValues({
+      ...row,
+      _id: '',
+      _rev: undefined,
+      name: 'Copy of ' + row.name,
+      discoveryHistory: [],
+    });
+    setIsOpenCheckForm(true);
+  };
   const customTableHeaderButtons: Button[] = [
     newButton('Enable/Disable', flipStatus, selectedRows.length < 1),
+    newButton('Copy', copyRow, selectedRows.length < 1),
   ];
   const deleteSelectedRows = async () => {
     await deleteDocs(selectedRows).then(() => {

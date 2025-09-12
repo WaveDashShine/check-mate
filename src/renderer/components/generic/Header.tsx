@@ -33,7 +33,7 @@ export const buttonStyling: string = 'bg-white';
 
 function generateButtons(buttons: Button[]) {
   return (
-    <div>
+    <div className={'flex items-center justify-between gap-2'}>
       {buttons.map((button) => (
         <button
           className={buttonStyling}
@@ -67,14 +67,6 @@ function Header(props: HeaderProps) {
         </button>
       ) : null}
       {generateButtons(props.customButtons)}
-      {props.isCreateable ? (
-        <button
-          className={buttonStyling}
-          disabled={props.selectedRows.length !== 1}
-        >
-          Copy
-        </button>
-      ) : null}
       <button
         className={buttonStyling}
         disabled={props.isOpenForm || props.selectedRows.length === 0}
