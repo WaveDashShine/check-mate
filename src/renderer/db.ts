@@ -30,6 +30,21 @@ export function insert(doc: DbDocument, docType: DbSchemaType): string {
   return doc._id;
 }
 
+export async function retrieve(docId: string): Promise<any> {
+  return await db
+    .get(docId)
+    .then((doc) => {
+      const dbDoc = doc as DbDocument;
+      if (dbDoc._deleted) {
+        return undefined;
+      }
+      return doc;
+    })
+    .catch((err) => {
+      return undefined;
+    });
+}
+
 export async function deleteDocs(docs: DbDocument[]) {
   if (docs.length > 0) {
     console.log('deleting', docs);
@@ -40,6 +55,11 @@ export async function deleteDocs(docs: DbDocument[]) {
     throw new Error('No docs selected for deletion.');
   }
 }
+
+// TODO: delete all docs doesn't actually delete them
+// they're just marked as deleted in the database
+// TODO: need to replicate the database to actually purge the deleted docs
+// TODO: need to also go through the list of existing checks and purge any discoveries that are dangling
 
 async function remove(docId: string, revId: string) {
   if (

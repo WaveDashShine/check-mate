@@ -25,6 +25,7 @@ export type DbSchemaType = ValueOf<typeof DbSchemaTypes>;
 export const DbSchema = Type.Object({
   _id: Type.String(),
   _rev: Type.Optional(Type.String()),
+  _deleted: Type.Optional(Type.Boolean()),
   type: Type.String(),
 });
 

@@ -10,21 +10,34 @@ import {
   invalidateChecksCache,
   invalidateDiscoveryCache,
   deleteDocs,
+  retrieve,
 } from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
 import { Discovery, DiscoveryDb } from 'src/schema/discovery';
 import { DbSchemaTypes } from 'src/schema/dbSchema';
 
-function browserCheck(rows: CheckDb[]) {
+async function browserCheck(rows: CheckDb[]) {
   for (const row of rows) {
     if (!row.isEnabled) {
       continue;
     }
+
+    // create new discovery
     const data: Discovery = window.electron.autoBrowser.check(row);
     const dbData = data as DiscoveryDb;
     const discoveryId: string = insert(dbData, DbSchemaTypes.discovery);
+
+    // clear bad discovery references
     row.discoveryHistory = row.discoveryHistory || [];
-    row.discoveryHistory.push(discoveryId);
+    const validDocIds: string[] = [];
+    for (const id of row.discoveryHistory) {
+      const dbDoc = await retrieve(id);
+      if (dbDoc !== undefined) {
+        validDocIds.push(id);
+      }
+    }
+    validDocIds.push(discoveryId);
+    row.discoveryHistory = validDocIds;
     insert(row, DbSchemaTypes.check);
   }
   invalidateChecksCache();
