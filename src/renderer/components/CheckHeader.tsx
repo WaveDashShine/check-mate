@@ -6,19 +6,42 @@ interface CheckHeaderProps extends HeaderProps {
   checkFunction: (rows: CheckDb[]) => void; // stub
 }
 
-function CheckHeader(props: CheckHeaderProps) {
+function CheckHeader({
+  checkFunction,
+  selectedRows,
+  setSearchValue,
+  setOpenForm,
+  setIsEdit,
+  isOpenForm,
+  isCreateable,
+  customButtons,
+  deleteSelected,
+}: CheckHeaderProps) {
   return (
-    <div className={'flex items-center justify-between mb-3'}>
+    <div className="flex items-center justify-between mb-3">
       <button
-        className={'text-white font-bold mx-2 bg-blue-500'}
+        className="text-white font-bold mx-2 bg-blue-500"
         onClick={() => {
-          props.checkFunction(props.selectedRows);
+          checkFunction(selectedRows);
         }}
-        disabled={props.selectedRows.length < 1}
+        disabled={selectedRows.length < 1}
+        type="button"
       >
         Check
       </button>
-      <Header {...props} />
+      <Header
+        {...{
+          checkFunction,
+          selectedRows,
+          setSearchValue,
+          setOpenForm,
+          setIsEdit,
+          isOpenForm,
+          isCreateable,
+          customButtons,
+          deleteSelected,
+        }}
+      />
     </div>
   );
 }

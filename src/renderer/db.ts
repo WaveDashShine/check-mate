@@ -1,12 +1,11 @@
-import PouchDB from 'pouchdb';
-import PouchFind from 'pouchdb-find';
-PouchDB.plugin(PouchFind);
-import { DbDocument, DbSchemaTypes } from 'src/schema/dbSchema';
-import { v4 as uuidv4 } from 'uuid';
-import { DbSchemaType } from 'src/schema/dbSchema';
-import FindResponse = PouchDB.Find.FindResponse;
+import { DbDocument, DbSchemaType, DbSchemaTypes } from 'src/schema/dbSchema';
 import { CheckDb } from 'src/schema/check';
 import { DiscoveryDb } from 'src/schema/discovery';
+import { v4 as uuidv4 } from 'uuid';
+import PouchDB from 'pouchdb';
+import PouchFind from 'pouchdb-find';
+
+PouchDB.plugin(PouchFind);
 
 const db = new PouchDB('CheckMate');
 // pouchdb is stored in indexDB
@@ -18,11 +17,9 @@ const db = new PouchDB('CheckMate');
 export function insert(doc: DbDocument, docType: DbSchemaType): string {
   if (doc._id === undefined || doc._id === '') {
     doc._id = uuidv4();
-  } else {
-    if (doc._rev === undefined || doc._rev === '') {
-      console.log('ABORTING: missing _rev even though _id exists', doc);
-      return doc._id;
-    }
+  } else if (doc._rev === undefined || doc._rev === '') {
+    console.log('ABORTING: missing _rev even though _id exists', doc);
+    return doc._id;
   }
   doc.type = docType;
   db.put(doc);
@@ -31,7 +28,7 @@ export function insert(doc: DbDocument, docType: DbSchemaType): string {
 }
 
 export async function retrieve(docId: string): Promise<any> {
-  return await db
+  return db
     .get(docId)
     .then((doc) => {
       const dbDoc = doc as DbDocument;
@@ -40,7 +37,7 @@ export async function retrieve(docId: string): Promise<any> {
       }
       return doc;
     })
-    .catch((err) => {
+    .catch(() => {
       return undefined;
     });
 }
@@ -69,13 +66,16 @@ async function remove(docId: string, revId: string) {
     revId === ''
   ) {
     console.log('handle missing docId or revId');
-    return;
+    return undefined;
   }
-  return await db.remove(docId, revId).catch((e) => console.error(e));
+  return db.remove(docId, revId).catch((e) => {
+    console.error(e);
+    return e;
+  });
 }
 
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
-  const result: FindResponse<any> = await db.find({
+  const result = await db.find({
     selector: { type: docType },
   });
   console.log('findAll', result);
@@ -83,8 +83,9 @@ async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
 }
 
 export async function getAllChecks(): Promise<CheckDb[]> {
-  return await findAllDocWithType(DbSchemaTypes.check);
+  return findAllDocWithType(DbSchemaTypes.check);
 }
+
 export let getAllChecksCachePromise: Promise<CheckDb[]> = getAllChecks();
 
 export function invalidateChecksCache() {
@@ -92,7 +93,7 @@ export function invalidateChecksCache() {
 }
 
 export async function getAllDiscoveries(): Promise<DiscoveryDb[]> {
-  return await findAllDocWithType(DbSchemaTypes.discovery);
+  return findAllDocWithType(DbSchemaTypes.discovery);
 }
 
 export let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> =

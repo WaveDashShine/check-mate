@@ -15,20 +15,8 @@ import log from 'electron-log';
 import MenuBuilder from 'src/main/menu';
 import { resolveHtmlPath } from 'src/main/util';
 import { BrowserCheck, launchBrowser } from 'src/main/browser';
-// @ts-ignore TODO: IDE inline complains ESM but this is working: TS1479
-import Store from 'electron-store';
-import chromePaths from 'chrome-paths';
-import StoreKeys, { StoreType } from 'src/storeConfig';
 import { CheckDb } from 'src/schema/check';
-
-// instantiate store schema and store
-const store = new Store<StoreType>();
-
-function setDefaults() {
-  store.set(StoreKeys.defaultChromePath, chromePaths.chrome);
-}
-setDefaults();
-export default store;
+import store from 'src/main/storeConfig';
 
 class AppUpdater {
   constructor() {
@@ -61,7 +49,7 @@ ipcMain.on('browser-check', async (event, checkConfig: CheckDb) => {
   event.returnValue = await BrowserCheck(checkConfig);
 });
 
-ipcMain.on('browser-launch', async (event) => {
+ipcMain.on('browser-launch', async () => {
   await launchBrowser();
 });
 

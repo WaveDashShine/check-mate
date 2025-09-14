@@ -1,14 +1,13 @@
 import 'src/renderer/components/generic/Drawer.css';
-import { ReactNode } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  children: ReactNode;
+  content: ReactNode;
 }
 
-function Drawer(props: DrawerProps) {
+function Drawer({ content, isOpen, onClose }: DrawerProps) {
   const minWidth = 250;
   const highZIndex = 1000;
   const [isResizing, setIsResizing] = useState(false);
@@ -42,22 +41,20 @@ function Drawer(props: DrawerProps) {
       }}
     >
       {/* Backdrop */}
-      {props.isOpen && (
+      {isOpen && (
         <div
           className={`drawer-backdrop fixed top-0 left-0 w-screen h-screen bg-black/40 z-[${highZIndex - 1}]`}
-          onDoubleClick={props.onClose}
+          onDoubleClick={onClose}
         />
       )}
 
       {/* Drawer panel */}
       <div
-        className={`drawer bg-zinc-300 top-0 text-black h-full flex flex-col fixed z-[${highZIndex + 1}] ${props.isOpen ? 'open' : ''}`}
-        style={props.isOpen ? { width } : {}}
+        className={`drawer bg-zinc-300 top-0 text-black h-full flex flex-col fixed z-[${highZIndex + 1}] ${isOpen ? 'open' : ''}`}
+        style={isOpen ? { width } : {}}
       >
         <span
-          className={
-            'drawer-resizer absolute left-0 h-full w-[8px] bg-stone-700'
-          }
+          className="drawer-resizer absolute left-0 h-full w-[8px] bg-stone-700"
           onMouseOver={() => {
             document.body.style.cursor = 'col-resize';
           }}
@@ -68,15 +65,16 @@ function Drawer(props: DrawerProps) {
             setIsResizing(true);
             e.preventDefault();
           }}
-        ></span>
+        />
         <button
           className="drawer-close self-end m-2 border-0 cursor-pointer"
-          onClick={props.onClose}
+          onClick={onClose}
+          type="button"
         >
           ×
         </button>
         <div className="drawer-content p-4 overflow-y-auto flex-grow">
-          {props.children}
+          {content}
         </div>
       </div>
     </div>

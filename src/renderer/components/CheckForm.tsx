@@ -1,10 +1,5 @@
 import Form, { GenericFormProps } from 'src/renderer/components/generic/Form';
-import {
-  useForm,
-  SubmitHandler,
-  UseFormRegister,
-  FieldErrors,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { DbSchemaTypes } from 'src/schema/dbSchema';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
@@ -23,7 +18,13 @@ interface CheckFormProps extends GenericFormProps {
   invalidateCache: () => void;
 }
 
-function CheckForm(props: CheckFormProps) {
+function CheckForm({
+  dbFormValues,
+  invalidateCache,
+  isEdit,
+  isOpen,
+  setIsOpen,
+}: CheckFormProps) {
   const {
     register,
     handleSubmit,
@@ -32,10 +33,10 @@ function CheckForm(props: CheckFormProps) {
   } = useForm<Check>({
     resolver: typeboxResolver(CheckUiSchema),
     defaultValues: defaultCheckObj,
-    values: props.dbFormValues,
+    values: dbFormValues,
   });
 
-  const CheckFormFields = () => {
+  function CheckFormFields() {
     return (
       <div>
         {/*
@@ -81,7 +82,7 @@ function CheckForm(props: CheckFormProps) {
             <input
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkText)}
-            ></input>
+            />
           </label>
 
           <label>
@@ -89,7 +90,7 @@ function CheckForm(props: CheckFormProps) {
             <input
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkHtml)}
-            ></input>
+            />
           </label>
 
           <label>
@@ -97,7 +98,7 @@ function CheckForm(props: CheckFormProps) {
             <input
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkScreenshot)}
-            ></input>
+            />
           </label>
 
           <label>
@@ -109,43 +110,43 @@ function CheckForm(props: CheckFormProps) {
             />
           </label>
         </div>
-        <div style={{ display: props.isEdit ? 'block' : 'none' }}>
+        <div style={{ display: isEdit ? 'block' : 'none' }}>
           <label>Discovery History</label>
-          <Discoveries ids={props.dbFormValues.discoveryHistory}></Discoveries>
+          <Discoveries ids={dbFormValues.discoveryHistory} />
           <label>Tags</label>
-          <table></table>
+          <table />
         </div>
       </div>
     );
+  }
+
+  const onReset = () => {
+    reset(defaultCheckObj);
   };
 
   const onSubmit: SubmitHandler<Check> = (data: Check) => {
     console.log('submitted', data);
     const dbData = data as CheckDb;
     insert(dbData, DbSchemaTypes.check);
-    props.setIsOpen(false);
+    setIsOpen(false);
     onReset();
-    props.invalidateCache();
+    invalidateCache();
   };
 
   const onError = (error: any) => {
     console.log('error:', error);
   };
 
-  const onReset = () => {
-    reset(defaultCheckObj);
-  };
-
   return (
     <Form
-      title={'Check'}
-      isOpen={props.isOpen}
-      setIsOpen={props.setIsOpen}
+      title="Check"
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       handleConfirm={handleSubmit(onSubmit, onError)}
       fields={CheckFormFields()}
       reset={onReset}
-      isEdit={props.isEdit}
-    ></Form>
+      isEdit={isEdit}
+    />
   );
 }
 

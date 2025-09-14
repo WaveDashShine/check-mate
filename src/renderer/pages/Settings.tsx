@@ -50,15 +50,26 @@ function Settings() {
             handleSave(StoreKeys.userChromePath, e.target.value, setCurrentPath)
           }
         />
-        <button className={'bg-red-500'} onClick={handleResetChromePath}>
+        <button
+          type="button"
+          className="bg-red-500"
+          onClick={handleResetChromePath}
+        >
           Reset
         </button>
       </div>
       <div className={fieldStyling}>
-        <label htmlFor="user-data-chrome-path">Modify Chrome Browser:</label>
-        <button className={'bg-blue-500'} onClick={launchChromeBrowser}>
-          Launch
-        </button>
+        <label htmlFor="user-data-chrome-path">
+          Modify Chrome Browser:
+          <button
+            id="user-data-chrome-path"
+            type="button"
+            className="bg-blue-500"
+            onClick={launchChromeBrowser}
+          >
+            Launch
+          </button>
+        </label>
       </div>
     </div>
   );

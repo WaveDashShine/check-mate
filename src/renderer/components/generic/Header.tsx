@@ -1,3 +1,9 @@
+export interface Button {
+  text: string;
+  onClick: any; // generic function for button to perform
+  disabledCond: boolean;
+}
+
 export interface HeaderProps {
   setSearchValue: (searchValue: string) => void;
   setOpenForm: (open: boolean) => void;
@@ -8,13 +14,7 @@ export interface HeaderProps {
   isCreateable: boolean;
   customButtons: Button[];
 
-  delete: () => Promise<void>;
-}
-
-export interface Button {
-  text: string;
-  onClick: any; // generic function for button to perform
-  disabledCond: boolean;
+  deleteSelected: () => Promise<void>;
 }
 
 export function newButton(
@@ -23,9 +23,9 @@ export function newButton(
   disabledCond: boolean,
 ): Button {
   return {
-    text: text,
-    onClick: onClick,
-    disabledCond: disabledCond,
+    text,
+    onClick,
+    disabledCond,
   };
 }
 
@@ -33,7 +33,7 @@ export const buttonStyling: string = 'bg-white';
 
 function generateButtons(buttons: Button[]) {
   return (
-    <div className={'flex items-center justify-between gap-2'}>
+    <div className="flex items-center justify-between gap-2">
       {buttons.map((button) => (
         <button
           className={buttonStyling}
@@ -42,6 +42,7 @@ function generateButtons(buttons: Button[]) {
           }}
           disabled={button.disabledCond}
           key={button.text}
+          type="button"
         >
           {button.text}
         </button>
@@ -49,38 +50,50 @@ function generateButtons(buttons: Button[]) {
     </div>
   );
 }
+
 // e.g. enable disable doesn't belong in the generic section
 
-function Header(props: HeaderProps) {
+function Header({
+  customButtons,
+  deleteSelected,
+  isCreateable,
+  isOpenForm,
+  selectedRows,
+  setIsEdit,
+  setOpenForm,
+  setSearchValue,
+}: HeaderProps) {
   return (
-    <div className={'flex items-center justify-between gap-2'}>
-      {props.isCreateable ? (
+    <div className="flex items-center justify-between gap-2">
+      {isCreateable ? (
         <button
           className={buttonStyling}
           onClick={() => {
-            props.setOpenForm(true);
-            props.setIsEdit(false);
+            setOpenForm(true);
+            setIsEdit(false);
           }}
-          disabled={props.isOpenForm}
+          disabled={isOpenForm}
+          type="button"
         >
           New
         </button>
       ) : null}
-      {generateButtons(props.customButtons)}
+      {generateButtons(customButtons)}
       <button
         className={buttonStyling}
-        disabled={props.isOpenForm || props.selectedRows.length === 0}
+        disabled={isOpenForm || selectedRows.length === 0}
         onClick={async () => {
-          await props.delete();
+          await deleteSelected();
         }}
+        type="button"
       >
         Delete
       </button>
       <input
-        className={'min-w-[150px] rounded-xl'}
+        className="min-w-[150px] rounded-xl"
         type="text"
         placeholder="Search..."
-        onChange={(e) => props.setSearchValue(e.target.value)}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
     </div>
   );

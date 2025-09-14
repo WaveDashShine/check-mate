@@ -1,15 +1,15 @@
 import CheckForm from 'src/renderer/components/CheckForm';
 import CheckHeader from 'src/renderer/components/CheckHeader';
 import Drawer from 'src/renderer/components/generic/Drawer';
-import { newButton, Button } from 'src/renderer/components/generic/Header';
+import { Button, newButton } from 'src/renderer/components/generic/Header';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { useState } from 'react';
 import {
+  deleteDocs,
   getAllChecksCachePromise,
   insert,
   invalidateChecksCache,
   invalidateDiscoveryCache,
-  deleteDocs,
   retrieve,
 } from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
@@ -68,7 +68,7 @@ function Checks() {
       ...row,
       _id: '',
       _rev: undefined,
-      name: 'Copy of ' + row.name,
+      name: `Copy of ${row.name}`,
       discoveryHistory: [],
     });
     setIsOpenCheckForm(true);
@@ -78,14 +78,15 @@ function Checks() {
     newButton('Copy', copyRow, selectedRows.length < 1),
   ];
   const deleteSelectedRows = async () => {
-    await deleteDocs(selectedRows).then(() => {
+    await deleteDocs(selectedRows).then((result) => {
       setSelectedRows([]);
       invalidateChecksCache();
+      return result;
     });
   };
   return (
     <div>
-      <span className={'m-2'}></span>
+      <span className="m-2" />
       <CheckHeader
         setSearchValue={setSearchValue}
         setOpenForm={setIsOpenCheckForm}
@@ -94,22 +95,22 @@ function Checks() {
         checkFunction={browserCheck}
         selectedRows={selectedRows}
         customButtons={customTableHeaderButtons}
-        isCreateable={true}
-        delete={() => deleteSelectedRows()}
-      ></CheckHeader>
+        isCreateable
+        deleteSelected={() => deleteSelectedRows()}
+      />
       <Drawer
         isOpen={isOpenCheckForm}
         onClose={() => setIsOpenCheckForm(false)}
-        children={
+        content={
           <CheckForm
             isOpen={isOpenCheckForm}
             setIsOpen={setIsOpenCheckForm}
             dbFormValues={editFormValues}
             isEdit={isEdit}
             invalidateCache={invalidateChecksCache}
-          ></CheckForm>
+          />
         }
-      ></Drawer>
+      />
       <CheckTable
         searchValue={searchValue}
         setEditFormValues={setEditFormValues}
@@ -118,7 +119,7 @@ function Checks() {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         rowsPromise={getAllChecksCachePromise}
-      ></CheckTable>
+      />
     </div>
   );
 }

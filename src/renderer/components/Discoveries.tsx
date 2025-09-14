@@ -3,9 +3,9 @@ import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
 import { useState } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
 import {
+  deleteDocs,
   getAllDiscoveriesCachePromise,
   invalidateDiscoveryCache,
-  deleteDocs,
 } from 'src/renderer/db';
 import Drawer from 'src/renderer/components/generic/Drawer';
 import DiscoveriesForm from 'src/renderer/components/DiscoveriesForm';
@@ -39,14 +39,14 @@ function Discoveries(props: DiscoveriesProps) {
         isOpenForm={isOpenDiscoveryForm}
         customButtons={[]}
         isCreateable={false}
-        delete={deleteSelectedRows}
-      ></DiscoveriesHeader>
+        deleteSelected={deleteSelectedRows}
+      />
       <Drawer
         isOpen={isOpenDiscoveryForm}
         onClose={() => {
           setIsOpenDiscoveryForm(false);
         }}
-        children={
+        content={
           <DiscoveriesForm
             isOpen={isOpenDiscoveryForm}
             isEdit={isEdit}
@@ -54,7 +54,7 @@ function Discoveries(props: DiscoveriesProps) {
             dbFormValues={editFormValues}
           />
         }
-      ></Drawer>
+      />
       <DiscoveriesTable
         searchValue={searchValue}
         setIsOpenForm={setIsOpenDiscoveryForm}
@@ -64,7 +64,7 @@ function Discoveries(props: DiscoveriesProps) {
         setSelectedRows={setSelectedRows}
         rowsPromise={getAllDiscoveriesCachePromise}
         idsFilter={props.ids}
-      ></DiscoveriesTable>
+      />
     </div>
   );
 }
