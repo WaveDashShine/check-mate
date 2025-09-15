@@ -14,6 +14,12 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     'no-underscore-dangle': 'off',
+    'react/jsx-props-no-spreading': [
+      'error',
+      {
+        html: 'ignore',
+      },
+    ],
   },
   parserOptions: {
     ecmaVersion: 2022,

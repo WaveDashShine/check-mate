@@ -12,6 +12,7 @@ import {
   defaultCheckObj,
 } from 'src/schema/check';
 import Discoveries from 'src/renderer/components/Discoveries';
+import { useCallback } from 'react';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
@@ -39,25 +40,31 @@ function CheckForm({
   function CheckFormFields() {
     return (
       <div>
-        {/*
-      TODO: separate the edit and create fields
-      */}
-        <label>
+        <label htmlFor={CheckUiAttr.name}>
           Name
-          <input type="text" {...register(CheckUiAttr.name)} />
+          <input
+            id={CheckUiAttr.name}
+            type="text"
+            {...register(CheckUiAttr.name)}
+          />
           <ErrorMessage errors={errors} name={CheckUiAttr.name} />
         </label>
-        <label>
+        <label htmlFor={CheckUiAttr.note}>
           Note
-          <textarea {...register(CheckUiAttr.note)} />
+          <textarea id={CheckUiAttr.note} {...register(CheckUiAttr.note)} />
         </label>
-        <label>
+        <label htmlFor={CheckUiAttr.isEnabled}>
           Enabled
-          <input type="checkbox" {...register(CheckUiAttr.isEnabled)} />
+          <input
+            id={CheckUiAttr.isEnabled}
+            type="checkbox"
+            {...register(CheckUiAttr.isEnabled)}
+          />
         </label>
-        <label>
+        <label htmlFor={CheckUiAttr.frequency}>
           Frequency (seconds)
           <input
+            id={CheckUiAttr.frequency}
             role="spinbutton"
             step="1"
             type="number"
@@ -68,42 +75,52 @@ function CheckForm({
         </label>
 
         <div>
-          <label>Browser Config</label>
-          <label>
+          <header>Browser Config</header>
+          <label htmlFor={CheckUiAttr.browserConfig.url}>
             Link
-            <input type="text" {...register(CheckUiAttr.browserConfig.url)} />
+            <input
+              id={CheckUiAttr.browserConfig.url}
+              type="text"
+              {...register(CheckUiAttr.browserConfig.url)}
+            />
             <ErrorMessage
               errors={errors}
               name={CheckUiAttr.browserConfig.url}
             />
           </label>
-          <label>
+          <label htmlFor={CheckUiAttr.browserConfig.checkText}>
             Check Text
             <input
+              id={CheckUiAttr.browserConfig.checkText}
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkText)}
             />
           </label>
 
-          <label>
+          <label htmlFor={CheckUiAttr.browserConfig.checkHtml}>
             Check HTML
             <input
+              id={CheckUiAttr.browserConfig.checkHtml}
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkHtml)}
             />
           </label>
 
-          <label>
+          <label htmlFor={CheckUiAttr.browserConfig.checkScreenshot}>
             Check Screenshot
             <input
+              id={CheckUiAttr.browserConfig.checkScreenshot}
               type="checkbox"
               {...register(CheckUiAttr.browserConfig.checkScreenshot)}
             />
           </label>
 
-          <label>
+          <label htmlFor={CheckUiAttr.browserConfig.locator}>
             Locator
-            <textarea {...register(CheckUiAttr.browserConfig.locator)} />
+            <textarea
+              id={CheckUiAttr.browserConfig.locator}
+              {...register(CheckUiAttr.browserConfig.locator)}
+            />
             <ErrorMessage
               errors={errors}
               name={CheckUiAttr.browserConfig.locator}
@@ -111,18 +128,18 @@ function CheckForm({
           </label>
         </div>
         <div style={{ display: isEdit ? 'block' : 'none' }}>
-          <label>Discovery History</label>
+          <header>Discovery History</header>
           <Discoveries ids={dbFormValues.discoveryHistory} />
-          <label>Tags</label>
+          <header>Tags</header>
           <table />
         </div>
       </div>
     );
   }
 
-  const onReset = () => {
+  const onReset = useCallback(() => {
     reset(defaultCheckObj);
-  };
+  }, [reset]);
 
   const onSubmit: SubmitHandler<Check> = (data: Check) => {
     console.log('submitted', data);

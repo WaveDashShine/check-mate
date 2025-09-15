@@ -41,15 +41,21 @@ function Settings() {
   return (
     <div>
       <div className={fieldStyling}>
-        <label htmlFor="chrome-path">Chrome Path:</label>
-        <input
-          id="chrome-path"
-          type="text"
-          value={currentPath || originalPath}
-          onChange={(e) =>
-            handleSave(StoreKeys.userChromePath, e.target.value, setCurrentPath)
-          }
-        />
+        <label htmlFor="chrome-path">
+          Chrome Path:
+          <input
+            id="chrome-path"
+            type="text"
+            value={currentPath || originalPath}
+            onChange={(e) =>
+              handleSave(
+                StoreKeys.userChromePath,
+                e.target.value,
+                setCurrentPath,
+              )
+            }
+          />
+        </label>
         <button
           type="button"
           className="bg-red-500"
@@ -59,7 +65,7 @@ function Settings() {
         </button>
       </div>
       <div className={fieldStyling}>
-        <label htmlFor="user-data-chrome-path">
+        <p className="grid">
           Modify Chrome Browser:
           <button
             id="user-data-chrome-path"
@@ -69,7 +75,7 @@ function Settings() {
           >
             Launch
           </button>
-        </label>
+        </p>
       </div>
     </div>
   );

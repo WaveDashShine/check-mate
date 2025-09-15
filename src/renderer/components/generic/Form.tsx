@@ -13,31 +13,40 @@ interface FormProps extends GenericFormProps {
   reset: () => void;
 }
 
-function Form(props: FormProps) {
+function Form({
+  fields,
+  handleConfirm,
+  isEdit,
+  isOpen,
+  reset,
+  setIsOpen,
+  title,
+}: FormProps) {
   const handleCancel = () => {
-    props.setIsOpen(false);
+    setIsOpen(false);
   };
   useEffect(() => {
-    if (!props.isEdit) {
-      props.reset();
+    if (!isEdit) {
+      reset();
     }
-  }, [props.isEdit]);
+  }, [isEdit, reset]);
   return (
-    <div className="form-container">
-      {props.isOpen && (
+    <div className="form-container grid">
+      {isOpen && (
         <div>
           <div>
-            <h2>{props.title}</h2>
-            <div>{props.fields}</div>
+            <h2>{title}</h2>
+            <div>{fields}</div>
             <div>
               <button
                 className="confirm bg-green-500 cursor-pointer rounded-xl"
                 type="submit"
-                onClick={props.handleConfirm}
+                onClick={handleConfirm}
               >
                 Confirm
               </button>
               <button
+                type="button"
                 className="cancel bg-red-500 cursor-pointer rounded-xl"
                 onClick={() => handleCancel()}
               >

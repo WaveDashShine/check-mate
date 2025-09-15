@@ -240,6 +240,9 @@
   .flex {
     display: flex;
   }
+  .grid {
+    display: grid;
+  }
   .hidden {
     display: none;
   }
@@ -391,7 +394,8 @@
   }
 }
 label {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   padding: 5px;
 }
 input {

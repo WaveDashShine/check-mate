@@ -1,10 +1,5 @@
 import Form, { GenericFormProps } from 'src/renderer/components/generic/Form';
-import {
-  useForm,
-  SubmitHandler,
-  UseFormRegister,
-  FieldErrors,
-} from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import {
   DiscoveryDb,
@@ -18,53 +13,72 @@ interface DiscoveriesFormProps extends GenericFormProps {
   dbFormValues: DiscoveryDb;
 }
 
-function DiscoveriesForm(props: DiscoveriesFormProps) {
+function DiscoveriesFormFields(
+  register: any,
+  errors: FieldErrors<DiscoveryDb>,
+  dbFormValues: DiscoveryDb,
+) {
+  return (
+    <div>
+      <label htmlFor={DiscoveryUiAttr.timestamp}>
+        Timestamp
+        <input
+          id={DiscoveryUiAttr.timestamp}
+          type="text"
+          {...register(DiscoveryUiAttr.timestamp)}
+          disabled
+        />
+      </label>
+      <label htmlFor={DiscoveryUiAttr.html}>
+        HTML
+        <textarea
+          id={DiscoveryUiAttr.html}
+          {...register(DiscoveryUiAttr.html)}
+          disabled
+        />
+      </label>
+      <label htmlFor={DiscoveryUiAttr.text}>
+        Text
+        <textarea
+          id={DiscoveryUiAttr.text}
+          {...register(DiscoveryUiAttr.text)}
+          disabled
+        />
+      </label>
+      <p>
+        Screenshot
+        <Screenshot
+          data={dbFormValues.screenshot}
+          {...register(DiscoveryUiAttr.screenshot)}
+        />
+      </p>
+    </div>
+  );
+}
+
+function DiscoveriesForm({
+  dbFormValues,
+  isEdit,
+  isOpen,
+  setIsOpen,
+}: DiscoveriesFormProps) {
   const {
     register,
-    handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<Discovery>({
     resolver: typeboxResolver(DiscoveryUiSchema),
-    values: props.dbFormValues,
+    values: dbFormValues,
   });
-  const DiscoveriesFormFields = () => {
-    return (
-      <div>
-        <label>
-          Timestamp
-          <input
-            type="text"
-            {...register(DiscoveryUiAttr.timestamp)}
-            disabled={true}
-          />
-        </label>
-        <label>
-          HTML
-          <textarea {...register(DiscoveryUiAttr.html)} disabled={true} />
-        </label>
-        <label>
-          Text
-          <textarea {...register(DiscoveryUiAttr.text)} disabled={true} />
-        </label>
-        <label>Screenshot</label>
-        <Screenshot
-          data={props.dbFormValues.screenshot}
-          {...register(DiscoveryUiAttr.screenshot)}
-        ></Screenshot>
-      </div>
-    );
-  };
   return (
     <Form
-      title={'Discovery'}
-      fields={DiscoveriesFormFields()}
+      title="Discovery"
+      fields={DiscoveriesFormFields(register, errors, dbFormValues)}
       handleConfirm={() => {}}
       reset={() => {}}
-      isOpen={props.isOpen}
-      setIsOpen={props.setIsOpen}
-      isEdit={props.isEdit}
-    ></Form>
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      isEdit={isEdit}
+    />
   );
 }
 

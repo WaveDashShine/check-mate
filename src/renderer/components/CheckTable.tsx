@@ -33,13 +33,13 @@ function CheckTable(props: CheckTableProps) {
       key: CheckUiAttr.ranks,
       header: 'Rank',
       displayData: (row: CheckDb) => {
-        return 'TODO';
+        return `TODO ${row.name}`;
       },
     },
   ];
   return (
     <div>
-      <Table {...props} columnMapping={columnMapping}></Table>
+      <Table {...props} columnMapping={columnMapping} />
     </div>
   );
 }
