@@ -1,5 +1,6 @@
 import Form, { GenericFormProps } from 'src/renderer/components/generic/Form';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import {
   DiscoveryDb,
@@ -13,11 +14,17 @@ interface DiscoveriesFormProps extends GenericFormProps {
   dbFormValues: DiscoveryDb;
 }
 
-function DiscoveriesFormFields(
-  register: any,
-  errors: FieldErrors<DiscoveryDb>,
-  dbFormValues: DiscoveryDb,
-) {
+interface DiscoveriesFormFieldsProps {
+  register: any;
+  errors: FieldErrors<DiscoveryDb>;
+  dbFormValues: DiscoveryDb;
+}
+
+function DiscoveriesFormFields({
+  register,
+  errors,
+  dbFormValues,
+}: DiscoveriesFormFieldsProps) {
   return (
     <div>
       <label htmlFor={DiscoveryUiAttr.timestamp}>
@@ -28,6 +35,7 @@ function DiscoveriesFormFields(
           {...register(DiscoveryUiAttr.timestamp)}
           disabled
         />
+        <ErrorMessage errors={errors} name={DiscoveryUiAttr.timestamp} />
       </label>
       <label htmlFor={DiscoveryUiAttr.html}>
         HTML
@@ -36,6 +44,7 @@ function DiscoveriesFormFields(
           {...register(DiscoveryUiAttr.html)}
           disabled
         />
+        <ErrorMessage errors={errors} name={DiscoveryUiAttr.html} />
       </label>
       <label htmlFor={DiscoveryUiAttr.text}>
         Text
@@ -44,13 +53,11 @@ function DiscoveriesFormFields(
           {...register(DiscoveryUiAttr.text)}
           disabled
         />
+        <ErrorMessage errors={errors} name={DiscoveryUiAttr.text} />
       </label>
       <p>
         Screenshot
-        <Screenshot
-          data={dbFormValues.screenshot}
-          {...register(DiscoveryUiAttr.screenshot)}
-        />
+        <Screenshot data={dbFormValues.screenshot} />
       </p>
     </div>
   );
@@ -72,7 +79,7 @@ function DiscoveriesForm({
   return (
     <Form
       title="Discovery"
-      fields={DiscoveriesFormFields(register, errors, dbFormValues)}
+      fields={DiscoveriesFormFields({ register, errors, dbFormValues })}
       handleConfirm={() => {}}
       reset={() => {}}
       isOpen={isOpen}
