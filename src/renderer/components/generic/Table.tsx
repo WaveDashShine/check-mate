@@ -1,4 +1,4 @@
-import { Suspense, use, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { DbDocument } from 'src/schema/dbSchema';
 import 'src/renderer/components/generic/Table.css';
 
@@ -9,7 +9,6 @@ export type ColumnMap<T> = {
 };
 
 export interface GenericTableProps {
-  idsFilter?: string[];
   searchValue: string;
   setIsOpenForm: (isOpen: boolean) => void;
   setIsEdit: (isEdit: boolean) => void;
@@ -17,25 +16,15 @@ export interface GenericTableProps {
   setEditFormValues: (editFormValues: any) => void;
   selectedRows: any[];
   setSelectedRows: (selectedRows: any[]) => void;
-  rowsPromise: Promise<DbDocument[]>;
+  rows: DbDocument[];
 }
 
-interface TableProps extends GenericTableProps {
+export interface TableProps extends GenericTableProps {
   columnMapping: ColumnMap<any>[];
 }
 
-function filterRows(rows: any, idsFilter: string[]) {
-  console.log('idsFilter', idsFilter);
-  if (!idsFilter || idsFilter.length === 0) {
-    return [];
-  }
-  return rows.filter((row: any) => {
-    return idsFilter.includes(row._id);
-  });
-}
-
 function searchRows(rows: any, searchValue: string): DbDocument[] {
-  if (searchValue == '' || searchValue == null) {
+  if (searchValue === '' || searchValue == null) {
     return rows;
   }
 
@@ -58,80 +47,72 @@ function searchRows(rows: any, searchValue: string): DbDocument[] {
 }
 
 // https://react.dev/reference/rsc/server-components#async-components-with-server-components
-function Table(props: TableProps) {
-  const rows: DbDocument[] = use(props.rowsPromise);
-  const filteredRows: DbDocument[] = props.idsFilter
-    ? filterRows(rows, props.idsFilter)
-    : rows;
-  const displayedRows: DbDocument[] = searchRows(
-    filteredRows,
-    props.searchValue,
-  );
+function Table({
+  columnMapping,
+  searchValue,
+  selectedRows,
+  setEditFormValues,
+  setIsEdit,
+  setIsOpenForm,
+  setSelectedRows,
+  rows,
+}: TableProps) {
+  const displayedRows: DbDocument[] = searchRows(rows, searchValue);
   // console.log('rows', rows);
   console.log('displayedRows', displayedRows);
 
   const handleEditRow = (row: any) => {
-    props.setEditFormValues(row);
-    props.setIsOpenForm(true);
-    props.setIsEdit(true);
+    setEditFormValues(row);
+    setIsOpenForm(true);
+    setIsEdit(true);
   };
 
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
-      <table className={'border-collapse text-black'}>
+      <table className="border-collapse text-black">
         <thead>
           <tr>
-            <th className="checkbox-column"></th>
+            <th className="checkbox-column" />
             <th className="id-column">#</th>
-            {props.columnMapping.map((column: ColumnMap<any>) => (
+            {columnMapping.map((column: ColumnMap<any>) => (
               <th key={column.header}>{column.header}</th>
             ))}
           </tr>
         </thead>
-        <Suspense
-          fallback={
-            <tbody>
-              <tr>
-                <td>Loading Rows...</td>
-              </tr>
-            </tbody>
-          }
-        >
-          <tbody>
-            {displayedRows.map((row: DbDocument, index) => (
-              <tr key={row._id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    onChange={(e) => {
-                      const isChecked: boolean = e.target.checked;
-                      if (isChecked) {
-                        props.setSelectedRows([...props.selectedRows, row]);
-                      } else {
-                        props.setSelectedRows(
-                          props.selectedRows.filter((r: any) => {
-                            return r._id !== row._id;
-                          }),
-                        );
-                      }
-                    }}
-                  />
+        <tbody>
+          {displayedRows.map((row: DbDocument, index) => (
+            <tr key={row._id}>
+              <td>
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    const isChecked: boolean = e.target.checked;
+                    if (isChecked) {
+                      setSelectedRows([...selectedRows, row]);
+                    } else {
+                      setSelectedRows(
+                        selectedRows.filter((r: any) => {
+                          return r._id !== row._id;
+                        }),
+                      );
+                    }
+                  }}
+                />
+              </td>
+              <td>{index}</td>
+              {columnMapping.map((column: ColumnMap<any>) => (
+                <td
+                  key={column.header + index.toString()}
+                  onDoubleClick={() => {
+                    handleEditRow(row);
+                  }}
+                >
+                  {column.displayData(row)}
                 </td>
-                <td>{index}</td>
-                {props.columnMapping.map((column: ColumnMap<any>) => (
-                  <td
-                    key={column.header + index.toString()}
-                    onDoubleClick={() => {
-                      handleEditRow(row);
-                    }}
-                  >
-                    {column.displayData(row)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Suspense>
+              ))}
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

@@ -3,18 +3,18 @@ import CheckHeader from 'src/renderer/components/CheckHeader';
 import Drawer from 'src/renderer/components/generic/Drawer';
 import { Button, newButton } from 'src/renderer/components/generic/Header';
 import CheckTable from 'src/renderer/components/CheckTable';
-import { useState } from 'react';
-import {
-  deleteDocs,
-  getAllChecksCachePromise,
-  insert,
-  invalidateChecksCache,
-  invalidateDiscoveryCache,
-  retrieve,
-} from 'src/renderer/db';
+import { Suspense, use, useState } from 'react';
+import { deleteDocs, getAllChecks, insert, retrieve } from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
 import { Discovery, DiscoveryDb } from 'src/schema/discovery';
-import { DbSchemaTypes } from 'src/schema/dbSchema';
+import { DbDocument, DbSchemaTypes } from 'src/schema/dbSchema';
+import { invalidateDiscoveryCache } from 'src/renderer/components/Discoveries';
+
+let getChecksPromise: Promise<any[]> = getAllChecks();
+
+export function invalidateChecks() {
+  getChecksPromise = getAllChecks(); // clears the cache so next call refetches
+}
 
 async function browserCheck(rows: CheckDb[]) {
   for (const row of rows) {
@@ -40,7 +40,7 @@ async function browserCheck(rows: CheckDb[]) {
     row.discoveryHistory = validDocIds;
     insert(row, DbSchemaTypes.check);
   }
-  invalidateChecksCache();
+  invalidateChecks();
   invalidateDiscoveryCache();
 }
 
@@ -50,13 +50,14 @@ function Checks() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editFormValues, setEditFormValues] = useState<CheckDb>({} as CheckDb);
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
+  const rows: DbDocument[] = use(getChecksPromise);
 
   const flipStatus = () => {
     for (const row of selectedRows) {
       row.isEnabled = !row.isEnabled;
       insert(row, DbSchemaTypes.check);
     }
-    invalidateChecksCache();
+    invalidateChecks();
     setSelectedRows([...selectedRows]);
   };
   const copyRow = () => {
@@ -80,7 +81,7 @@ function Checks() {
   const deleteSelectedRows = async () => {
     await deleteDocs(selectedRows).then((result) => {
       setSelectedRows([]);
-      invalidateChecksCache();
+      invalidateChecks();
       return result;
     });
   };
@@ -107,19 +108,21 @@ function Checks() {
             setIsOpen={setIsOpenCheckForm}
             dbFormValues={editFormValues}
             isEdit={isEdit}
-            invalidateCache={invalidateChecksCache}
+            invalidateCache={async () => {}}
           />
         }
       />
-      <CheckTable
-        searchValue={searchValue}
-        setEditFormValues={setEditFormValues}
-        setIsOpenForm={setIsOpenCheckForm}
-        setIsEdit={setIsEdit}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
-        rowsPromise={getAllChecksCachePromise}
-      />
+      <Suspense fallback={<p>Loading...</p>}>
+        <CheckTable
+          searchValue={searchValue}
+          setEditFormValues={setEditFormValues}
+          setIsOpenForm={setIsOpenCheckForm}
+          setIsEdit={setIsEdit}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          rows={rows}
+        />
+      </Suspense>
     </div>
   );
 }

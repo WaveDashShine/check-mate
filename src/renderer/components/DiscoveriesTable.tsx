@@ -1,12 +1,24 @@
-import Table, {
-  GenericTableProps,
+import {
   ColumnMap,
+  GenericTableProps,
 } from 'src/renderer/components/generic/Table';
 import { DiscoveryDb, DiscoveryUiAttr } from 'src/schema/discovery';
+import IdFilterTable from './generic/IdFilterTable';
 
-interface DiscoveryTableProps extends GenericTableProps {}
+interface DiscoveryTableProps extends GenericTableProps {
+  idsFilter: string[];
+}
 
-function DiscoveriesTable(props: DiscoveryTableProps) {
+function DiscoveriesTable({
+  idsFilter,
+  rows,
+  searchValue,
+  selectedRows,
+  setEditFormValues,
+  setIsEdit,
+  setIsOpenForm,
+  setSelectedRows,
+}: DiscoveryTableProps) {
   const columnMapping: ColumnMap<DiscoveryDb>[] = [
     {
       key: DiscoveryUiAttr.timestamp,
@@ -44,11 +56,17 @@ function DiscoveriesTable(props: DiscoveryTableProps) {
   ];
   return (
     <div>
-      <Table
-        {...props}
+      <IdFilterTable
+        idsFilter={idsFilter}
         columnMapping={columnMapping}
-        idsFilter={props.idsFilter}
-      ></Table>
+        rows={rows}
+        searchValue={searchValue}
+        selectedRows={selectedRows}
+        setEditFormValues={setEditFormValues}
+        setIsEdit={setIsEdit}
+        setIsOpenForm={setIsOpenForm}
+        setSelectedRows={setSelectedRows}
+      />
     </div>
   );
 }

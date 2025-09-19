@@ -1,12 +1,8 @@
 import DiscoveriesTable from 'src/renderer/components/DiscoveriesTable';
 import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
-import { useState } from 'react';
+import { use, useState, Suspense } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
-import {
-  deleteDocs,
-  getAllDiscoveriesCachePromise,
-  invalidateDiscoveryCache,
-} from 'src/renderer/db';
+import { deleteDocs, getAllDiscoveries } from 'src/renderer/db';
 import Drawer from 'src/renderer/components/generic/Drawer';
 import DiscoveriesForm from 'src/renderer/components/DiscoveriesForm';
 
@@ -14,7 +10,13 @@ interface DiscoveriesProps {
   ids: string[];
 }
 
-function Discoveries(props: DiscoveriesProps) {
+let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> = getAllDiscoveries();
+
+export function invalidateDiscoveryCache() {
+  getAllDiscoveriesCachePromise = getAllDiscoveries();
+}
+
+function Discoveries({ ids }: DiscoveriesProps) {
   const [isOpenDiscoveryForm, setIsOpenDiscoveryForm] =
     useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
@@ -29,6 +31,7 @@ function Discoveries(props: DiscoveriesProps) {
       invalidateDiscoveryCache();
     });
   };
+  const rows: DiscoveryDb[] = use(getAllDiscoveriesCachePromise);
   return (
     <div>
       <DiscoveriesHeader
@@ -55,16 +58,18 @@ function Discoveries(props: DiscoveriesProps) {
           />
         }
       />
-      <DiscoveriesTable
-        searchValue={searchValue}
-        setIsOpenForm={setIsOpenDiscoveryForm}
-        setIsEdit={setIsEdit}
-        setEditFormValues={setEditFormValues}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
-        rowsPromise={getAllDiscoveriesCachePromise}
-        idsFilter={props.ids}
-      />
+      <Suspense fallback={<p>Loading...</p>}>
+        <DiscoveriesTable
+          searchValue={searchValue}
+          setIsOpenForm={setIsOpenDiscoveryForm}
+          setIsEdit={setIsEdit}
+          setEditFormValues={setEditFormValues}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          rows={rows}
+          idsFilter={ids}
+        />
+      </Suspense>
     </div>
   );
 }

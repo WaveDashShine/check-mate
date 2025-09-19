@@ -6,7 +6,15 @@ import { CheckDb, CheckUiAttr } from 'src/schema/check';
 
 interface CheckTableProps extends GenericTableProps {}
 
-function CheckTable(props: CheckTableProps) {
+function CheckTable({
+  rows,
+  searchValue,
+  selectedRows,
+  setEditFormValues,
+  setIsEdit,
+  setIsOpenForm,
+  setSelectedRows,
+}: CheckTableProps) {
   const columnMapping: ColumnMap<CheckDb>[] = [
     {
       key: CheckUiAttr.isEnabled,
@@ -39,7 +47,16 @@ function CheckTable(props: CheckTableProps) {
   ];
   return (
     <div>
-      <Table {...props} columnMapping={columnMapping} />
+      <Table
+        rows={rows}
+        searchValue={searchValue}
+        selectedRows={selectedRows}
+        setEditFormValues={setEditFormValues}
+        setIsEdit={setIsEdit}
+        setIsOpenForm={setIsOpenForm}
+        setSelectedRows={setSelectedRows}
+        columnMapping={columnMapping}
+      />
     </div>
   );
 }

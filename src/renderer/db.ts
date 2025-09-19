@@ -86,19 +86,6 @@ export async function getAllChecks(): Promise<CheckDb[]> {
   return findAllDocWithType(DbSchemaTypes.check);
 }
 
-export let getAllChecksCachePromise: Promise<CheckDb[]> = getAllChecks();
-
-export function invalidateChecksCache() {
-  getAllChecksCachePromise = getAllChecks();
-}
-
 export async function getAllDiscoveries(): Promise<DiscoveryDb[]> {
   return findAllDocWithType(DbSchemaTypes.discovery);
-}
-
-export let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> =
-  getAllDiscoveries();
-
-export function invalidateDiscoveryCache() {
-  getAllDiscoveriesCachePromise = getAllDiscoveries();
 }

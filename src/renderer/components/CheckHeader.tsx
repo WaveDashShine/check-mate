@@ -30,17 +30,14 @@ function CheckHeader({
         Check
       </button>
       <Header
-        {...{
-          checkFunction,
-          selectedRows,
-          setSearchValue,
-          setOpenForm,
-          setIsEdit,
-          isOpenForm,
-          isCreateable,
-          customButtons,
-          deleteSelected,
-        }}
+        selectedRows={selectedRows}
+        setSearchValue={setSearchValue}
+        setOpenForm={setOpenForm}
+        setIsEdit={setIsEdit}
+        isOpenForm={isOpenForm}
+        isCreateable={isCreateable}
+        customButtons={customButtons}
+        deleteSelected={deleteSelected}
       />
     </div>
   );
