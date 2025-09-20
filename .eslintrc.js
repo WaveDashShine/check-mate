@@ -20,6 +20,12 @@ module.exports = {
         html: 'ignore',
       },
     ],
+    'jsx-a11y/no-noninteractive-tabindex': [
+      'error',
+      {
+        roles: ['separator'], // allow tabIndex on separators
+      },
+    ],
   },
   parserOptions: {
     ecmaVersion: 2022,

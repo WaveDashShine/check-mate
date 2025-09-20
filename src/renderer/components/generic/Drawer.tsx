@@ -28,10 +28,10 @@ function Drawer({ content, isOpen, onClose }: DrawerProps) {
   useEffect(() => {
     if (isResizing) {
       document.addEventListener('mousemove', resize);
-      return () => {
-        document.removeEventListener('mousemove', resize);
-      };
     }
+    return () => {
+      document.removeEventListener('mousemove', resize);
+    };
   }, [isResizing, resize]);
 
   return (
@@ -39,6 +39,8 @@ function Drawer({ content, isOpen, onClose }: DrawerProps) {
       onMouseUp={() => {
         setIsResizing(false);
       }}
+      role="button"
+      tabIndex={0}
     >
       {/* Backdrop */}
       {isOpen && (
@@ -58,6 +60,7 @@ function Drawer({ content, isOpen, onClose }: DrawerProps) {
           onMouseOver={() => {
             document.body.style.cursor = 'col-resize';
           }}
+          onFocus={() => {}}
           onMouseLeave={() => {
             document.body.style.cursor = 'default';
           }}
@@ -65,6 +68,10 @@ function Drawer({ content, isOpen, onClose }: DrawerProps) {
             setIsResizing(true);
             e.preventDefault();
           }}
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="resize drawer"
+          tabIndex={0}
         />
         <button
           className="drawer-close self-end m-2 border-0 cursor-pointer"
