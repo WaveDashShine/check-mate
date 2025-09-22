@@ -17,29 +17,37 @@ export function invalidateChecks() {
 }
 
 async function browserCheck(rows: CheckDb[]) {
-  for (const row of rows) {
-    if (!row.isEnabled) {
-      continue;
-    }
+  rows.forEach((row: CheckDb) => {
+    if (row.isEnabled) {
+      // create new discovery
+      const data: Discovery = window.electron.autoBrowser.check(row);
+      const dbData = data as DiscoveryDb;
+      const discoveryId: string = insert(dbData, DbSchemaTypes.discovery);
 
-    // create new discovery
-    const data: Discovery = window.electron.autoBrowser.check(row);
-    const dbData = data as DiscoveryDb;
-    const discoveryId: string = insert(dbData, DbSchemaTypes.discovery);
-
-    // clear bad discovery references
-    row.discoveryHistory = row.discoveryHistory || [];
-    const validDocIds: string[] = [];
-    for (const id of row.discoveryHistory) {
-      const dbDoc = await retrieve(id);
-      if (dbDoc !== undefined) {
-        validDocIds.push(id);
-      }
+      // clear bad discovery references
+      row.discoveryHistory = row.discoveryHistory || [];
+      const validDocIds: string[] = [];
+      const discoveryPromises: Promise<DbDocument>[] = [];
+      row.discoveryHistory.forEach((id) => {
+        discoveryPromises.push(retrieve(id));
+      });
+      Promise.all(discoveryPromises)
+        .then((docList: DbDocument[]) => {
+          return docList.forEach((doc: DbDocument) => {
+            if (doc !== undefined) {
+              validDocIds.push(doc._id);
+            }
+          });
+        })
+        .catch((err) => {
+          return err;
+        });
+      validDocIds.push(discoveryId);
+      row.discoveryHistory = validDocIds;
+      insert(row, DbSchemaTypes.check);
     }
-    validDocIds.push(discoveryId);
-    row.discoveryHistory = validDocIds;
-    insert(row, DbSchemaTypes.check);
-  }
+  });
+
   invalidateChecks();
   invalidateDiscoveryCache();
 }
@@ -53,10 +61,10 @@ function Checks() {
   const rows: DbDocument[] = use(getChecksPromise);
 
   const flipStatus = () => {
-    for (const row of selectedRows) {
+    selectedRows.forEach((row) => {
       row.isEnabled = !row.isEnabled;
       insert(row, DbSchemaTypes.check);
-    }
+    });
     invalidateChecks();
     setSelectedRows([...selectedRows]);
   };
