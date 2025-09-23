@@ -27,6 +27,18 @@ export function insert(doc: DbDocument, docType: DbSchemaType): string {
   return doc._id;
 }
 
+export function update(doc: DbDocument) {
+  if (
+    doc._id === undefined ||
+    doc._id === '' ||
+    doc._rev === undefined ||
+    doc._rev === ''
+  ) {
+    console.log('ABORTING: missing _rev or _id');
+  }
+  db.put(doc);
+}
+
 export async function retrieve(docId: string): Promise<any> {
   return db
     .get(docId)
@@ -78,7 +90,6 @@ async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
   const result = await db.find({
     selector: { type: docType },
   });
-  console.log('findAll', result);
   return result.docs;
 }
 

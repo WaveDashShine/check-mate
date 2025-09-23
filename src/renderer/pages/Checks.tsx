@@ -4,7 +4,13 @@ import Drawer from 'src/renderer/components/generic/Drawer';
 import { Button, newButton } from 'src/renderer/components/generic/Header';
 import CheckTable from 'src/renderer/components/CheckTable';
 import { Suspense, use, useState } from 'react';
-import { deleteDocs, getAllChecks, insert, retrieve } from 'src/renderer/db';
+import {
+  deleteDocs,
+  getAllChecks,
+  insert,
+  retrieve,
+  update,
+} from 'src/renderer/db';
 import { CheckDb } from 'src/schema/check';
 import { Discovery, DiscoveryDb } from 'src/schema/discovery';
 import { DbDocument, DbSchemaTypes } from 'src/schema/dbSchema';
@@ -65,9 +71,9 @@ function Checks() {
   const rows: DbDocument[] = use(getChecksPromise);
 
   const flipStatus = () => {
-    selectedRows.forEach((row) => {
+    selectedRows.forEach((row: CheckDb) => {
       row.isEnabled = !row.isEnabled;
-      insert(row, DbSchemaTypes.check);
+      update(row);
     });
     invalidateChecks();
     setSelectedRows([...selectedRows]);
@@ -120,7 +126,7 @@ function Checks() {
             setIsOpen={setIsOpenCheckForm}
             dbFormValues={editFormValues}
             isEdit={isEdit}
-            invalidateCache={async () => {}}
+            invalidateCache={invalidateChecks}
           />
         }
       />
