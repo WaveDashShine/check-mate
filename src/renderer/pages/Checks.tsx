@@ -16,38 +16,42 @@ export function invalidateChecks() {
   getChecksPromise = getAllChecks(); // clears the cache so next call refetches
 }
 
+async function cleanDiscoveryHistory(row: CheckDb) {
+  row.discoveryHistory = row.discoveryHistory || [];
+  const validDocIds: string[] = [];
+  const discoveryPromises: Promise<DbDocument>[] = [];
+  row.discoveryHistory.forEach((id) => {
+    discoveryPromises.push(retrieve(id));
+  });
+  await Promise.all(discoveryPromises)
+    .then((docList: DbDocument[]) => {
+      return docList.forEach((doc: DbDocument) => {
+        if (doc !== undefined) {
+          validDocIds.push(doc._id);
+        }
+      });
+    })
+    .catch((err) => {
+      return err;
+    });
+  row.discoveryHistory = validDocIds;
+}
+
 async function browserCheck(rows: CheckDb[]) {
+  const rowsPromises: Promise<void>[] = [];
   rows.forEach((row: CheckDb) => {
     if (row.isEnabled) {
       // create new discovery
       const data: Discovery = window.electron.autoBrowser.check(row);
       const dbData = data as DiscoveryDb;
       const discoveryId: string = insert(dbData, DbSchemaTypes.discovery);
-
-      // clear bad discovery references
-      row.discoveryHistory = row.discoveryHistory || [];
-      const validDocIds: string[] = [];
-      const discoveryPromises: Promise<DbDocument>[] = [];
-      row.discoveryHistory.forEach((id) => {
-        discoveryPromises.push(retrieve(id));
-      });
-      Promise.all(discoveryPromises)
-        .then((docList: DbDocument[]) => {
-          return docList.forEach((doc: DbDocument) => {
-            if (doc !== undefined) {
-              validDocIds.push(doc._id);
-            }
-          });
-        })
-        .catch((err) => {
-          return err;
-        });
-      validDocIds.push(discoveryId);
-      row.discoveryHistory = validDocIds;
+      row.discoveryHistory.push(discoveryId);
       insert(row, DbSchemaTypes.check);
+      rowsPromises.push(cleanDiscoveryHistory(row));
     }
   });
-
+  // clear bad discovery references
+  await Promise.all(rowsPromises);
   invalidateChecks();
   invalidateDiscoveryCache();
 }
