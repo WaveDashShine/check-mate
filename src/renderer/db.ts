@@ -42,17 +42,6 @@ export async function retrieve(docId: string): Promise<any> {
     });
 }
 
-export async function deleteDocs(docs: DbDocument[]) {
-  if (docs.length > 0) {
-    console.log('deleting', docs);
-    for (const row of docs) {
-      await remove(row._id, row._rev as string);
-    }
-  } else {
-    throw new Error('No docs selected for deletion.');
-  }
-}
-
 // TODO: delete all docs doesn't actually delete them
 // they're just marked as deleted in the database
 // TODO: need to replicate the database to actually purge the deleted docs
@@ -72,6 +61,17 @@ async function remove(docId: string, revId: string) {
     console.error(e);
     return e;
   });
+}
+
+export async function deleteDocs(docs: DbDocument[]) {
+  if (docs.length > 0) {
+    const removePromises: Promise<any>[] = docs.map((doc: DbDocument) => {
+      return remove(doc._id, doc._rev as string);
+    });
+    await Promise.all(removePromises);
+  } else {
+    throw new Error('No docs selected for deletion.');
+  }
 }
 
 async function findAllDocWithType(docType: DbSchemaType): Promise<any[]> {
