@@ -97,6 +97,6 @@ export async function getAllChecks(): Promise<CheckDb[]> {
   return findAllDocWithType(DbSchemaTypes.check);
 }
 
-export async function getAllDiscoveries(): Promise<DiscoveryDb[]> {
+export async function getAllDiscoveryHistory(): Promise<DiscoveryDb[]> {
   return findAllDocWithType(DbSchemaTypes.discovery);
 }

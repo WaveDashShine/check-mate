@@ -17,7 +17,7 @@ function dateComparison(a: DiscoveryDb, b: DiscoveryDb): number {
   return a.timestamp > b.timestamp ? -1 : 1;
 }
 
-function DiscoveriesTable({
+function DiscoveryHistoryTable({
   idsFilter,
   rows,
   searchValue,
@@ -80,4 +80,4 @@ function DiscoveriesTable({
   );
 }
 
-export default DiscoveriesTable;
+export default DiscoveryHistoryTable;

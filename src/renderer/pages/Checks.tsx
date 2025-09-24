@@ -14,7 +14,7 @@ import {
 import { CheckDb } from 'src/schema/check';
 import { Discovery, DiscoveryDb } from 'src/schema/discovery';
 import { DbDocument, DbSchemaTypes } from 'src/schema/dbSchema';
-import { invalidateDiscoveryCache } from 'src/renderer/components/Discoveries';
+import { invalidateDiscoveryHistoryCache } from 'src/renderer/components/DiscoveryHistory';
 
 let getChecksPromise: Promise<any[]> = getAllChecks();
 
@@ -59,7 +59,7 @@ async function browserCheck(rows: CheckDb[]) {
   // clear bad discovery references
   await Promise.all(rowsPromises);
   invalidateChecks();
-  invalidateDiscoveryCache();
+  invalidateDiscoveryHistoryCache();
 }
 
 function Checks() {

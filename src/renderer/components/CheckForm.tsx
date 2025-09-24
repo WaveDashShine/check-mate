@@ -11,7 +11,7 @@ import {
   CheckUiSchema,
   defaultCheckObj,
 } from 'src/schema/check';
-import Discoveries from 'src/renderer/components/Discoveries';
+import DiscoveryHistory from 'src/renderer/components/DiscoveryHistory';
 import { useCallback } from 'react';
 
 interface CheckFormProps extends GenericFormProps {
@@ -120,7 +120,7 @@ function CheckFormFields({
       </div>
       <div style={{ display: isEdit ? 'block' : 'none' }}>
         <header>Discovery History</header>
-        <Discoveries ids={dbFormValues.discoveryHistory} />
+        <DiscoveryHistory ids={dbFormValues.discoveryHistory} />
         <header>Tags</header>
         <table />
       </div>

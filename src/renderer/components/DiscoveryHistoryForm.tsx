@@ -20,7 +20,7 @@ interface DiscoveriesFormFieldsProps {
   dbFormValues: DiscoveryDb;
 }
 
-function DiscoveriesFormFields({
+function DiscoveryHistoryFormFields({
   register,
   errors,
   dbFormValues,
@@ -63,7 +63,7 @@ function DiscoveriesFormFields({
   );
 }
 
-function DiscoveriesForm({
+function DiscoveryHistoryForm({
   dbFormValues,
   isEdit,
   isOpen,
@@ -79,7 +79,7 @@ function DiscoveriesForm({
   return (
     <Form
       title="Discovery"
-      fields={DiscoveriesFormFields({ register, errors, dbFormValues })}
+      fields={DiscoveryHistoryFormFields({ register, errors, dbFormValues })}
       handleConfirm={() => {}}
       reset={() => {}}
       isOpen={isOpen}
@@ -89,4 +89,4 @@ function DiscoveriesForm({
   );
 }
 
-export default DiscoveriesForm;
+export default DiscoveryHistoryForm;

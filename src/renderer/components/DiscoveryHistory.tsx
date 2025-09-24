@@ -1,22 +1,23 @@
-import DiscoveriesTable from 'src/renderer/components/DiscoveriesTable';
-import DiscoveriesHeader from 'src/renderer/components/DiscoveriesHeader';
+import DiscoveryHistoryTable from 'src/renderer/components/DiscoveryHistoryTable';
+import DiscoveryHistoryHeader from 'src/renderer/components/DiscoveryHistoryHeader';
 import { use, useState, Suspense } from 'react';
 import { DiscoveryDb } from 'src/schema/discovery';
-import { deleteDocs, getAllDiscoveries } from 'src/renderer/db';
+import { deleteDocs, getAllDiscoveryHistory } from 'src/renderer/db';
 import Drawer from 'src/renderer/components/generic/Drawer';
-import DiscoveriesForm from 'src/renderer/components/DiscoveriesForm';
+import DiscoveryHistoryForm from 'src/renderer/components/DiscoveryHistoryForm';
 
-interface DiscoveriesProps {
+interface DiscoveryHistoryProps {
   ids: string[];
 }
 
-let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> = getAllDiscoveries();
+let getAllDiscoveriesCachePromise: Promise<DiscoveryDb[]> =
+  getAllDiscoveryHistory();
 
-export function invalidateDiscoveryCache() {
-  getAllDiscoveriesCachePromise = getAllDiscoveries();
+export function invalidateDiscoveryHistoryCache() {
+  getAllDiscoveriesCachePromise = getAllDiscoveryHistory();
 }
 
-function Discoveries({ ids }: DiscoveriesProps) {
+function DiscoveryHistory({ ids }: DiscoveryHistoryProps) {
   const [isOpenDiscoveryForm, setIsOpenDiscoveryForm] =
     useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
@@ -28,14 +29,14 @@ function Discoveries({ ids }: DiscoveriesProps) {
   const deleteSelectedRows = async () => {
     await deleteDocs(selectedRows).then((result) => {
       setSelectedRows([]);
-      invalidateDiscoveryCache();
+      invalidateDiscoveryHistoryCache();
       return result;
     });
   };
   const rows: DiscoveryDb[] = use(getAllDiscoveriesCachePromise);
   return (
     <div>
-      <DiscoveriesHeader
+      <DiscoveryHistoryHeader
         selectedRows={selectedRows}
         setSearchValue={setSearchValue}
         setOpenForm={setIsOpenDiscoveryForm}
@@ -51,7 +52,7 @@ function Discoveries({ ids }: DiscoveriesProps) {
           setIsOpenDiscoveryForm(false);
         }}
         content={
-          <DiscoveriesForm
+          <DiscoveryHistoryForm
             isOpen={isOpenDiscoveryForm}
             isEdit={isEdit}
             setIsOpen={setIsOpenDiscoveryForm}
@@ -60,7 +61,7 @@ function Discoveries({ ids }: DiscoveriesProps) {
         }
       />
       <Suspense fallback={<p>Loading...</p>}>
-        <DiscoveriesTable
+        <DiscoveryHistoryTable
           searchValue={searchValue}
           setIsOpenForm={setIsOpenDiscoveryForm}
           setIsEdit={setIsEdit}
@@ -75,4 +76,4 @@ function Discoveries({ ids }: DiscoveriesProps) {
   );
 }
 
-export default Discoveries;
+export default DiscoveryHistory;
