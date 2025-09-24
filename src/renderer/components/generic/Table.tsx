@@ -58,8 +58,7 @@ function Table({
   rows,
 }: TableProps) {
   const displayedRows: DbDocument[] = searchRows(rows, searchValue);
-  // console.log('rows', rows);
-  console.log('displayedRows', displayedRows);
+  // console.log('displayedRows', displayedRows);
 
   const handleEditRow = (row: any) => {
     setEditFormValues(row);
@@ -67,12 +66,26 @@ function Table({
     setIsEdit(true);
   };
 
+  const toggleAll = () => {
+    if (selectedRows.length < displayedRows.length) {
+      setSelectedRows(displayedRows);
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
   return (
     <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
       <table className="border-collapse text-black">
         <thead>
           <tr>
-            <th className="checkbox-column" />
+            <th className="checkbox-column">
+              <input
+                type="checkbox"
+                checked={selectedRows.length === rows.length}
+                onChange={toggleAll}
+              />
+            </th>
             <th className="id-column">#</th>
             {columnMapping.map((column: ColumnMap<any>) => (
               <th key={column.header}>{column.header}</th>
@@ -85,6 +98,7 @@ function Table({
               <td>
                 <input
                   type="checkbox"
+                  checked={selectedRows.includes(row)}
                   onChange={(e) => {
                     const isChecked: boolean = e.target.checked;
                     if (isChecked) {
