@@ -7,6 +7,14 @@ import IdFilterTable from './generic/IdFilterTable';
 
 interface DiscoveryTableProps extends GenericTableProps {
   idsFilter: string[];
+  rows: DiscoveryDb[];
+}
+
+function dateComparison(a: DiscoveryDb, b: DiscoveryDb): number {
+  // A negative value indicates that a should come before b.
+  // A positive value indicates that a should come after b.
+  // latest timestamp displays first
+  return a.timestamp > b.timestamp ? -1 : 1;
 }
 
 function DiscoveriesTable({
@@ -19,6 +27,7 @@ function DiscoveriesTable({
   setIsOpenForm,
   setSelectedRows,
 }: DiscoveryTableProps) {
+  rows.sort(dateComparison);
   const columnMapping: ColumnMap<DiscoveryDb>[] = [
     {
       key: DiscoveryUiAttr.timestamp,
