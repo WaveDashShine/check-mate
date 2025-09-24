@@ -11,7 +11,7 @@ export interface HeaderProps {
 
   isOpenForm: boolean;
   selectedRows: any[];
-  isCreateable: boolean;
+  isCreatable: boolean;
   customButtons: Button[];
 
   deleteSelected: () => Promise<void>;
@@ -56,7 +56,7 @@ function generateButtons(buttons: Button[]) {
 function Header({
   customButtons,
   deleteSelected,
-  isCreateable,
+  isCreatable,
   isOpenForm,
   selectedRows,
   setIsEdit,
@@ -65,7 +65,7 @@ function Header({
 }: HeaderProps) {
   return (
     <div className="flex items-center justify-between gap-2">
-      {isCreateable ? (
+      {isCreatable ? (
         <button
           className={buttonStyling}
           onClick={() => {

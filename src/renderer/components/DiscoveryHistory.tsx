@@ -43,7 +43,7 @@ function DiscoveryHistory({ ids }: DiscoveryHistoryProps) {
         setIsEdit={setIsEdit}
         isOpenForm={isOpenDiscoveryForm}
         customButtons={[]}
-        isCreateable={false}
+        isCreatable={false}
         deleteSelected={deleteSelectedRows}
       />
       <Drawer

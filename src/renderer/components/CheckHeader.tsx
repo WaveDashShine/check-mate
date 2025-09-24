@@ -13,7 +13,7 @@ function CheckHeader({
   setOpenForm,
   setIsEdit,
   isOpenForm,
-  isCreateable,
+  isCreatable,
   customButtons,
   deleteSelected,
 }: CheckHeaderProps) {
@@ -35,7 +35,7 @@ function CheckHeader({
         setOpenForm={setOpenForm}
         setIsEdit={setIsEdit}
         isOpenForm={isOpenForm}
-        isCreateable={isCreateable}
+        isCreatable={isCreatable}
         customButtons={customButtons}
         deleteSelected={deleteSelected}
       />

@@ -114,7 +114,7 @@ function Checks() {
         checkFunction={browserCheck}
         selectedRows={selectedRows}
         customButtons={customTableHeaderButtons}
-        isCreateable
+        isCreatable
         deleteSelected={() => deleteSelectedRows()}
       />
       <Drawer

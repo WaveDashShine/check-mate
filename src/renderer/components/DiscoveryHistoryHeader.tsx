@@ -11,7 +11,7 @@ function DiscoveryHistoryHeader({
   setOpenForm,
   setIsEdit,
   isOpenForm,
-  isCreateable,
+  isCreatable,
   customButtons,
   deleteSelected,
 }: DiscoveryHeaderProps) {
@@ -23,7 +23,7 @@ function DiscoveryHistoryHeader({
         setOpenForm={setOpenForm}
         setIsEdit={setIsEdit}
         isOpenForm={isOpenForm}
-        isCreateable={isCreateable}
+        isCreatable={isCreatable}
         customButtons={customButtons}
         deleteSelected={deleteSelected}
       />
