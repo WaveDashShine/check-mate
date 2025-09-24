@@ -26,9 +26,10 @@ function Discoveries({ ids }: DiscoveriesProps) {
   );
   const [selectedRows, setSelectedRows] = useState<DiscoveryDb[]>([]);
   const deleteSelectedRows = async () => {
-    await deleteDocs(selectedRows).then(() => {
+    await deleteDocs(selectedRows).then((result) => {
       setSelectedRows([]);
       invalidateDiscoveryCache();
+      return result;
     });
   };
   const rows: DiscoveryDb[] = use(getAllDiscoveriesCachePromise);
