@@ -5,10 +5,28 @@ interface DiscoveryHeaderProps extends HeaderProps {
   selectedRows: DiscoveryDb[];
 }
 
-function DiscoveryHistoryHeader(props: DiscoveryHeaderProps) {
+function DiscoveryHistoryHeader({
+  selectedRows,
+  setSearchValue,
+  setOpenForm,
+  setIsEdit,
+  isOpenForm,
+  isCreateable,
+  customButtons,
+  deleteSelected,
+}: DiscoveryHeaderProps) {
   return (
     <div>
-      <Header {...props} />
+      <Header
+        selectedRows={selectedRows}
+        setSearchValue={setSearchValue}
+        setOpenForm={setOpenForm}
+        setIsEdit={setIsEdit}
+        isOpenForm={isOpenForm}
+        isCreateable={isCreateable}
+        customButtons={customButtons}
+        deleteSelected={deleteSelected}
+      />
     </div>
   );
 }
