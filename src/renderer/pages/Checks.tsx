@@ -68,7 +68,7 @@ function Checks() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editFormValues, setEditFormValues] = useState<CheckDb>({} as CheckDb);
   const [selectedRows, setSelectedRows] = useState<CheckDb[]>([]);
-  const rows: DbDocument[] = use(getChecksPromise);
+  const rows: CheckDb[] = use(getChecksPromise);
 
   const flipStatus = () => {
     selectedRows.forEach((row: CheckDb) => {
@@ -76,7 +76,7 @@ function Checks() {
       update(row);
     });
     invalidateChecks();
-    setSelectedRows([...selectedRows]);
+    setSelectedRows([]);
   };
   const copyRow = () => {
     if (selectedRows.length !== 1) {
