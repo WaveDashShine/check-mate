@@ -4,6 +4,7 @@ import { DiscoveryDb } from 'src/schema/discovery';
 import { v4 as uuidv4 } from 'uuid';
 import PouchDB from 'pouchdb';
 import PouchFind from 'pouchdb-find';
+import { RankDb } from '../schema/rank';
 
 PouchDB.plugin(PouchFind);
 
@@ -99,4 +100,8 @@ export async function getAllChecks(): Promise<CheckDb[]> {
 
 export async function getAllDiscoveryHistory(): Promise<DiscoveryDb[]> {
   return findAllDocWithType(DbSchemaTypes.discovery);
+}
+
+export async function getAllRanks(): Promise<RankDb[]> {
+  return findAllDocWithType(DbSchemaTypes.rank);
 }
