@@ -13,6 +13,7 @@ import {
   defaultRankObj,
 } from 'src/schema/rank';
 import { useCallback } from 'react';
+import PieceSelector from './fields/PieceSelector';
 
 interface RankFormProps extends GenericFormProps {
   dbFormValues: RankDb;
@@ -48,13 +49,7 @@ function RankFormFields({ register, errors }: RankFormFieldProps) {
       </label>
       <label htmlFor={RankUiAttr.piece}>
         Piece
-        <select
-          id={RankUiAttr.piece}
-          type="text"
-          {...register(RankUiAttr.piece)}
-        >
-          <option value="TODO">TODO</option>
-        </select>
+        <PieceSelector register={register} id={RankUiAttr.piece} />
       </label>
       <label htmlFor={RankUiAttr.note}>
         Note

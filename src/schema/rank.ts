@@ -12,12 +12,18 @@ export const RankColor = {
 } as const;
 
 export const Piece = {
-  pawn: 'pawn',
-  bishop: 'bishop',
-  knight: 'knight',
-  rook: 'rook',
-  queen: 'queen',
-  king: 'king',
+  whitePawn: 'p',
+  blackPawn: 'o',
+  whiteKnight: 'n',
+  blackKnight: 'm',
+  whiteBishop: 'b',
+  blackBishop: 'v',
+  whiteRook: 'r',
+  blackRook: 't',
+  whiteQueen: 'q',
+  blackQueen: 'w',
+  whiteKing: 'k',
+  blackKing: 'l',
 };
 
 export const RankUiSchema = Type.Object({
@@ -25,7 +31,7 @@ export const RankUiSchema = Type.Object({
     minLength: 1,
   }),
   color: Type.Const(RankColor),
-  piece: Type.Const(Piece),
+  piece: Type.Enum(Piece),
   note: Type.Optional(Type.String()),
 });
 
@@ -33,7 +39,7 @@ export type Rank = Static<typeof RankUiSchema>;
 
 export const defaultRankObj: Rank = Value.Default(RankUiSchema, {
   name: '',
-  piece: Piece.pawn,
+  piece: Piece.whitePawn,
 }) as Rank;
 
 export const RankUiAttr = {

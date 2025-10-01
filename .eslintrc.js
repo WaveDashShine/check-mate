@@ -26,6 +26,12 @@ module.exports = {
         roles: ['separator'], // allow tabIndex on separators
       },
     ],
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        controlComponents: ['PieceSelector'],
+      },
+    ],
   },
   parserOptions: {
     ecmaVersion: 2022,

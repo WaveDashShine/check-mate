@@ -5,6 +5,15 @@
 
 @import "tailwindcss";
 
+@font-face {
+  font-family: chess;
+  src: url(src/assets/MERIFONT.TTF);
+}
+
+.chess-icons {
+  font-family: chess, serif;
+}
+
 label {
   display: flex;
   flex-direction: column;
