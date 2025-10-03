@@ -13,7 +13,9 @@ import {
   defaultRankObj,
 } from 'src/schema/rank';
 import { useCallback } from 'react';
+import { Color } from 'chalk';
 import PieceSelector from './fields/PieceSelector';
+import ColorSelector from './fields/ColorSelector';
 
 interface RankFormProps extends GenericFormProps {
   dbFormValues: RankDb;
@@ -39,13 +41,7 @@ function RankFormFields({ register, errors }: RankFormFieldProps) {
       </label>
       <label htmlFor={RankUiAttr.color}>
         Color
-        <select
-          id={RankUiAttr.color}
-          type="text"
-          {...register(RankUiAttr.color)}
-        >
-          <option value="TODO">TODO</option>
-        </select>
+        <ColorSelector id={RankUiAttr.color} register={register} />
       </label>
       <label htmlFor={RankUiAttr.piece}>
         Piece

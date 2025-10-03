@@ -5,6 +5,7 @@ import RankTable from 'src/renderer/components/RankTable';
 import { Suspense, use, useState } from 'react';
 import { deleteDocs, getAllRanks } from 'src/renderer/db';
 import { RankDb } from 'src/schema/rank';
+import { Colorful } from '@uiw/react-color';
 
 let getRanksPromise: Promise<any[]> = getAllRanks();
 
