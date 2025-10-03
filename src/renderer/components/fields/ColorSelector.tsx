@@ -7,7 +7,7 @@ interface ColorSelectorProps {
 }
 
 function ColorSelector({ id, register }: ColorSelectorProps) {
-  const [hsva, setHsva] = useState({ h: 0, s: 0, v: 68, a: 1 });
+  const [hsva, setHsva] = useState({ h: 0, s: 0, v: 0, a: 1 });
   return (
     <div>
       <Colorful
@@ -17,7 +17,13 @@ function ColorSelector({ id, register }: ColorSelectorProps) {
           setHsva(color.hsva);
         }}
       />
-      <input id={id} {...register} disabled value={hsvaToHex(hsva)} />
+      <input
+        id={id}
+        {...register}
+        readOnly
+        value={hsvaToHex(hsva)}
+        type="text"
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { SelectHTMLAttributes } from 'react';
-import { Piece, RankUiAttr } from 'src/schema/rank';
+import { Piece } from 'src/schema/rank';
 
 interface PieceSelectorProps extends SelectHTMLAttributes<HTMLSelectElement> {
   register: any; // used by react hook form
@@ -9,12 +9,7 @@ interface PieceSelectorProps extends SelectHTMLAttributes<HTMLSelectElement> {
 function PieceSelector({ register, id }: PieceSelectorProps) {
   const keyValues: [string, string][] = Object.entries(Piece);
   return (
-    <select
-      id={id}
-      {...register(RankUiAttr.piece)}
-      type="text"
-      className="chess-icons"
-    >
+    <select id={id} {...register} type="text" className="chess-icons">
       {keyValues.map(([key, value]: [string, string]) => (
         <option value={value} className={key}>
           {value}
