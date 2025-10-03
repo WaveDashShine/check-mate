@@ -2,15 +2,6 @@ import { Static, Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 import { DbSchema } from 'src/schema/dbSchema';
 
-export const RankColor = {
-  // TODO: make this chess themed instead
-  // icon and color - white, black, brown, beige
-  Red: '#FF0000',
-  Green: '#00FF00',
-  Blue: '#0000FF',
-  // TODO: more colors or a color picker
-} as const;
-
 export const Piece = {
   whitePawn: 'p',
   blackPawn: 'o',
@@ -30,8 +21,11 @@ export const RankUiSchema = Type.Object({
   name: Type.String({
     minLength: 1,
   }),
-  color: Type.Const(RankColor),
-  piece: Type.Enum(Piece),
+  color: Type.String(), // hexcode
+  piece: Type.String({
+    minLength: 1,
+    maxLength: 1,
+  }),
   note: Type.Optional(Type.String()),
 });
 
@@ -39,6 +33,7 @@ export type Rank = Static<typeof RankUiSchema>;
 
 export const defaultRankObj: Rank = Value.Default(RankUiSchema, {
   name: '',
+  color: '#ffffff',
   piece: Piece.whitePawn,
 }) as Rank;
 
