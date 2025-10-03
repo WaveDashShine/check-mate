@@ -13,7 +13,6 @@ import {
   defaultRankObj,
 } from 'src/schema/rank';
 import { useCallback } from 'react';
-import { Color } from 'chalk';
 import PieceSelector from './fields/PieceSelector';
 import ColorSelector from './fields/ColorSelector';
 
