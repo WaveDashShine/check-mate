@@ -6,6 +6,14 @@ import { RankDb, RankUiAttr } from 'src/schema/rank';
 
 interface RankTableProps extends GenericTableProps {}
 
+function displayPieceData(row: RankDb) {
+  return (
+    <div className="chess-icons" style={{ color: row.color }}>
+      {row.piece}
+    </div>
+  );
+}
+
 function RankTable({
   rows,
   searchValue,
@@ -20,8 +28,7 @@ function RankTable({
       key: RankUiAttr.piece,
       header: 'Piece',
       displayData: (row: RankDb) => {
-        // TODO: handle icons
-        return row.piece ? 'TODO' : 'TODO';
+        return displayPieceData(row);
       },
     },
     {
