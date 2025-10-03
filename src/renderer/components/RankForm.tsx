@@ -41,14 +41,17 @@ function RankFormFields({ register, errors }: RankFormFieldProps) {
       <label htmlFor={RankUiAttr.color}>
         Color
         <ColorSelector id={RankUiAttr.color} register={register} />
+        <ErrorMessage name={RankUiAttr.color} errors={errors} />
       </label>
       <label htmlFor={RankUiAttr.piece}>
         Piece
         <PieceSelector register={register} id={RankUiAttr.piece} />
+        <ErrorMessage name={RankUiAttr.piece} errors={errors} />
       </label>
       <label htmlFor={RankUiAttr.note}>
         Note
         <textarea id={RankUiAttr.note} {...register(RankUiAttr.note)} />
+        <ErrorMessage name={RankUiAttr.note} errors={errors} />
       </label>
     </div>
   );
