@@ -46,8 +46,8 @@ export const CheckUiSchema = Type.Object({
 export type Check = Static<typeof CheckUiSchema>;
 export const defaultCheckObj: Check = Value.Default(CheckUiSchema, {
   name: '',
-  browserConfig: { url: '' },
-  locator: '',
+  note: '',
+  browserConfig: { url: '', locator: '' },
   discoveryHistory: [],
   ranks: [],
 }) as Check;
