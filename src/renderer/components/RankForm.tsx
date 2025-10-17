@@ -12,7 +12,6 @@ import {
   RankUiSchema,
   defaultRankObj,
 } from 'src/schema/rank';
-import { useCallback } from 'react';
 import PieceSelector from './fields/PieceSelector';
 import ColorSelector from './fields/ColorSelector';
 
@@ -24,9 +23,14 @@ interface RankFormProps extends GenericFormProps {
 interface RankFormFieldProps {
   register: any;
   errors: FieldErrors<RankDb>;
+  dbFormValues: RankDb;
 }
 
-function RankFormFields({ register, errors }: RankFormFieldProps) {
+function RankFormFields({
+  register,
+  errors,
+  dbFormValues,
+}: RankFormFieldProps) {
   return (
     <div>
       <label htmlFor={RankUiAttr.name}>
@@ -43,6 +47,7 @@ function RankFormFields({ register, errors }: RankFormFieldProps) {
         <ColorSelector
           id={RankUiAttr.color}
           register={register(RankUiAttr.color)}
+          initialColor={dbFormValues.color}
         />
         <ErrorMessage name={RankUiAttr.color} errors={errors} />
       </label>
@@ -99,6 +104,7 @@ function RankForm({
       fields={RankFormFields({
         register,
         errors,
+        dbFormValues,
       })}
       reset={reset}
       defaultFormValues={defaultRankObj}

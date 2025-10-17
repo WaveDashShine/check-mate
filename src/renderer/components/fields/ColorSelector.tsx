@@ -1,13 +1,17 @@
-import { Colorful, ColorResult, hsvaToHex } from '@uiw/react-color';
+import { Colorful, ColorResult, hsvaToHex, hexToHsva } from '@uiw/react-color';
 import { useState } from 'react';
 
 interface ColorSelectorProps {
   register: any; // used by react hook form
   id: string;
+  initialColor: string; // Hex
 }
 
-function ColorSelector({ id, register }: ColorSelectorProps) {
-  const [hsva, setHsva] = useState({ h: 0, s: 0, v: 0, a: 1 });
+function ColorSelector({ id, register, initialColor }: ColorSelectorProps) {
+  const initialHsva = initialColor
+    ? hexToHsva(initialColor)
+    : { h: 0, s: 0, v: 0, a: 1 };
+  const [hsva, setHsva] = useState(initialHsva);
   return (
     <div>
       <Colorful
