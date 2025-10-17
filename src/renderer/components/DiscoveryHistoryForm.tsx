@@ -85,6 +85,8 @@ function DiscoveryHistoryForm({
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       isEdit={isEdit}
+      defaultFormValues={{}}
+      dbFormValues={dbFormValues}
     />
   );
 }

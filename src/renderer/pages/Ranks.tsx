@@ -42,7 +42,9 @@ function Ranks() {
       />
       <Drawer
         isOpen={isOpenRankForm}
-        onClose={() => setIsOpenRankForm(false)}
+        onClose={() => {
+          setIsOpenRankForm(false);
+        }}
         content={
           <RankForm
             isOpen={isOpenRankForm}

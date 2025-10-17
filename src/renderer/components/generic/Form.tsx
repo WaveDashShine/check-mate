@@ -4,17 +4,21 @@ export interface GenericFormProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   isEdit: boolean;
+  dbFormValues: any;
+  defaultFormValues: any;
 }
 
 interface FormProps extends GenericFormProps {
   title: string;
   fields: any;
   handleConfirm: (formData: any) => void;
-  reset: () => void;
+  reset: (values?: any) => void;
 }
 
 function Form({
   fields,
+  dbFormValues,
+  defaultFormValues,
   handleConfirm,
   isEdit,
   isOpen,
@@ -27,9 +31,12 @@ function Form({
   };
   useEffect(() => {
     if (!isEdit) {
-      reset();
+      reset(defaultFormValues);
+    } else if (isEdit) {
+      // reset takes over the control passed to values
+      reset(dbFormValues);
     }
-  }, [isEdit, reset]);
+  }, [isEdit, reset, dbFormValues, defaultFormValues]);
   return (
     <div className="form-container grid">
       {isOpen && (

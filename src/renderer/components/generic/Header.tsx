@@ -69,8 +69,8 @@ function Header({
         <button
           className={buttonStyling}
           onClick={() => {
-            setOpenForm(true);
             setIsEdit(false);
+            setOpenForm(true);
           }}
           disabled={isOpenForm}
           type="button"

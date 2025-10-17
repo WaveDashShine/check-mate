@@ -62,8 +62,8 @@ function Table({
 
   const handleEditRow = (row: any) => {
     setEditFormValues(row);
-    setIsOpenForm(true);
     setIsEdit(true);
+    setIsOpenForm(true);
   };
 
   const toggleAll = () => {

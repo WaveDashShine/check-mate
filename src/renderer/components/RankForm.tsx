@@ -80,14 +80,11 @@ function RankForm({
     defaultValues: defaultRankObj,
     values: dbFormValues,
   });
-  const onReset = useCallback(() => {
-    reset(defaultRankObj);
-  }, [reset]);
   const onSubmit: SubmitHandler<Rank> = (data: Rank) => {
     const dbData = data as RankDb;
     insert(dbData, DbSchemaTypes.rank);
     setIsOpen(false);
-    onReset();
+    reset(defaultRankObj);
     invalidateCache();
   };
   const onError = (error: any) => {
@@ -103,7 +100,9 @@ function RankForm({
         register,
         errors,
       })}
-      reset={onReset}
+      reset={reset}
+      defaultFormValues={defaultRankObj}
+      dbFormValues={dbFormValues}
       isEdit={isEdit}
     />
   );

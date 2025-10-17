@@ -12,7 +12,6 @@ import {
   defaultCheckObj,
 } from 'src/schema/check';
 import DiscoveryHistory from 'src/renderer/components/DiscoveryHistory';
-import { useCallback } from 'react';
 
 interface CheckFormProps extends GenericFormProps {
   dbFormValues: CheckDb;
@@ -146,16 +145,12 @@ function CheckForm({
     values: dbFormValues,
   });
 
-  const onReset = useCallback(() => {
-    reset(defaultCheckObj);
-  }, [reset]);
-
   const onSubmit: SubmitHandler<Check> = (data: Check) => {
     console.log('submitted', data);
     const dbData = data as CheckDb;
     insert(dbData, DbSchemaTypes.check);
     setIsOpen(false);
-    onReset();
+    reset(defaultCheckObj);
     invalidateCache();
   };
 
@@ -175,8 +170,10 @@ function CheckForm({
         dbFormValues,
         isEdit,
       })}
-      reset={onReset}
+      reset={reset}
       isEdit={isEdit}
+      defaultFormValues={defaultCheckObj}
+      dbFormValues={dbFormValues}
     />
   );
 }
