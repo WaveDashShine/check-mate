@@ -1,5 +1,10 @@
 import Form, { GenericFormProps } from 'src/renderer/components/generic/Form';
-import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  FieldErrors,
+  SubmitHandler,
+  useForm,
+  Controller,
+} from 'react-hook-form';
 import { DbSchemaTypes } from 'src/schema/dbSchema';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
 import { ErrorMessage } from '@hookform/error-message';
@@ -24,11 +29,13 @@ interface RankFormFieldProps {
   register: any;
   errors: FieldErrors<RankDb>;
   dbFormValues: RankDb;
+  control: any;
 }
 
 function RankFormFields({
   register,
   errors,
+  control,
   dbFormValues,
 }: RankFormFieldProps) {
   return (
@@ -44,10 +51,16 @@ function RankFormFields({
       </label>
       <label htmlFor={RankUiAttr.color}>
         Color
-        <ColorSelector
-          id={RankUiAttr.color}
-          register={register(RankUiAttr.color)}
-          initialColor={dbFormValues.color}
+        <Controller
+          name={RankUiAttr.color}
+          control={control}
+          render={({ field }) => (
+            <ColorSelector
+              id={RankUiAttr.color}
+              initialColor={dbFormValues.color}
+              field={field}
+            />
+          )}
         />
         <ErrorMessage name={RankUiAttr.color} errors={errors} />
       </label>
@@ -80,6 +93,7 @@ function RankForm({
     handleSubmit,
     reset,
     formState: { errors },
+    control,
   } = useForm<Rank>({
     resolver: typeboxResolver(RankUiSchema),
     defaultValues: defaultRankObj,
@@ -105,6 +119,7 @@ function RankForm({
         register,
         errors,
         dbFormValues,
+        control,
       })}
       reset={reset}
       defaultFormValues={defaultRankObj}
